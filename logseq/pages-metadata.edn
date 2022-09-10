@@ -35,7 +35,7 @@
   :block/updated-at 1641822577795}
  {:block/name "a perspective on information-flow control",
   :block/created-at 1661960022042,
-  :block/updated-at 1662713083508}
+  :block/updated-at 1662803517517}
  {:block/name "a promising semantics for relaxed-memory concurrency",
   :block/created-at 1644152070699,
   :block/updated-at 1648359031768}
@@ -233,7 +233,7 @@
   :block/updated-at 1648661863588}
  {:block/name "c语言拾遗",
   :block/created-at 1661959596499,
-  :block/updated-at 1662801835923}
+  :block/updated-at 1662826954031}
  {:block/name "dictionary",
   :block/created-at 1641817111695,
   :block/updated-at 1641820374015}
@@ -655,6 +655,9 @@
  {:block/name "sep 10th, 2022",
   :block/created-at 1662792088079,
   :block/updated-at 1662792102165}
+ {:block/name "sep 11th, 2022",
+  :block/created-at 1662825601668,
+  :block/updated-at 1662825601668}
  {:block/name "sep 1st, 2022",
   :block/created-at 1661961604341,
   :block/updated-at 1661961604341}
@@ -810,7 +813,7 @@
   :block/updated-at 1651217573496}
  {:block/name "第二课：text editor（vim）",
   :block/created-at 1651291782242,
-  :block/updated-at 1662478913610}
+  :block/updated-at 1662803531393}
  {:block/name "第二课：变换",
   :block/created-at 1648912530610,
   :block/updated-at 1650715173781}
