@@ -1,0 +1,15 @@
+file:: [Pulte_等。_-_2019_-_Promising-ARMRISC-V_a_simpler_and_faster_operati_1644850284336_0.pdf](../assets/Pulte_等。_-_2019_-_Promising-ARMRISC-V_a_simpler_and_faster_operati_1644850284336_0.pdf)
+file-path:: ../assets/Pulte_等。_-_2019_-_Promising-ARMRISC-V_a_simpler_and_faster_operati_1644850284336_0.pdf
+
+- ‘atomics
+  ls-type:: annotation
+  hl-page:: 1
+  id:: 620a7c08-61eb-4837-9a5f-26cc5fd49027
+- d ‘consume’ atom
+  ls-type:: annotation
+  hl-page:: 1
+  id:: 620a7c0b-4168-445a-961f-eaaf77228203
+- weakening ‘consume’ or ‘acquire’ loads to ‘relaxed’loads
+  ls-type:: annotation
+  hl-page:: 1
+  id:: 620a7c2f-ea89-4a56-9a07-d18f73c45981

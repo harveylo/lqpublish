@@ -1,0 +1,7 @@
+- # QA
+	- 对于一门编程语言来说，其**内涵**和**外延**到底是什么
+- k-safety property：需要一个程序的多个run才能验证的性质
+	- 比如java中的comparator的compare函数
+	- ![pldi16-chl.pdf](../assets/pldi16-chl_1661502209280_0.pdf)
+- **CBN**：call by name，在一个expresion所代表的赋值在绝对需要时才进行赋值运算
+- **CBV**：call by value，在赋值发生时进行赋值运算

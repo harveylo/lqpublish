@@ -1,0 +1,80 @@
+- 简单的可视化教程：[Visualizing Git Concepts with D3](http://onlywei.github.io/explain-git-with-d3).
+- # 基本技巧
+	- ## 安装与配置
+		- ``apt-get install git``
+		- ### 配置
+			- ```
+			  git config --global user.name "Zhang San"		# your name
+			  git config --global user.email "zhangsan@foo.com"	# your email
+			  git config --global core.editor vim			# your favourite editor
+			  git config --global color.ui true
+			  ```
+		- ### 初始化
+			- 在需要进行版本管理的文件夹下进行初始化
+			- ``git init``
+	- ## 查看commit信息
+		- ### 查看所有存档
+			- ``git log``
+			- ``git log --online``，简洁显示
+		- ### 查看自最新存档以来发生的变化
+			- ``git status``
+			- 该命令也可以看到当前目录下有哪些文件还没有被跟踪
+	- ## commit
+		- ### 将文件加入跟踪列表
+			- ``git add {{FILE_NAME}}``
+			- 一次性加入所有文件：``git add -A``
+			- 使用``-f``选项可以强制将某文件加入跟踪列表，无视忽略规则
+		- ### 忽略列表
+			- 在当前目录下的.gitignore文件中加上忽略的文件，可使用通配符
+				- 在文件名前加上感叹号!表示不忽略该文件
+			- 使用``git config core.excludesfile .gitignore``指定忽略列表
+		- ### 提交
+			- 使用``git commit``进行提交
+			- ``git commit -m {{MESSAGE}}`` 以指定的message直接提交
+	- ## 回滚
+		- 使用``reset``指令回滚
+		- ``git reset --hard {{COMMIT_HASH}}``
+			- 使用hard模式回滚
+			- commit 的 harsh code 不用全部输完，输入前四个字母足以[[$red]]==（why）==
+	- ## 分支
+		- ### 创建新分支
+			- ``git branch {{BRANCH_NAME}}``
+			- 使用``init``初始化项目目录时会自动创建master主分支
+		- ### 切换分支
+			- ``git checkout {{BRANCH_NAME}}``
+			- 当希望回滚某个版本又不希望覆盖当前进度的时候，可以使用``git checkout {{COMMIT_HASH}}``创建一个处于该commit下的临时分支
+				- 但是在该临时分支下不能使用commit直接提交，需要使用``git checkout -B {{BRANCH_NAME}}``将修改覆盖到某一个分支中
+	- ## 其他功能
+		- **比较某个文件在不同版本中的区别**
+			- ``git diff``
+		- **使用二分搜索寻找bug的引入提交**
+			- ``git bisect``
+- # git 存储方式简介
+	- ## 三种数据结构
+		- ### commit
+			- 一次commit对应一个commit文件
+			- commit文件中存放了提交信息，包括提交者，作者，变化情况以及parent commit等
+			- commit还会指向一个tree对象
+		- ### tree
+			- tree是一个目录的抽象
+			- 会指向若干blob对象和其他tree
+			- tree也会有hash值作为其名字
+		- ### blob
+			- blob是git存储结构中最基本的单元
+			- 一个blob代表着一个文件的一个版本
+			- 同一个文件，有多少个版本就会生成多少个blob对象
+			- 文件内容的sha1哈希值会成为blob的文件名
+	- ## 查看文件
+		- **查看文件类型**：``git cat-file -t hash``
+		- **查看文件内容**：``git cat-file -p hash``
+- # 分支
+	- ## 本地分支
+		- **HEAD** 是当前分支当前最新commit的指针
+		- 在``.git/refs/heads``中可以找到
+	- ## 远程分支
+		- 在拉取远程仓库时会同时创建一个远端名origin，该名下的分支不是本地分支但储存在本地，是用于监控远程仓库状态的
+		- 叫origin仅仅是因为默认如此，在拉取仓库时可以使用``-o``指定远程仓库的名称
+		- 通过`git remote -v`或者文件.git/config可以查看origin的具体含义
+		- 因此origin下的所有分支是会过期的，merge时仅仅只是上一次fetch获取到的远端分支的快照和本地HEAD
+		- 远端分支也会有HEAD，当直接用origin指代远端分支时，其实就是指的``origin/HEAD``
+			- 因此注意区分``git merge origin master``和``git merge origin/master``

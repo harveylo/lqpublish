@@ -1,0 +1,12 @@
+- # Sec 2 Related work
+	- ## Software-mediated IF
+		- E.g. LIFT, RIFLE
+		- overhead is prohibitive
+		- custom architectural modifications to facilitate faster information flow tracking
+			- ### 2 categories
+				- integrated pervasive processor modifications
+					- E.g. Mintos, Raksha
+				- modular core additions or coprocessor support
+					- E.g. Flexitaint, Kannan
+	- ### Gate level IF (GLIFT)
+		-

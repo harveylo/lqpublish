@@ -1,0 +1,49 @@
+- # 任务控制
+	- 关于信号的详细解释：[here](https://en.wikipedia.org/wiki/Signal_(IPC))
+	- ## 杀死进程
+		- **<Ctrl-C>**：发送`SIGINT`，大多数程序收到该信号之后都会停止，但是有的程序可能会通过拦截该信号而不终止
+		- **<Ctrl-\\>**：发送`SIGQUIT`，在`SIGINT`不起作用时可以考虑发送该信号
+		- **SIGTERM**：更为常用的停止程序的信号，通过命令`kill`发送
+		- **kill**：kill的实际用途远不止杀死进程，它能够向进程发送任何UNIX信号
+		- **SIGKILL**：无法被程序捕获，但是使用该信号可能会导致一些孤儿进程
+		- **<Ctrl-D>**：``\04``，EOF，表示END OF TRANSMISSION，在shell中使用这个组合键会终止当前shell
+	- ## 暂停和后台运行
+		- **<Ctrl-Z>**：发送`SIGSTOP`，暂停程序
+			- 暂停之后使用`fg`继续前台任务，使用`bg`继续后台任务
+		- `jobs`列出当前终端会话下所有未完成的任务，使用`pgrep`查询对应任务的pid
+			- jobs列出来的任务，可以用%1指代第一个任务（以此类推），使用bg，fg后跟%n表示让jobs列出来的第n个任务在前台或后台执行。也可以使用kill对%n进行操作
+				- 类似的，``$!``表示最近一个后台任务的pid
+		- **避免挂起**
+			- 在运行程序时添加nohup（一个忽略`SIGHUP`的wrapper）的前缀来让程序忽略`SIGHUP`信号
+				- 该信号一般会在终端会话结束时发送给所有该终端下的进程
+			- 对于已经运行的进程，如果希望其忽略``SIGHUP``，使用``disown``
+				- 实际上disown是取消当前终端会话对于该进程的所有，因此此时关闭该终端会话自然不会对该进程造成影响，但是实际上该进程还是会受到``SIGHUP``的影响
+- # Terminal Multiplexer
+	- 使用``tmux``可以多开shell窗口
+	- [一个关于tmux的快速教程](https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/)
+	- [另一个多开窗口工具screen的介绍](http://linuxcommand.org/lc3_adv_termmux.php)
+	-
+	- ## 会话
+		- 一个会话是一个独立的有一个或多个窗口的workspace
+		- `tmux`  开启一个新会话
+		- `tmux new -s NAME`  开启一个新的会话并给出命名
+		- `tmux ls`  列出当前会话
+		- 在一个  `tmux`  会话当中输入  `<C-b> d` 断开与当前会话的链接
+		- `tmux a`  连接到最近的会话 使用参数  `-t`  指明要连接的会话的名称
+	- ## 窗口
+		- 类似于浏览器中的tab
+		- `<C-b> c`  创建一个新的窗口 。使用  `<C-d>` 关闭该窗口
+		- `<C-b> N`  跳转到第n个窗口
+		- `<C-b> p`  回到前一个窗口
+		- `<C-b> n`  到下一个窗口
+		- `<C-b> ,`  重命名当前窗口
+		- `<C-b> w`  列出目前所有的窗口
+	- ## Pane
+		- 一个窗口可以有多个pane
+		- `<C-b> "`  水平分屏
+		- `<C-b> %`  垂直分屏
+		- `<C-b> <direction>`  移向所选方向的pane
+		- `<C-b> z`  放大（全屏显示）缩小当前pane
+		- `<C-b> [`  进入复制模式 ，`<space>`  开始选择，   `<enter>`确定复制
+		- `<C-b> <space>`  循环pane布局
+	-
