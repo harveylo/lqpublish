@@ -19,7 +19,6 @@
 - # Confidentiality
 	- information flow security的关键在于**preservation of confidentiality of information**
 	- ## Noninterference
-	  collapsed:: true
 		- ### Sources of information flow
 			- 有两种主要的IF源
 				- **显式流（explicit flow）**

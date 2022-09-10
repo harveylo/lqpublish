@@ -1,5 +1,3 @@
-public:: true
-
 - 粘贴到系统剪贴板："*y
 - 从系统剪贴板粘贴："*p
 	- 如果实在insert mode下，使用<C-r><C-p>*
