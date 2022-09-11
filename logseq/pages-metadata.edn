@@ -233,7 +233,7 @@
   :block/updated-at 1648661863588}
  {:block/name "c语言拾遗",
   :block/created-at 1661959596499,
-  :block/updated-at 1662826954031}
+  :block/updated-at 1662888533332}
  {:block/name "dictionary",
   :block/created-at 1641817111695,
   :block/updated-at 1641820374015}
@@ -288,7 +288,7 @@
   :block/updated-at 1661705603666}
  {:block/name "gcc编译过程",
   :block/created-at 1654018914490,
-  :block/updated-at 1654019952542}
+  :block/updated-at 1662898803721}
  {:block/name "git快速入门",
   :block/created-at 1659709054953,
   :block/updated-at 1659714162592}
@@ -654,10 +654,10 @@
   :block/updated-at 1654506659261}
  {:block/name "sep 10th, 2022",
   :block/created-at 1662792088079,
-  :block/updated-at 1662792102165}
+  :block/updated-at 1662874938923}
  {:block/name "sep 11th, 2022",
   :block/created-at 1662825601668,
-  :block/updated-at 1662825601668}
+  :block/updated-at 1662875110490}
  {:block/name "sep 1st, 2022",
   :block/created-at 1661961604341,
   :block/updated-at 1661961604341}
@@ -783,7 +783,7 @@
   :block/updated-at 1658850314317}
  {:block/name "第七课：metaprogramming",
   :block/created-at 1660326526429,
-  :block/updated-at 1660326526429}
+  :block/updated-at 1662888295912}
  {:block/name "第三章：教学版openmips处理器原图",
   :block/created-at 1655999227242,
   :block/updated-at 1656004443682}
@@ -813,7 +813,7 @@
   :block/updated-at 1651217573496}
  {:block/name "第二课：text editor（vim）",
   :block/created-at 1651291782242,
-  :block/updated-at 1662803531393}
+  :block/updated-at 1662892749000}
  {:block/name "第二课：变换",
   :block/created-at 1648912530610,
   :block/updated-at 1650715173781}
