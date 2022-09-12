@@ -130,9 +130,22 @@
 			- **class**
 				- 可以直接在类中定义数据和函数成员
 				- 但是static的数据和函数成员只能声明，不能定义
-	- ## 代码阅读：螺旋法则(clockwise/spiral rule)
-		- https://c-faq.com/decl/spiral.anderson.html
-		- 用于解读某一
+	- ## 代码可读性
+		- ### 螺旋法则（clockwise/spiral rule）
+			- **尽在对付一些不可读代码时可以使用的方法，自己写代码时并不建议把代码写成需要这样才能看懂的地步**
+			- https://c-faq.com/decl/spiral.anderson.html
+			- 用于解读某一identifier的含义
+			- 以需要解读的identifier为起点，顺时针解读遇到的符号
+			- **一个例子**：
+				- ``void (*signal(int, void (*fp)(int)))(int);``
+		- ### 可读性建议
+			- 当需要定义很多类型很复杂的identifier时，建议使用**typedef**
+			- 上一小节中的例子可以改为：
+				- ```
+				  typedef void (*sighandler_t)(int);
+				  sighandler_t signal(int, sighandler_t)
+				  ```
+-
 - # 函数
 	- ## 本质概念
 		- 实际上就是一堆可执行的指令
