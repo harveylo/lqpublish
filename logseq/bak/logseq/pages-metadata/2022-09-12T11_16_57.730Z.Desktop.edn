@@ -7,22 +7,6 @@
  {:block/name "$red",
   :block/created-at 1650717753097,
   :block/updated-at 1650717753097}
- {:block/name
-  "../assets/collotta_等。_-_2021_-_a_fuzzy_control_system_for_energy‐efficient_wirele_1641815664400_0.pdf",
-  :block/created-at 1648662334967,
-  :block/updated-at 1648662334967}
- {:block/name
-  "../assets/kang_等。_-_a_promising_semantics_for_relaxed-memory_concurren_1643357921088_0.pdf",
-  :block/created-at 1648662334966,
-  :block/updated-at 1648662334966}
- {:block/name
-  "../assets/pulte_等。_-_2019_-_promising-armrisc-v_a_simpler_and_faster_operati_1644850284336_0.pdf",
-  :block/created-at 1648662334967,
-  :block/updated-at 1648662334967}
- {:block/name
-  "../assets/tian_等。_-_2019_-_a_multi-hop_routing_protocol_for_video_transmissio_1641822575709_0.pdf",
-  :block/created-at 1648662334967,
-  :block/updated-at 1648662334967}
  {:block/name "a",
   :block/created-at 1648662334966,
   :block/updated-at 1648662334966}
@@ -39,9 +23,6 @@
  {:block/name "a promising semantics for relaxed-memory concurrency",
   :block/created-at 1644152070699,
   :block/updated-at 1648359031768}
- {:block/name "apr 10th, 2022",
-  :block/created-at 1649553147233,
-  :block/updated-at 1649553147233}
  {:block/name "apr 11th, 2022",
   :block/created-at 1649606403202,
   :block/updated-at 1649606403202}
@@ -63,9 +44,6 @@
  {:block/name "apr 17th, 2022",
   :block/created-at 1650124801640,
   :block/updated-at 1650167926199}
- {:block/name "apr 18th, 2022",
-  :block/created-at 1650211204040,
-  :block/updated-at 1650211204040}
  {:block/name "apr 19th, 2022",
   :block/created-at 1650297602434,
   :block/updated-at 1650350902343}
@@ -117,24 +95,12 @@
  {:block/name "apr 7th, 2022",
   :block/created-at 1649300183087,
   :block/updated-at 1649300495745}
- {:block/name "apr 8th, 2022",
-  :block/created-at 1649347202056,
-  :block/updated-at 1649347202056}
  {:block/name "apsrmc-dic",
   :block/created-at 1644219317351,
   :block/updated-at 1644850088218}
  {:block/name "apsrmc-qa",
   :block/created-at 1644240589798,
   :block/updated-at 1644850122498}
- {:block/name "asrmc-dic",
-  :block/created-at 1648662334968,
-  :block/updated-at 1648662334968}
- {:block/name "asrmc-qa",
-  :block/created-at 1648662334967,
-  :block/updated-at 1648662334967}
- {:block/name "aug 10th, 2022",
-  :block/created-at 1660062022616,
-  :block/updated-at 1660062022616}
  {:block/name "aug 11th, 2022",
   :block/created-at 1660147200476,
   :block/updated-at 1660147200476}
@@ -144,9 +110,6 @@
  {:block/name "aug 13th, 2022",
   :block/created-at 1660326524418,
   :block/updated-at 1660371943128}
- {:block/name "aug 14th, 2022",
-  :block/created-at 1660485211144,
-  :block/updated-at 1660485211144}
  {:block/name "aug 15th, 2022",
   :block/created-at 1660548436905,
   :block/updated-at 1660548473317}
@@ -165,9 +128,6 @@
  {:block/name "aug 1st, 2022",
   :block/created-at 1659283203951,
   :block/updated-at 1659980430574}
- {:block/name "aug 23rd, 2022",
-  :block/created-at 1661232590141,
-  :block/updated-at 1661232590141}
  {:block/name "aug 24th, 2022",
   :block/created-at 1661487382343,
   :block/updated-at 1661487382343}
@@ -177,9 +137,6 @@
  {:block/name "aug 26th, 2022",
   :block/created-at 1661487381827,
   :block/updated-at 1661487397116}
- {:block/name "aug 27th, 2022",
-  :block/created-at 1661529601625,
-  :block/updated-at 1661529601625}
  {:block/name "aug 28th, 2022",
   :block/created-at 1661616001968,
   :block/updated-at 1661698902086}
@@ -233,7 +190,7 @@
   :block/updated-at 1648661863588}
  {:block/name "c语言拾遗",
   :block/created-at 1661959596499,
-  :block/updated-at 1662979988315}
+  :block/updated-at 1662888533332}
  {:block/name "dictionary",
   :block/created-at 1641817111695,
   :block/updated-at 1641820374015}
@@ -246,42 +203,12 @@
  {:block/name "favorites",
   :block/created-at 1648662334966,
   :block/updated-at 1648662334966}
- {:block/name "feb 10th, 2022",
-  :block/created-at 1644451200000,
-  :block/updated-at 1644451200000}
- {:block/name "feb 11th, 2022",
-  :block/created-at 1644537600000,
-  :block/updated-at 1644537600000}
- {:block/name "feb 13th, 2022",
-  :block/created-at 1644710400000,
-  :block/updated-at 1644710400000}
- {:block/name "feb 14th, 2022",
-  :block/created-at 1644796800000,
-  :block/updated-at 1644796800000}
- {:block/name "feb 15th, 2022",
-  :block/created-at 1644883200000,
-  :block/updated-at 1644883200000}
- {:block/name "feb 21st, 2022",
-  :block/created-at 1645401600000,
-  :block/updated-at 1645401600000}
- {:block/name "feb 24th, 2022",
-  :block/created-at 1645660800000,
-  :block/updated-at 1645660800000}
- {:block/name "feb 25th, 2022",
-  :block/created-at 1645747200000,
-  :block/updated-at 1645747200000}
- {:block/name "feb 6th, 2022",
-  :block/created-at 1644105600000,
-  :block/updated-at 1644105600000}
- {:block/name "feb 7th, 2022",
-  :block/created-at 1644192000000,
-  :block/updated-at 1644192000000}
- {:block/name "feb 8th, 2022",
-  :block/created-at 1644278400000,
-  :block/updated-at 1644278400000}
- {:block/name "feb 9th, 2022",
-  :block/created-at 1644364800000,
-  :block/updated-at 1644364800000}
+ {:block/name "file",
+  :block/created-at 1662917282686,
+  :block/updated-at 1662917282686}
+ {:block/name "file-path",
+  :block/created-at 1662917282687,
+  :block/updated-at 1662917282687}
  {:block/name
   "formal reasoning of implicit information flow security by relational hoare logic",
   :block/created-at 1661487383581,
@@ -304,10 +231,6 @@
   "hls__pulte_等。_-_2019_-_promising-armrisc-v_a_simpler_and_faster_operati_1644850284336_0",
   :block/created-at 1648662334968,
   :block/updated-at 1648662334968}
- {:block/name
-  "https://www.cs.cornell.edu/courses/cs3110/2018fa/lec/21-coq-logic/notes.html",
-  :block/created-at 1661702845403,
-  :block/updated-at 1661702845403}
  {:block/name "ic3简单笔记",
   :block/created-at 1650471862241,
   :block/updated-at 1650600014450}
@@ -323,12 +246,6 @@
  {:block/name "jan 6th, 2022",
   :block/created-at 1641459847459,
   :block/updated-at 1641459883215}
- {:block/name "jul 10th, 2022",
-  :block/created-at 1657382401500,
-  :block/updated-at 1657382401500}
- {:block/name "jul 11th, 2022",
-  :block/created-at 1657468803891,
-  :block/updated-at 1657468803891}
  {:block/name "jul 12th, 2022",
   :block/created-at 1657555201203,
   :block/updated-at 1657645019124}
@@ -338,18 +255,12 @@
  {:block/name "jul 16th, 2022",
   :block/created-at 1657936000273,
   :block/updated-at 1657937763584}
- {:block/name "jul 17th, 2022",
-  :block/created-at 1657987200063,
-  :block/updated-at 1657987200063}
  {:block/name "jul 18th, 2022",
   :block/created-at 1658109604050,
   :block/updated-at 1658194973264}
  {:block/name "jul 19th, 2022",
   :block/created-at 1658160004205,
   :block/updated-at 1658195051285}
- {:block/name "jul 1st, 2022",
-  :block/created-at 1656604828709,
-  :block/updated-at 1656604828709}
  {:block/name "jul 20th, 2022",
   :block/created-at 1658246420753,
   :block/updated-at 1658336613780}
@@ -380,9 +291,6 @@
  {:block/name "jul 29th, 2022",
   :block/created-at 1659024000738,
   :block/updated-at 1659116770595}
- {:block/name "jul 2nd, 2022",
-  :block/created-at 1656691227420,
-  :block/updated-at 1656691227420}
  {:block/name "jul 30th, 2022",
   :block/created-at 1659110403394,
   :block/updated-at 1659191083965}
@@ -401,12 +309,6 @@
  {:block/name "jun 11th, 2022",
   :block/created-at 1654876811569,
   :block/updated-at 1654955477664}
- {:block/name "jun 12th, 2022",
-  :block/created-at 1654963201331,
-  :block/updated-at 1654963201331}
- {:block/name "jun 13th, 2022",
-  :block/created-at 1655049601536,
-  :block/updated-at 1655049601536}
  {:block/name "jun 14th, 2022",
   :block/created-at 1655219480666,
   :block/updated-at 1655219480666}
@@ -425,15 +327,9 @@
  {:block/name "jun 1st, 2022",
   :block/created-at 1654012801051,
   :block/updated-at 1654012801051}
- {:block/name "jun 20th, 2022",
-  :block/created-at 1655726864522,
-  :block/updated-at 1655726864522}
  {:block/name "jun 21st, 2022",
   :block/created-at 1655802085750,
   :block/updated-at 1655802085750}
- {:block/name "jun 22nd, 2022",
-  :block/created-at 1655827221620,
-  :block/updated-at 1655827221620}
  {:block/name "jun 23rd, 2022",
   :block/created-at 1655975865173,
   :block/updated-at 1655999227243}
@@ -446,21 +342,12 @@
  {:block/name "jun 26th, 2022",
   :block/created-at 1656172802137,
   :block/updated-at 1656211944822}
- {:block/name "jun 27th, 2022",
-  :block/created-at 1656259203128,
-  :block/updated-at 1656259203128}
- {:block/name "jun 28th, 2022",
-  :block/created-at 1656383861144,
-  :block/updated-at 1656383861144}
  {:block/name "jun 29th, 2022",
   :block/created-at 1656596374094,
   :block/updated-at 1656596374094}
  {:block/name "jun 2nd, 2022",
   :block/created-at 1654146446400,
   :block/updated-at 1654146676163}
- {:block/name "jun 30th, 2022",
-  :block/created-at 1656596373848,
-  :block/updated-at 1656596373848}
  {:block/name "jun 3rd, 2022",
   :block/created-at 1654185601343,
   :block/updated-at 1654185601343}
@@ -473,69 +360,21 @@
  {:block/name "jun 6th, 2022",
   :block/created-at 1654444802776,
   :block/updated-at 1654530930800}
- {:block/name "jun 7th, 2022",
-  :block/created-at 1654531202487,
-  :block/updated-at 1654531202487}
- {:block/name "jun 9th, 2022",
-  :block/created-at 1654786873334,
-  :block/updated-at 1654786873334}
  {:block/name "later",
   :block/created-at 1648662334967,
   :block/updated-at 1648662334967}
  {:block/name "makefile",
   :block/created-at 1654005785895,
   :block/updated-at 1657346650805}
- {:block/name "mar 12th, 2022",
-  :block/created-at 1647043200000,
-  :block/updated-at 1647043200000}
- {:block/name "mar 13th, 2022",
-  :block/created-at 1647129600000,
-  :block/updated-at 1647129600000}
- {:block/name "mar 16th, 2022",
-  :block/created-at 1647388800000,
-  :block/updated-at 1647388800000}
  {:block/name "mar 17th, 2022",
   :block/created-at 1647477123061,
   :block/updated-at 1647477185741}
- {:block/name "mar 18th, 2022",
-  :block/created-at 1647561600000,
-  :block/updated-at 1647561600000}
- {:block/name "mar 19th, 2022",
-  :block/created-at 1647648000000,
-  :block/updated-at 1647648000000}
- {:block/name "mar 1st, 2022",
-  :block/created-at 1646092800000,
-  :block/updated-at 1646092800000}
- {:block/name "mar 20th, 2022",
-  :block/created-at 1647734400000,
-  :block/updated-at 1647734400000}
- {:block/name "mar 21st, 2022",
-  :block/created-at 1647820800000,
-  :block/updated-at 1647820800000}
- {:block/name "mar 22nd, 2022",
-  :block/created-at 1647907200000,
-  :block/updated-at 1647907200000}
- {:block/name "mar 27th, 2022",
-  :block/created-at 1648339200000,
-  :block/updated-at 1648339200000}
- {:block/name "mar 28th, 2022",
-  :block/created-at 1648425600000,
-  :block/updated-at 1648425600000}
- {:block/name "mar 2nd, 2022",
-  :block/created-at 1646179200000,
-  :block/updated-at 1646179200000}
  {:block/name "mar 30th, 2022",
   :block/created-at 1648598400000,
   :block/updated-at 1648598400000}
  {:block/name "mar 31st, 2022",
   :block/created-at 1648660824767,
   :block/updated-at 1648791814097}
- {:block/name "mar 3rd, 2022",
-  :block/created-at 1646265600000,
-  :block/updated-at 1646265600000}
- {:block/name "mar 4th, 2022",
-  :block/created-at 1646352000000,
-  :block/updated-at 1646352000000}
  {:block/name "may 12th, 2022",
   :block/created-at 1652368901871,
   :block/updated-at 1652430710285}
@@ -545,9 +384,6 @@
  {:block/name "may 14th, 2022",
   :block/created-at 1652457602891,
   :block/updated-at 1652518541667}
- {:block/name "may 15th, 2022",
-  :block/created-at 1652544001527,
-  :block/updated-at 1652544001527}
  {:block/name "may 16th, 2022",
   :block/created-at 1652692304053,
   :block/updated-at 1652692394424}
@@ -557,24 +393,12 @@
  {:block/name "may 18th, 2022",
   :block/created-at 1652803202475,
   :block/updated-at 1652890473351}
- {:block/name "may 19th, 2022",
-  :block/created-at 1652889603589,
-  :block/updated-at 1652889603589}
- {:block/name "may 1st, 2022",
-  :block/created-at 1651334402605,
-  :block/updated-at 1651334402605}
  {:block/name "may 20th, 2022",
   :block/created-at 1653030630967,
   :block/updated-at 1653030670805}
- {:block/name "may 21st, 2022",
-  :block/created-at 1653062400886,
-  :block/updated-at 1653062400886}
  {:block/name "may 22nd, 2022",
   :block/created-at 1653148804198,
   :block/updated-at 1653190852856}
- {:block/name "may 23rd, 2022",
-  :block/created-at 1653235203280,
-  :block/updated-at 1653235203280}
  {:block/name "may 24th, 2022",
   :block/created-at 1653321604016,
   :block/updated-at 1653321604016}
@@ -593,18 +417,9 @@
  {:block/name "may 31st, 2022",
   :block/created-at 1653926401142,
   :block/updated-at 1653980952716}
- {:block/name "may 4th, 2022",
-  :block/created-at 1651669879909,
-  :block/updated-at 1651669879909}
  {:block/name "may 5th, 2022",
   :block/created-at 1651680004569,
   :block/updated-at 1651939918312}
- {:block/name "may 8th, 2022",
-  :block/created-at 1651939887620,
-  :block/updated-at 1651939887620}
- {:block/name "may 9th, 2022",
-  :block/created-at 1652025644613,
-  :block/updated-at 1652025644613}
  {:block/name "mips32相关",
   :block/created-at 1656040662966,
   :block/updated-at 1656046693027}
@@ -629,6 +444,10 @@
  {:block/name "promising-arm",
   :block/created-at 1648662334966,
   :block/updated-at 1648662334966}
+ {:block/name
+  "promising-arm/risc-v: a simpler and faster operational concurrency model",
+  :block/created-at 1662917279101,
+  :block/updated-at 1662917279101}
  {:block/name
   "promising-arm/risc-v_ a simpler and faster operational concurrency model",
   :block/created-at 1644850279561,
@@ -660,10 +479,7 @@
   :block/updated-at 1662875110490}
  {:block/name "sep 12th, 2022",
   :block/created-at 1662917273905,
-  :block/updated-at 1662964664370}
- {:block/name "sep 1st, 2022",
-  :block/created-at 1661961604341,
-  :block/updated-at 1661961604341}
+  :block/updated-at 1662917273905}
  {:block/name "sep 3rd, 2022",
   :block/created-at 1662300176415,
   :block/updated-at 1662300176415}
@@ -733,9 +549,6 @@
  {:block/name "暑期学校-2022",
   :block/created-at 1661232590564,
   :block/updated-at 1661232590564}
- {:block/name "暑期学校]-2022",
-  :block/created-at 1660548493042,
-  :block/updated-at 1660548534928}
  {:block/name "模板",
   :block/created-at 1648791771854,
   :block/updated-at 1657593031667}
@@ -811,9 +624,6 @@
  {:block/name "第二章：经典命题逻辑",
   :block/created-at 1646231162064,
   :block/updated-at 1648803284114}
- {:block/name "第二课：text editorvim",
-  :block/created-at 1651217573496,
-  :block/updated-at 1651217573496}
  {:block/name "第二课：text editor（vim）",
   :block/created-at 1651291782242,
   :block/updated-at 1662892749000}
