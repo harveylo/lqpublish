@@ -42,7 +42,7 @@
  {:block/name
   "an improved aes hardware trojan benchmark to validate trojan detection schemes in an asic design flow",
   :block/created-at 1663073936550,
-  :block/updated-at 1663079476442}
+  :block/updated-at 1663141506081}
  {:block/name "apr 10th, 2022",
   :block/created-at 1649553147233,
   :block/updated-at 1649553147233}
@@ -673,7 +673,7 @@
   :block/updated-at 1663048914488}
  {:block/name "sep 14th, 2022",
   :block/created-at 1663084803102,
-  :block/updated-at 1663084803102}
+  :block/updated-at 1663137963650}
  {:block/name "sep 1st, 2022",
   :block/created-at 1661961604341,
   :block/updated-at 1661961604341}

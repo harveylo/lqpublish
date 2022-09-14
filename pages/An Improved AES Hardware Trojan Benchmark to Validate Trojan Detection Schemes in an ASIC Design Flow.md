@@ -1,3 +1,19 @@
 - 补充：[[DFT简介]]
 - 补充：[[数字集成电路设计流程简介]]
+- # Hardware trojan and its detection
+	- hardware trojan 由两部分构成
+		- trigger
+		- payload
+	- ## Trojan detection approaches
+		- 木马一般会被一些很稀有的信号激活
+		- 木马的种类繁多，因此要寻找一种universal的detection方式十分冗长沉闷
+		- **logic testing based Trojan detection techniques**
+			- 希望找到能激活木马的西游输入，并且将结果和“golden values”作比较
+			- 但是生成能够检测木马的测试方法是computationally infeasible的
+		- **side-channel analysis based**
+			- 将产生的参数，包括路径延迟，泄露，瞬时电流等和在可信环境下生产的**golden chip**的相关参数作比较
+			- 很难找到存在于deep submicron design中的小木马，因为process variations和noise using side channel approach的原因，假阳的概率很高
+		- 发明一种基于logic testing或side-channel analysis的能够检测在制造过程中插入的小木马的方法仍然是一个难题
+		- 寻找硬件木马的一大挑战是，验证应该去检验每一种意料之外的行为
+		-
 -
