@@ -1,5 +1,6 @@
 - 补充：[[DFT简介]]
 - 补充：[[数字集成电路设计流程简介]]
+- 补充： [[mosfet简介]]
 - # Hardware trojan and its detection
 	- hardware trojan 由两部分构成
 		- trigger
@@ -16,5 +17,57 @@
 		- 发明一种基于logic testing或side-channel analysis的能够检测在制造过程中插入的小木马的方法仍然是一个难题
 		- 寻找硬件木马的一大挑战是，验证应该去检验每一种意料之外的行为
 	- ## Trust-Hub AES Benchmark circuits
-		-
--
+- # Strength and weakness of AES benchmarks
+	- 所有的benchmark可被大概分为两类
+		- always on trojans
+		- conditionally triggered
+	- 按功能可分为Dos和information leakage
+	- **Dos**
+		- [[$red]]==这一块对于攻击原理有点疑惑==
+		- AES-T500, AES-T1800, AES-T1900
+		- 目的：在被激活后快速消能源
+		- 被特定事件或输入激活
+		- 引入一个不接受任何输入，没有任何输出的空转模块？
+		- **检测**：这些空模组看起来相当可疑，在门级别模拟下将这些未使用的空verilog模块去除可以达到100% fuctional verification coverage
+	- **信息泄露**
+		- [[$blue]]==leakage current based==
+			- AES-T600, AES-T2000 and AES-T2100
+			- 使用一个位移寄存器和两个非门（一个pmos非门，nmos非门）
+			- 将位移寄存器的LSB连接到一个pmos非门，该pmos非门再连接到一个nmos非门
+				- LSB中装有获取到的key
+				- 如此一来，当LSB为0时，一瞬间将会有两条从电源接的通路由这两个非门建立，通过测量leakage current就能够获得LSB的信息
+			- 这样一个泄露信息的模块在设计时只有输入没有输出
+			- [[$red]]==没有被综合是什么意思==
+			- **检测**：门级别模拟能够检测出
+		- [[$blue]]==RF Signal based==
+			- AES-T400, AES-T1600, AES-T1700
+			- received at 1560 KHz with an AM radio.
+			- 一响一停表示0，双响一停表示1
+			- **检测**：综合工具会给出未使用针脚的警告，RTL verification再木马被触发的情况下能轻松检测出
+		- [[$blue]]==CDMA based power side-channel based==
+			- AES-T700, AES-T800, AES-T900, AES-T1000, and AES-T1200
+			- 当预定义好的输入被观测到，该木马会把secret从一个秘密通道上泄露出去
+			- 利用CDMA，通过多个时钟周期传递一个bit
+			- 使用PRNG来生成CDMA序列
+			- CDMA序列会和secret做异或
+			- 异或之后的寻猎会被转发到一个泄露电路，泄露电路由八个触发器和异或门以及最后的一个大电容那个组成[[$red]]==(?)==
+			- 能通过RTL verification和综合之后的门级别模拟
+			- 使用DFT可以检测，检测工具会告知有异步模块，这将会引起怀疑
+			- 去除所有异步模块可以达成功能测试百分百覆盖
+			- 将异步模块全部转换为同步模块就能找到木马[[$red]]==(?)==，ATPG会自动生成pattern，这些pattern会触发木马，使得secret leakage在ATPG模拟时可以被观测到
+		- [[$blue]]==Dynamic power side-channel==
+			- AES-T1300, AES-T1400 and AEST1500
+			- 当预定义输入观测到时激活木马
+			- 泄露电路是一个装在有01序列的位移寄存器
+			- 当对泄露电路输入1时，位移寄存器就会被激活，dynamic power consumption就会上升，攻击者可以观测到
+			- **检测**：和dos，leakage current木马类似，会创造空的Verilog 模组，会被覆盖驱动的门级别模拟检测出
+		- [[$blue]]==Always on==
+			- AES-T100, AES-T200 and AES-T300
+			- AES-T300类似与dos等生成空白模组的木马，能被轻易检测出来
+			- 剩下的两个在设计上是完全同步的，因此三种检测流程都无法检测出，需要用及预测信道的木马检测方式来检测
+- # NOVEL HARDWARE TROJAN
+	- 基于以上描述，需要一个更强的，可以规避三种检测流程的木马benchemark
+	- DoS, leakage current and dynamic power side-channel中的主要弱点是移位寄存器的设计。
+	- 移位寄存器的弱点又是来自没有输出，这会导致空白verilog模组
+	- 解决方法自然是给移位寄存器加上输出部分
+	-
