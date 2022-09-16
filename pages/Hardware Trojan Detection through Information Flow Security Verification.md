@@ -1,0 +1,57 @@
+- # Introduction
+	- 现有的硬件木马检测可以分类为
+		- **结构和功能分析**
+			- 利用一些定量的指标将哪些第激活可能性的信号和门标记出来，这些信号和门很有可能是木马的一部分
+			- UCI(unused circuits identification)，找到RTL中未使用的代码
+				- 能够被打败
+			- 功能分析利用功能魔力来找到IP中和木马有着相似特征的可疑区域
+			- Nearly-unused Circuit Identification (FANCI)
+				- 将输入和输出的依赖性弱的代码标记为可疑
+			- VeriTrust
+				- 将不受功能输入驱动的nets标记为可能的木马trigger input
+			- 以上两种测试技巧仍然能够被bypass
+			- 有人提出了基于符号代数的检测方法，但是需要一个golden reference作为对比，对于第三方IP来说，这种东西是很难甚至无法获得的
+		- **逻辑测试**
+			-
+		- **形式化验证**
+		- **information flow tracking**
+		- **runtime validation**
+	- ## 本文章的工作
+		- 提出一个comprehensive analysis of IFT/formal Trojan detection techniques
+		- 提出一个全新的3PIPs木马检测框架，该框架基于IFS(information flow security)验证，检测由木马程序造成的IFS政策违法
+		- 检测到木马之后可以提取出triggering condition
+- # 前置知识和定义
+	- ## 木马的两种类别
+		- **一型**
+			- 使用有效的asset传播通道传递有效载荷
+			- 例如RSA-T100通过有效的密文输出接口将key泄露出去
+			- 这型木马一般会创造一个bypass path让对手提取asset
+		- **二型**
+			- 此型木马使用未被授权观测或管理asset的恶意线路来传递有效载荷
+			- AES-T100，使用功能上和有效的encryption logic独立的泄露线路将key泄露出去
+		- 在**sec. 5**详细讨论
+- # 前人工作和限制
+	- ## Formal verification
+		- 基于**BMC(Bounded Model Checking)**
+		- 通过一个性质来验证有无对于关键信息的恶意修改或未授权的信息泄露
+		- 通过性质:
+			- $P\vDash (s_0==o)\vee (\neg s_0==o),\forall s_0\in 0,1$
+			- 其中$s_0$是秘密信息中的一位，o是任何一个泄漏点，例如一个输出端口
+		- 可以找到信息的泄露，但是有如下问题
+			- **假阳**：很明显，如此粗暴的性质会导致大量误报
+				- 问题在于，仅对比重要信息和泄漏点的逻辑值，而并不去探究是否有一条从该信息到泄漏点的信息流
+			- **有限的验证能力**
+				- 模型检测一个通病就是只能验证电路在很有限的几个时钟周期内的行为
+				- 因此一旦木马将触发条件设定为等待很多个时钟周期之后再触发，模型检测就无法很好地检测出该木马
+	- ## GLIFT-based Trojan Detection
+		- **gate-level information flow tracking**
+		- 对每一个数据位都加注一个taint位
+		- 将原本所有的门都增强为带有tracking logic的门
+		- **但是，**GLIFT的逻辑十分难以设计，且GLIFT也有假阳的可能
+		- 存在的限制：
+			- **无法分辨恶意和有害路径**
+				- GLIFT假设信息从key流向密文输出是很正常的，并且认为这是加密函数的一环
+				- 因此有的木马最终会将输出导向密文输出，得以绕开GLIFT检查
+			- **Taint Explosion**
+				-
+	-

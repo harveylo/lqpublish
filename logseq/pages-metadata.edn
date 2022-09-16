@@ -42,7 +42,7 @@
  {:block/name
   "an improved aes hardware trojan benchmark to validate trojan detection schemes in an asic design flow",
   :block/created-at 1663073936550,
-  :block/updated-at 1663259930512}
+  :block/updated-at 1663308686283}
  {:block/name "apr 10th, 2022",
   :block/created-at 1649553147233,
   :block/updated-at 1649553147233}
@@ -299,6 +299,10 @@
  {:block/name "git快速入门",
   :block/created-at 1659709054953,
   :block/updated-at 1659714162592}
+ {:block/name
+  "hardware trojan detection through information flow security verification",
+  :block/created-at 1663310936550,
+  :block/updated-at 1663345851705}
  {:block/name
   "hls__collotta_等。_-_2021_-_a_fuzzy_control_system_for_energy‐efficient_wirele_1641815664400_0",
   :block/created-at 1648662334968,
@@ -682,7 +686,10 @@
   :block/updated-at 1663214255372}
  {:block/name "sep 16th, 2022",
   :block/created-at 1663257602181,
-  :block/updated-at 1663257602181}
+  :block/updated-at 1663310927590}
+ {:block/name "sep 17th, 2022",
+  :block/created-at 1663344001673,
+  :block/updated-at 1663344001673}
  {:block/name "sep 1st, 2022",
   :block/created-at 1661961604341,
   :block/updated-at 1661961604341}
@@ -883,7 +890,7 @@
   :block/updated-at 1648662334967}
  {:block/name "论文阅读",
   :block/created-at 1641815492082,
-  :block/updated-at 1663073985997}
+  :block/updated-at 1663310936551}
  {:block/name "课堂笔记",
   :block/created-at 1645696984989,
   :block/updated-at 1660548493043}
