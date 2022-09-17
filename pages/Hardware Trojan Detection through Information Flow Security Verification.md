@@ -1,3 +1,4 @@
+- 补充： [[DFT简介]]
 - # Introduction
 	- 现有的硬件木马检测可以分类为
 		- **结构和功能分析**
@@ -53,5 +54,53 @@
 				- GLIFT假设信息从key流向密文输出是很正常的，并且认为这是加密函数的一环
 				- 因此有的木马最终会将输出导向密文输出，得以绕开GLIFT检查
 			- **Taint Explosion**
-				-
+				- 在插入了dft的电路中，没法使用GLIFT
+				- 在scan mode下，一条扫描链中的触发器会被连接起来，所以当有一位被标记为high的位经过这样的电路时，所有该扫描链中的
+				- 仅在functional mode下使用GLIFT也是不行的[[$red]]==(?)==
+		- 有研究指出是有木马能通过scan mode递送有效载荷的，由于GLIFT在dft下的劣势，其无法检测这样的木马
+		- 而且GLIFT依赖于形式化工具来检测木马，因此共享形式化方法的**有限的验证能力**的弱点
+	- ## Jasper Security Path Verification
+		- 一个用于硬件的形式化验证工具
+		- 也是用taint
+		- 但是IC厂家可能不知道需要去检查IP中的哪些信号来检测木马
+		- 只能检测输入输出口的功能关系[[$red]]==(?)==
+	- ## Trojan Detection by Signal Sensitivity Tracing
+		- 数据敏感性追踪
+		- 数据敏感性列表包含了所有的敏感信息在设计中的分布信息
+			- 可以被用来检测会泄露敏感信息的可能的木马有效载荷
+		- **不包含的敏感数据的电路信号的敏感性被设置为0**
+		- **包含敏感数据的信号的敏感性为被设置为一个正整数**
+			- 数字越大敏感性越高，越需要高级别保护
+		- 经过不同的电路操作，信号的值也会改变
+		- 只有少数操作能够降低敏感性
+		- 作者认为，木马会导致密文输出的敏感性不是0而是一个正整数
+		- 然而sensitivity checking是**可以被绕过**的
+- # TROJAN DETECTION THROUGH IFS VERIFICATION
+	- [[$blue]]==基于一个观察==：**不管多小的木马，都会改变设计中本来计划的信息流，导致信息流安全策略的违反**
+		- 问题在于如何在没有golden reference model的情况下检测IFS violation
+	- [[$blue]]==给予一个新兴概念==：将asset建模为永0和永1错误来影响ATPG算法来检测错误
+	- 一次**对于错误的成功观测**意味着
+		- 承载着asset的线路的逻辑值能够通过观测点观测到
+		- 或者asset的逻辑值能够被控制点控制
+		- **说白了就是**：存在从asset到观测点或从控制点到asset的信息流
+	- [[$blue]]==观测点是：== 任何可以被用来观测内部信号的主输出或伪主输出
+	- [[$blue]]==控制点是==：任何可以被永用控制内部电路信号的主输入或伪主输入
+	- 本框架需要找到所有**能够观测和识别到asset**的**观测点** 和 所有**能够控制asset**的**控制点**
+		- [[$red]]==很难用常规的full-scan(全扫描) 和 full-sequential(全时序) ATPG分析==来做IFS验证
+			- full-scan ATPG只能检测第一层的assetpropagation[[$red]]==(?)==
+				- 论文：Security Vulnerability Analysis of Design-for-Test Exploits for Asset Protection in SoCs
+				- the observe points associated with a Trojan which is not located in the first level FFs, will not be detected by full-scan ATPG
+			- full-sequential ATPG需要搜索所有的输入空间来找到一个可以把fault传递到观测点的输入，因此复杂度太高
+				- 所以对于没有引入任何DFT的时序电路，很难检测其错误传递
+		- **解决方案：**
+			- 使用**partial-scan**来找到asset的观测点和控制点
+			- partial-scan中，扫描链仅包括部分sequential cell而不是所有
+			- 传统来说，部分扫描一般用来在能够达到目标测试覆盖度的同时降低面积overhead
+			- 在此框架中，部分扫描仅被用作IFS验证，验证结束之后，厂家可以自行选择转换为full-scan
+	- **IFS验证可以进一步被分为两部分**
+		- **机密性验证**
+			- 识别是否asset能在恶意或未授权的观测点被观测到
+		- **完整性验证**
+			- 识别是否asset能在恶意或未授权的控制点被控制
+	- 使用**Malicious Observe/Control Point Identification** 技巧来区分授权和未授权观测/控制点
 	-
