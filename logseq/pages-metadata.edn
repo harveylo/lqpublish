@@ -302,7 +302,7 @@
  {:block/name
   "hardware trojan detection through information flow security verification",
   :block/created-at 1663310936550,
-  :block/updated-at 1663412399407}
+  :block/updated-at 1663432219534}
  {:block/name
   "hls__collotta_等。_-_2021_-_a_fuzzy_control_system_for_energy‐efficient_wirele_1641815664400_0",
   :block/created-at 1648662334968,
@@ -689,7 +689,10 @@
   :block/updated-at 1663397525592}
  {:block/name "sep 17th, 2022",
   :block/created-at 1663344001673,
-  :block/updated-at 1663397507387}
+  :block/updated-at 1663422278038}
+ {:block/name "sep 18th, 2022",
+  :block/created-at 1663430403057,
+  :block/updated-at 1663430403057}
  {:block/name "sep 1st, 2022",
   :block/created-at 1661961604341,
   :block/updated-at 1661961604341}
