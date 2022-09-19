@@ -1,0 +1,15 @@
+- # 图例
+	- [[#green]]==生词==
+	- ==重点==
+	- [[#red]]==疑点==
+	- [[#blue]]==附注==
+- # Introduction
+	- 分开证明处理器部分和内存部分都满足SC(sequential consistency)
+	- 然后结合起来，形成一个完整的系统
+	- 提出一套基于**LTSes(labeled transition systems)**的硬件设计模块化证明方法论
+	- 将LTSes作为一种硬件描述方式是一中成熟的技巧，有编译器支持
+		- 本文使用的LTSes 是**Bluespec** 语言
+		- Bluespec由MIT自己开发
+		- Bluespec将硬件建模为一个迁移系统的原子规则
+		- 有商用编译器将Bluespec转变为其他语言代码（例如verilog）
+	-

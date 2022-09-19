@@ -46,4 +46,5 @@
 		- `<C-b> z`  放大（全屏显示）缩小当前pane
 		- `<C-b> [`  进入复制模式 ，`<space>`  开始选择，   `<enter>`确定复制
 		- `<C-b> <space>`  循环pane布局
+		- ``<c-b> <alt> <direction>`` 调整pane大小
 	-
