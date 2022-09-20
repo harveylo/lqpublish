@@ -1,5 +1,4 @@
 - # Printf and Logging
-  collapsed:: true
 	- 使用log较之使用printf的优势：
 		- 可以将log输出定向到任何地方，套接字，文件甚至是远程服务器而不是单单只能输出到标准输出
 		- log支持严重性分级，便于过滤输出
@@ -40,7 +39,6 @@
 		- 大型的日志系统的输出往往杂乱无章，需要进行data wrangling
 		- 可以使用lnav这样的工具帮助进行阅读日志
 - # Debugging with debuggers
-  collapsed:: true
 	- 当printf不足以有效debug时，考虑借助debugger
 	- ## pdb
 		- python自带的一个调试工具
@@ -68,7 +66,6 @@
 					- **core dump file**
 						- ``gdb myprog <coreID>``
 			- ### 命令行选项
-			  collapsed:: true
 				- 某些前跟一个连字符的选项也可以跟两个连字符，但是有的选项只能跟两个连字符比如--silent
 				- #### 传递参数到被调试程序
 					- ``--args``
@@ -114,7 +111,6 @@
 					    执行命令脚本后退出
 					  ```
 		- ### 初始化文件
-		  collapsed:: true
 			- 在启动时，gdb通常会加载处理一个名为``.gdbinit``的初始化文件
 			- gdb会在当前目录和``$HOME``下寻找该初始化文件
 				- ``$HOME``下的初始化文件优先级高于当前目录的初始化文件
@@ -148,7 +144,6 @@
 					    将GDB的日志重定向到gdb.txt文件
 					  ```
 			- #### 在GDB中执行一个程序
-			  collapsed:: true
 				- 使用``run``在gdb环境下执行选择的程序
 				- 使用``start``开始debug执行（实际上是在方便的地方设置了一个断点，通常是程序入口）
 				- 使用``starti``并在第一条指令下暂停，可以添加参数
@@ -231,7 +226,6 @@
 					  ```
 				-
 			- #### 分析栈
-			  collapsed:: true
 				- 调用栈(call stack)是一种内存组织方式
 				- 每一次函数调用都会压入一个栈帧
 				- 栈帧记录着各种相关信息，如调用者地址和寄存器值，函数参数和局部变量等
@@ -249,7 +243,6 @@
 				    列出对应函数调用的参数值
 				  ```
 			- #### 显示数据
-			  collapsed:: true
 				- 使用**print**命令显示变量和表达式的值``(gdb) print [/format] [expression]``
 				- 随便使用不恰当的expression可能会造成意想不到的后果，如
 					- ```
@@ -310,7 +303,6 @@
 			- 可以在gdb中使用pi指令来运行gdb集成的python console，在此处可以运行一些pwndbg的命令，比如pwndbg.memory.read(addr, len), pwndbg.memory.write(addr, data), pwndbg.vmmap.get()等
 			-
 - # Specialized Tools
-  collapsed:: true
 	- 当程序需要完成一些只有linux kernel才能做到的动作时，程序会通过system call来进行
 	- linux下通过**[[$blue]]==strace==**来跟踪系统调用
 	- 当通过strace来进行跟踪系统调用又希望忽略被跟踪程序的输出时，可以把输出重定向到``/dev/null``，即null device
@@ -324,7 +316,6 @@
 			- 分析请求时间线
 			- 查找cookies和应用的本地[[$blue]]==**储存情况**==
 - # 静态分析
-  collapsed:: true
 	- linux下**python**的静态分析工具：pyflakes, mypy
 	- **shell**的静态分析工具: shellcheck
 	- vim的语法检查插件：ale
@@ -336,7 +327,6 @@
 		- rustfmt for rust
 		- prettier for javaScript
 - # Profiling
-  collapsed:: true
 	- ## 计时
 		- 正常运行的程序可能性能并不够好
 		- profiling可以帮助找到找到程序中的热点代码

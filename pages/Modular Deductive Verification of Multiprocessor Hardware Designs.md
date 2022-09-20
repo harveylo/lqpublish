@@ -12,4 +12,44 @@
 		- Bluespec由MIT自己开发
 		- Bluespec将硬件建模为一个迁移系统的原子规则
 		- 有商用编译器将Bluespec转变为其他语言代码（例如verilog）
-	-
+- # Related work
+	- 前人对于多处理器。多层级内存系统的验证集中于model checking
+	- 因此陷入了model checking的通病：状态爆炸
+		- 所以能验证的系统复杂度非常有限，哪怕引入了很多可以增加验证能力的technic也仍然难以突破
+- # Labeled Transition Systems（LTS）
+	- **定义1**，LTS
+		- 一个LTS是一个三元关系，形如$\mathcal{S}^H \times \mathcal{L}^\epsilon\times \mathcal{S}^H$
+			- 其中，$\mathcal{S}$是状态集合，$\mathcal{L}$是标签集合
+			- 上标$X^\epsilon$表示集合$X$有额外的空元素$\epsilon$
+			- 上标$X^H$表示集合$X$有额外的halt元素$H$，表示停机状态
+			- 每一个LTS在$\mathcal{S}$中有一个初始状态
+		- 对于LTS $A$，$(s)\overset{\ell}{\underset{\mathrm{A}}{\rightarrow}}(s')$ 表示$(s,\ell,s')\in A$
+			- $A_0$表示$A$的初始状态
+			- $A$一般被自然而然地看作一个并发系统的一个进程
+			- 当$A$参与了一些和其他进程的IO交换时，来自集合$\mathcal{L}$的标签$\ell$会被产生
+				- 否则$\ell$就是一个空或silent lebel$\epsilon$
+				- 为了方便有时会忽略$\epsilon$步骤的标签
+	- ## LTS的基本构造
+		- 利用一个表示单步长演变的LTS可以build一个任意长度演变的LTS
+		- **定义2**，传递自反闭包
+			- $A$的传递自反闭包写作$A^*$
+			- $A$的元素为$\mathcal{S,L}$，则$A^*$的元素为$\mathcal{S,L^*}$
+				- $\mathcal{L^*}$中的元素来自$\mathcal{L}$，或$\mathcal{L}$中的label的序列
+			- 当$A$中存在0或
+			- 更长的从$s$到$s'$的迁移时，$A^*$可以从$s$到$s'$，且$A^*$中该迁移的label是$A$中迁移路径上的所有label的拼接。
+			- $\epsilon$在拼接时被看作identity element（$\epsilon$拼接任何元素都等于该元素）
+		- **定义3**，repetition
+			- $A$的n-repetition 记作$A^n$
+			- $A$的状态和labels分别为$\mathcal{S,L}$，则$A^n$的状态机和为$\mathcal{S}^n$，labels为$[1,n]\times \mathcal{L}$
+				- 标签的解释为，一个二元组集合，其中每一个二元组包含一个标签和产生这个标签的进程的编号
+			- 只有当系统中的一个组件产生一个标签的时候整个系统才会产生一个标签
+			- 如果有一个组件停机(halt)，则整个系统都会暂停
+		- 有了对于进程的定义，接下来需要对进程间的通信进行刻画
+		- **定义4**，通信组合（communicating composition）
+			- $A,B$具有相同的的标签集合$\mathcal{L}$，状态机和分别为$\mathcal{S}_A,\mathcal{S}_B$
+			- $A,B$的通信组合记为$A+B$，新的LTS的状态为$\mathcal{S}_A\times \mathcal{S}_B$，标签集合为空，迁移规则如下：
+			- ![image.png](../assets/image_1663680930704_0.png)
+			-
+			-
+			-
+-

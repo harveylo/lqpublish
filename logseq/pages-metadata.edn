@@ -1,16 +1,4 @@
-[{:block/name "#blue",
-  :block/created-at 1663602400344,
-  :block/updated-at 1663602400344}
- {:block/name "#green",
-  :block/created-at 1663602224314,
-  :block/updated-at 1663602224314}
- {:block/name "#red",
-  :block/created-at 1663602224314,
-  :block/updated-at 1663602224314}
- {:block/name "#yellowf",
-  :block/created-at 1663602224315,
-  :block/updated-at 1663602224315}
- {:block/name "$blue",
+[{:block/name "$blue",
   :block/created-at 1650717765252,
   :block/updated-at 1650717765252}
  {:block/name "$green",
@@ -327,10 +315,28 @@
   "hls__pulte_等。_-_2019_-_promising-armrisc-v_a_simpler_and_faster_operati_1644850284336_0",
   :block/created-at 1648662334968,
   :block/updated-at 1648662334968}
+ {:block/name "https:",
+  :block/created-at 1663658951999,
+  :block/updated-at 1663658951999}
+ {:block/name "https://www.cs.cornell.edu",
+  :block/created-at 1663658952000,
+  :block/updated-at 1663658952000}
+ {:block/name "https://www.cs.cornell.edu/courses",
+  :block/created-at 1663658952000,
+  :block/updated-at 1663658952000}
+ {:block/name "https://www.cs.cornell.edu/courses/cs3110",
+  :block/created-at 1663658952001,
+  :block/updated-at 1663658952001}
+ {:block/name "https://www.cs.cornell.edu/courses/cs3110/2018fa",
+  :block/created-at 1663658952001,
+  :block/updated-at 1663658952001}
+ {:block/name "https://www.cs.cornell.edu/courses/cs3110/2018fa/lec",
+  :block/created-at 1663658952002,
+  :block/updated-at 1663658952002}
  {:block/name
-  "https://www.cs.cornell.edu/courses/cs3110/2018fa/lec/21-coq-logic/notes.html",
-  :block/created-at 1661702845403,
-  :block/updated-at 1661702845403}
+  "https://www.cs.cornell.edu/courses/cs3110/2018fa/lec/21-coq-logic",
+  :block/created-at 1663658952002,
+  :block/updated-at 1663658952002}
  {:block/name "ic3简单笔记",
   :block/created-at 1650471862241,
   :block/updated-at 1650600014450}
@@ -634,7 +640,7 @@
  {:block/name
   "modular deductive verification of multiprocessor hardware designs",
   :block/created-at 1663602223935,
-  :block/updated-at 1663603357981}
+  :block/updated-at 1663681292950}
  {:block/name "mosfet简介",
   :block/created-at 1663233952159,
   :block/updated-at 1663236217426}
@@ -718,6 +724,9 @@
  {:block/name "sep 20th, 2022",
   :block/created-at 1663603203884,
   :block/updated-at 1663603203884}
+ {:block/name "sep 21st, 2022",
+  :block/created-at 1663689603397,
+  :block/updated-at 1663689603397}
  {:block/name "sep 3rd, 2022",
   :block/created-at 1662300176415,
   :block/updated-at 1662300176415}
@@ -876,7 +885,7 @@
   :block/updated-at 1651217573496}
  {:block/name "第二课：text editor（vim）",
   :block/created-at 1651291782242,
-  :block/updated-at 1662892749000}
+  :block/updated-at 1663691498290}
  {:block/name "第二课：变换",
   :block/created-at 1648912530610,
   :block/updated-at 1650715173781}

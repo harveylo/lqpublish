@@ -39,9 +39,7 @@
 				- $NI(c) = \forall E_1,E_2\cdot E_1 \sim E_2 \wedge <c,E_1>\Downarrow o_1 \Longrightarrow \exists o_2\cdot <c,E_2>\Downarrow o_2\wedge o_1\simeq o_2$
 					- 若一个程序$c$满足*noninterference*，则记作$NI(c)$
 	- ## Termination-insensitive & termination-sensitive noninterference
-	  collapsed:: true
 		- ### bath-job program：
-		  collapsed:: true
 			- 一个在某一环境下开始运行，最后要么发散要么产生一个新环境的程序
 			- batch-job的attacker的攻击者模型设定为：能够检视最终环境的公共部分
 			- 一个简单的batch-job while language：
@@ -70,7 +68,6 @@
 				- 映射到$L$的变量只能包含公共信息，即公共变量
 				- 映射到$H$的变量可以包含secrets，即秘密变量
 		- ### Low equivalence
-		  collapsed:: true
 			- 环境之间的low equivalence实际上是要求被标记为公共的部分要相同
 			- 对于low equivalence的公式化定义
 				- **对于值：**
@@ -84,7 +81,6 @@
 				- **对于环境**
 					- 如果在某一个变量映射（variable security maps）下，两个环境中所包含的变量环境是low equivalent的，则这两环境也是low equivalent的
 		- ### Termination-insensitive vs. termination-sensitive noninterference
-		  collapsed:: true
 			- 对于attacker来说，它在目前的模型中能够检视的是程序执行之后最终环境中的公共部分
 			- 那么程序的divergence是否是能够被观测的公共部分成为了区分termination-insensitive和termination-sensitive的标准
 			- 判断一个程序$c$是否发散的语义定义很简单：如果$c$在环境$E_1$中发散则$\neg \exists E_1 \cdot \langle c,E_1\rangle \Rightarrow E_2$
@@ -172,7 +168,6 @@
 				- 满足PINI(c)的定义
 					- $PINI(c) = \forall E_1,E_2\cdot E_1\sim_\Gamma E_2 \wedge \langle c,E_1\rangle \Downarrow o_1 \Longrightarrow \exists o_2 \cdot \langle c,E_2\rangle \Downarrow o_2\wedge o_1\simeq_{PI}o_2$
 			- **Progress-sensitive noninterference**
-			  collapsed:: true
 				- 在一个环境中有进度，那么也必须在另一个环境中有进度
 				- 需要修改针对可观测行为之间indistinguishability关系的定义
 					- $o_1\simeq_{PS} o_2 \overset{def}{=}o_1=o_2$
