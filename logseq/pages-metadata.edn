@@ -315,28 +315,6 @@
   "hls__pulte_等。_-_2019_-_promising-armrisc-v_a_simpler_and_faster_operati_1644850284336_0",
   :block/created-at 1648662334968,
   :block/updated-at 1648662334968}
- {:block/name "https:",
-  :block/created-at 1663658951999,
-  :block/updated-at 1663658951999}
- {:block/name "https://www.cs.cornell.edu",
-  :block/created-at 1663658952000,
-  :block/updated-at 1663658952000}
- {:block/name "https://www.cs.cornell.edu/courses",
-  :block/created-at 1663658952000,
-  :block/updated-at 1663658952000}
- {:block/name "https://www.cs.cornell.edu/courses/cs3110",
-  :block/created-at 1663658952001,
-  :block/updated-at 1663658952001}
- {:block/name "https://www.cs.cornell.edu/courses/cs3110/2018fa",
-  :block/created-at 1663658952001,
-  :block/updated-at 1663658952001}
- {:block/name "https://www.cs.cornell.edu/courses/cs3110/2018fa/lec",
-  :block/created-at 1663658952002,
-  :block/updated-at 1663658952002}
- {:block/name
-  "https://www.cs.cornell.edu/courses/cs3110/2018fa/lec/21-coq-logic",
-  :block/created-at 1663658952002,
-  :block/updated-at 1663658952002}
  {:block/name "ic3简单笔记",
   :block/created-at 1650471862241,
   :block/updated-at 1650600014450}
@@ -508,6 +486,9 @@
  {:block/name "jun 9th, 2022",
   :block/created-at 1654786873334,
   :block/updated-at 1654786873334}
+ {:block/name "lab1 mux",
+  :block/created-at 1663779555597,
+  :block/updated-at 1663779571220}
  {:block/name "later",
   :block/created-at 1648662334967,
   :block/updated-at 1648662334967}
@@ -644,6 +625,9 @@
  {:block/name "mosfet简介",
   :block/created-at 1663233952159,
   :block/updated-at 1663236217426}
+ {:block/name "nju数字电路实验",
+  :block/created-at 1663755813356,
+  :block/updated-at 1663779555597}
  {:block/name "now",
   :block/created-at 1648662334969,
   :block/updated-at 1648662334969}
@@ -723,10 +707,13 @@
   :block/updated-at 1661961604341}
  {:block/name "sep 20th, 2022",
   :block/created-at 1663603203884,
-  :block/updated-at 1663603203884}
+  :block/updated-at 1663741835760}
  {:block/name "sep 21st, 2022",
   :block/created-at 1663689603397,
-  :block/updated-at 1663689603397}
+  :block/updated-at 1663779587783}
+ {:block/name "sep 22nd, 2022",
+  :block/created-at 1663776000367,
+  :block/updated-at 1663776000367}
  {:block/name "sep 3rd, 2022",
   :block/created-at 1662300176415,
   :block/updated-at 1662300176415}
@@ -945,4 +932,4 @@
   :block/updated-at 1646121863019}
  {:block/name "预学习",
   :block/created-at 1663602224295, 
-  :block/updated-at 1663602224295}]
+  :block/updated-at 1663755813356}]
