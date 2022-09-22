@@ -36,8 +36,7 @@
 			- $A$的传递自反闭包写作$A^*$
 			- $A$的元素为$\mathcal{S,L}$，则$A^*$的元素为$\mathcal{S,L^*}$
 				- $\mathcal{L^*}$中的元素来自$\mathcal{L}$，或$\mathcal{L}$中的label的序列
-			- 当$A$中存在0或
-			- 更长的从$s$到$s'$的迁移时，$A^*$可以从$s$到$s'$，且$A^*$中该迁移的label是$A$中迁移路径上的所有label的拼接。
+			- 当$A$中存在0或更长的从$s$到$s'$的迁移时，$A^*$可以从$s$到$s'$，且$A^*$中该迁移的label是$A$中迁移路径上的所有label的拼接。
 			- $\epsilon$在拼接时被看作identity element（$\epsilon$拼接任何元素都等于该元素）
 		- **定义3**，repetition
 			- $A$的n-repetition 记作$A^n$
@@ -79,15 +78,17 @@
 	- 哪怕在若内存模型中，读操作的原子性仍然是需要满足的，读操作的原子性非常重要，是顺序一致性的保证[[$red]]==(?)==
 	- 一个简单的内存建模
 		- ![image.png](../assets/image_1663851777603_0.png)
-		- Ins：向来自处理器p的input buffer中插入一条请求
-		- Rm：发送一条out buffer中的回应，将该回应出列
-		- Ld：处理input buffer中的一条来自处理器p上针对地址a的load请求，t是一个可以让处理器用来将回应和请求匹配起来的tag；将回应压入output buffer
-		- St：处理一条来自处理器p针对地址a存入值v的请求，将回应压入output buffer
+		- Mm的状态为一个三元组$(ins,outs,m)$，分别为来自处理器的输入buffer，送往处理器的输出buffer和地址到值的映射
+		- **各rule的解释**
+			- Ins：向来自处理器p的input buffer中插入一条请求
+			- Rm：发送一条out buffer中的回应，将该回应出列
+			- Ld：处理input buffer中的一条来自处理器p上针对地址a的load请求，t是一个可以让处理器用来将回应和请求匹配起来的tag；将回应压入output buffer
+			- St：处理一条来自处理器p针对地址a存入值v的请求，将回应压入output buffer
 		- **初始状态为：**$(\emptyset,\emptyset,m_0)$
 	- 由cache的层次结构来负责实现读操作的原子性
 		- cache coherence protocol就是为了保证这个不变式的
 	- 本文建立了如此形式的理论：“如果系统A执行了一次并产生了特定的可观测行为，则系统B也进行了一次有相同可观测行为的执行”
-		- 则称A“**正确实现(Correctly implement)**”了B
+		- 则称A“**[[$blue]]==正确实现(Correctly implement)==**”了B
 	- # 详述 Sequential Consistency
 		- 使用trace refinement $\sqsubseteq$ 关系来陈述SC性质
 		- 定义了一个满足**SC**的LTS，该LTS针对不同的ISA细节做了**参数化**
@@ -112,7 +113,23 @@
 			- $P_{ref}$的状态是一个三元组$(s,pc,wait)$
 				- $s$是目前的ISA-specific状态，$pc$是当前的程序计数器，$wait$是一个boolean flag，标识当前处理器是否处于等待内存回应的block状态
 			- $P_{ref}$的初始状态为$(s_0,pc_0,\bot)$
-			-
-			-
 - # Respecifying Sequential Consistency with Communication
-	-
+	- 将 decoupled LTSes $\mathrm{P}_\mathrm{ref}^n,M_m$ 通信组合起来便可以得到一个SC的实现
+		- **对于一个有n个处理器的系统**，decoupled SC 实现为：$\mathrm{P}^n_\mathrm{ref}+M_m$
+	- **定理4**
+		- $\mathrm{P}_\mathrm{ref}^n+M_m \sqsubseteq SC$
+		- 证明：通过归纳法构造一个可以把左边系统的状态映射到SC的状态的函数$f$
+			- $f$会保持那些没有正在等待来自内存回应的状态
+			- 当内存回应存在时，$f$会立即在相应的处理器上执行这些回应
+		- [[$red]]==f不应该是针对labels的吗？==
+		- [[$red]]==trace是状态序列还是labels序列？看前文感觉应该是label序列==
+- # Speculative Out-Of-Order Processor
+	- 进行增加并行程度的优化可能会导致同时发送大量请求给内存，短时间内这些请求将难以被快速处理
+	- 对speculative 系统的建模
+		- ![image.png](../assets/image_1663864715206_0.png)
+		- branch predictor的状态由一个原变量$bp$来指示，在此状态上的操作包括
+			- $\mathsf{curPpc}(bp)$，提取对于当前pc的预测
+			- $\mathsf{nextPpc}(bp)$，预测下一条指令
+			- $\mathsf{setNextPpc}(bp,pc)$，重置预测于一个已知准确的pc处
+		- 处理器仅仅将预测看作提示，每一次检测到预测失败都会使用$\mathsf{setNextPpc}$重置 predictor
+		-
