@@ -1,3 +1,4 @@
+- ## [[补充：MESI协议]]
 - # 图例
 	- [[#green]]==生词==
 	- ==重点==
@@ -127,9 +128,42 @@
 	- 进行增加并行程度的优化可能会导致同时发送大量请求给内存，短时间内这些请求将难以被快速处理
 	- 对speculative 系统的建模
 		- ![image.png](../assets/image_1663864715206_0.png)
-		- branch predictor的状态由一个原变量$bp$来指示，在此状态上的操作包括
+		- branch predictor的状态由一个元变量$bp$来指示，在此状态上的操作包括
 			- $\mathsf{curPpc}(bp)$，提取对于当前pc的预测
 			- $\mathsf{nextPpc}(bp)$，预测下一条指令
 			- $\mathsf{setNextPpc}(bp,pc)$，重置预测于一个已知准确的pc处
 		- 处理器仅仅将预测看作提示，每一次检测到预测失败都会使用$\mathsf{setNextPpc}$重置 predictor
-		-
+		- $rob$作为reorder-buffer状态的一个元变量，作用在reorder-buffer状态上的操作有：
+			- $\mathsf{insert}(pc,rob)$，将位于pc处的指令压入rob中
+			- $\mathsf{compute}(rob)$，rob内部的计算，返回更新之后的状态和一个可发射的可选speculative load指令
+			- $\mathsf{updLd}(rob,t,v)$，告知buffer内存返回了对某speculative load指令的回应，$t\ne \epsilon$
+			- $\mathsf{commit}(rob)$
+				- 如果积累了足够的内存回应来准确执行该指令，则返回程序顺序中的下一条指令
+					- 同时还会返回该指令对应的pc和下一个pc
+					- 指令也被扩展，记录了相关的内存回应(仅限load指令，信息获取自updLd)和新的架构状态
+				- 否则返回$\epsilon$
+			- $\mathsf{retire}(rob)$，告知rob，commit的指令被成功执行，准备进行rob中下一条指令的commit
+		- 对该LTS一些规则的个人解释：
+			- **Abort**：会什么会出现需要commit的pc和状态指向的下一个应该commit的pc不同的情况？
+				- 这说明分支预测失败，举例：
+					- 上一条commit的指令，是一条分支指令，该分支经过计算之后得出不跳转的结果，因此，该指令commit时，会将pc+4作为新pc
+					- 而如果预测的是要进行跳转，按照reorder中的程序顺序，跳转指令之后紧接着的下一条指令便是跳转之后地址的指令，此时若commit，则得到的pc便不匹配，说明预测失败
+				- 所以预测失败时，将会清空reorder buffer，并修正预测，重新取指
+			- **LdRpGd和LdRpBad**，这两条指令是在提交load指令时会再进行一次verification load，对比两次load的值，如果不同，则也说明预测失败[[$red]]==(?)==
+	- ## 带前瞻执行的LTS的正确性
+		- **ROB的正确性不变式**
+			- ![image.png](../assets/image_1663947411155_0.png)
+			- 总结来说，每当rob commit一条指令，指定下一条要执行的指令并造成了一定的状态改变时，指定的下一条指令必须是在实际程序顺序下的下一条指令，且commit的指令必须造成该指令在程序顺序下相当的状态改变
+		- 定义一个函数**noSpec**，该函数去掉所有的前瞻加载请求和回应(所有tag不是$\epsilon$的load请求和回应，注意只有前瞻加载的请求和回应的tag不是$\epsilon$)
+		- **定理5：** $$P_{so}\sqsubseteq_\mathsf{noSpec}P_{ref}$$
+			- noSpec函数舍弃了所有和前瞻执行有关的label(所有的前瞻加载)
+			- 再加上ROB正确性不变式，可以通过归纳法得出证明
+		- **推论1：** $P^n_{so} \sqsubseteq_{\mathsf{noSpec}^n} P^n_{ref}$
+			- 根据定理5和定理2得到
+- # 基于Cache的内存系统
+	- ![image.png](../assets/image_1663948712676_0.png)
+	- 该内存系统的一个状态包含：
+		- $d,ch,cs,dir,w,dirw,ins,outs$
+			- $ins, outs$的定义与图2$Mm$中的定义相同
+			- $parent(c,p)$表示p是c的parent
+			-

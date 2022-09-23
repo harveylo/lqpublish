@@ -621,7 +621,7 @@
  {:block/name
   "modular deductive verification of multiprocessor hardware designs",
   :block/created-at 1663602223935,
-  :block/updated-at 1663865225029}
+  :block/updated-at 1663950444850}
  {:block/name "mosfet简介",
   :block/created-at 1663233952159,
   :block/updated-at 1663236217426}
@@ -716,7 +716,10 @@
   :block/updated-at 1663824471282}
  {:block/name "sep 23rd, 2022",
   :block/created-at 1663862401317,
-  :block/updated-at 1663862401317}
+  :block/updated-at 1663919461694}
+ {:block/name "sep 24th, 2022",
+  :block/created-at 1663948802599,
+  :block/updated-at 1663948802599}
  {:block/name "sep 3rd, 2022",
   :block/created-at 1662300176415,
   :block/updated-at 1662300176415}
@@ -912,6 +915,9 @@
  {:block/name "自己动手写cpu",
   :block/created-at 1655219480229,
   :block/updated-at 1659235343648}
+ {:block/name "补充：mesi协议",
+  :block/created-at 1663950440051,
+  :block/updated-at 1663950440051}
  {:block/name "计算系统的形式语义",
   :block/created-at 1648662334967,
   :block/updated-at 1648662334967}
