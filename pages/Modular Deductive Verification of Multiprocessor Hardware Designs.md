@@ -1,4 +1,4 @@
-- ## [[补充：MESI协议]]
+- ## [[补充：MSI协议]]
 - # 图例
 	- [[#green]]==生词==
 	- ==重点==
@@ -166,4 +166,67 @@
 		- $d,ch,cs,dir,w,dirw,ins,outs$
 			- $ins, outs$的定义与图2$Mm$中的定义相同
 			- $parent(c,p)$表示p是c的parent
-			-
+	- M，S，I，分别表示了允许修改，允许读和什么都不让做，许可的强度大致为M>S>I
+	- $cs(c,a)$表示cache c中地址a所处的状态
+	- $d(c,a)$表示cache c中地址a的值
+	- $w(c,a)$表示cache c中地址a的正在等待获取的permission 类型
+	- $dir(p,c,a)$表示parent p对于child c中地址a的状态的感知
+	- $dirw(p,c,a)$表示parent p 正在等待child c对于地址a的状态的降级的回应，如果是，则返回将会下降到的状态
+	- 此系统中有三种通信信道
+		- $ch(p,c,\mathsf{RR})$
+			- 承载从父母节点到孩子结点的降级请求和升级回应
+			- 根据先进先出的顺序传递消息，由$::$标记
+		- $ch(c,p,\mathsf{Rq})$
+			- 承载从孩子节点到父母节点的升级请求
+			- 不遵循先进先出，由$\uplus$标记
+		- $ch(c,p,\mathsf{Rp})$
+			- 承载从孩子节点到父母节点的降级回应
+			- 根据先进先出的顺序传递消息，由$::$标记
+	- ## 工作路径
+		- 一个cache可以自行决定将其状态升级，该升级需要向其父母发送升级请求
+		- 其父母根据自己directory的估算和自己的状态cs决定要不要回应该升级请求
+			- 如果cs低于要求升级的等级，则说明该父母无法处理该请求，必须升级cs
+			- 否则，父母节点必须确保若有其余的孩子都和此次升级相同(compatible)(**见定义6**)
+				- 对于不相容的孩子，要送去降级请求
+			- 当cs的升级回应和孩子的降级回应都收到之后，最初的升级请求才能够被处理
+		- ins中的请求只有L1 cache中的相应条目处于合适的状态时才能够被处理，否则L1 cache只能要求对该地址的状态进行升级
+		- 复杂的地方在于，一个cache可以自发降低其条目的状态等级
+			- 这样的设计在于cache可以通过这样的方法来换取可用空间
+			- 这样一来，父母中对于孩子的权限认知可能发生不同步
+				- 可能发生父母要求孩子降级，而孩子的等级已经下降到对应等级
+			- 所以当这样的情况发生时，应该直接丢弃降级请求，来避免无法处理这种降级请求而导致死锁(对应图7中的法则 DropReq)
+	- **定义6**，directory compatible
+		- ![image.png](../assets/image_1664030689376_0.png){:height 45, :width 451}
+	- ## 证明Mc是 store atomic的
+		- **定理6**
+			- $M_c\sqsubseteq M_m$
+		- time指到达指定状态之前的迁移次数(一个全局的迁移计数[[$red]]==(?)==)
+		- **定理7**
+			- A 是 store atomic的($A\sqsubseteq M_m and M_m \sqsubseteq$)，当且仅当对于任何一个收到的load请求$\mathsf{ToM}(t,\mathsf{Ld},a)$，回应$\mathsf{ToP}(t,\mathsf{Ld},v)$在满足以下描述的time $T$送出
+				- $v=v_0$(内存的初始值)，并且没有任何储存请求$\mathsf{ToM}(\mathsf{St},a,v')$已经在时间$T'$被处理，$T'<T$，或者
+				- 存在一个store请求$\mathsf{ToM}(\mathsf{St},a,v)$在时间$T_q$被处理，$T_q<T$，并且没有其他任何store请求$\mathsf{ToM}(\mathsf{St},a,v')$被在时间$T'$被处理$T_q<T'<T$
+			- 说白了就是，如果一个load请求发出，则当对该请求的回应在时间t发出时，要么该内存地址在t之前从来没有被写过，是初始值；要么该内存地址在小于t的某个时间被写为了load回应中的值，且从那一次写入之后到回应发出没有其他任何在该地址的写入被处理
+			- **证明**：使用后续给出的引理
+		- **引理1**
+			- 在任何时刻$T$，如果cache $c$上地址$a$ 满足$cs(c,a)\ge S$，并且$\forall i\cdot dir(c,i,a)\le S$($c$的所有孩子持有的$a$的状态都小于等于$c$持有的$a$的状态)，那么$a$会具有一个**最终值(last value)**，即
+				- $d(c,a)=v_0$，并且 没有任何在$T$之前被处理的store 请求(根据论文表述转述，非原文)
+				- 在$T$之前有一次在时间$T_q$上对某store 指令的处理，将内存的值写为了$v$，且在$$T_q$$和$T$之间，没有处理任何store指令
+			- 使用引理1可以很简单地证明定理7，但证明引理1需要继续引入更多引理
+		- **引理2**
+			- 如果地址$a$地数据正处于转移中，即处于时间$T$，$\forall T\cdot T_s \le T\le T_r$，$T_s$是发送该数据的时间，而$T_r$是接受该数据的时间，则没有任何cache可以处理$a$的store请求并且数据必须通过一个干净的cache发送
+		- **引理3**
+			- 在任何时间，$\forall p,forall c,foarall a\cdot parent(c,p)\Rightarrow\\ cs(c,a)\le dir(p,c,a)\wedge \mathsf{dirCompat}(p,c,dir(p,c,a),a)\wedge dir(p,c,a)\le cs(p,a)$
+		- [[$red]]==**证明最终由coq完成，代码量约为12000行**==
+- # 最终结果
+	- **定理8**
+		- $M_m\sqsubseteq_{\mathsf{noSpec}^n} M_m$
+		- 证明：构造一个identity abstraction function，在traces上递归证明
+	- **定理9**
+		- $P^n_{so}+M_m \sqsubseteq P^n_{ref} +M_m$
+		- 证明：根据定理3，推论1和定理8
+	- **定理10**
+		- $P_{so}^n+M_c\sqsubseteq P_{so}^n+M_m$
+		- 证明：根据定理6，3和$\sqsubseteq$的自反性质
+	- **定理11**
+		- $P_{so}^n+M_c\sqsubseteq SC$
+		- 证明：两次使用定理1来连接定理10，9，4
