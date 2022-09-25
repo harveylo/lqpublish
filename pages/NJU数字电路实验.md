@@ -1,1 +1,2 @@
 - # [[LAB1 MUX]]
+- # [[LAB2 DECODER]]

@@ -1,0 +1,19 @@
+- # 概念
+	- **[[$red]]==Design For Testability==**，可测试性设计
+	- 将特殊结构在**设计阶段**植入电路，以便胜场完成周进行测试
+	- 复杂的集成电路并不好测试，因此DFT可以显著提升集成电路的可测试性，方便展开各种测试
+- # 方法
+	- ## 扫描路径设计(Scan Design)
+		- 扫描路径法是一种针对时序电路芯片的DFT方案.其基本原理是时序电路可以模型化为一个组合电路网络和带触发器(Flip-Flop，简称FF)的时序电路网络的反馈。
+		- Scan 包括两个步骤，**scan replacement**和**scan stitching**，目的是把一个不容易测试的时序电路变成容易测试的组合电路。
+	- ## 内建自测试(Bist)
+		- 在芯片的设计中加入一些额外的自测试电路，测试时只需要从外部施加必要的控制信号，通过运行内建的自测试硬件和软件，检查被测电路的缺陷或故障
+		- ![image.png](../assets/image_1663084312800_0.png)
+	- ## JTAG
+		- Joint Test Action Group，一种国际标准测试协议，IEEE 1149.1兼容
+		- 主要用于芯片内部测试
+		- 在器件内部定义一个TAP(Test Access Port)
+		- 通过专用的JTAG测试工具对内部节点进行测试
+		- JTAG测试允许多个器件通过JTAG接口串联在一起，形成一个JTAG链，能实现对各个器件分别测试
+	- ## ATPG
+		- Automatic Test Pattern Generation
