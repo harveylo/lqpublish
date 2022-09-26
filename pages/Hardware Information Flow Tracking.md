@@ -1,0 +1,91 @@
+- # 图例
+	- [[#green]]==生词==
+	- ==重点==
+	- [[#red]]==疑点==
+	- [[#blue]]==附注==
+- # Introduction
+	- information flow model 最早由 Denning 在文章
+		- Secure Information Flow in Computer Systems (1975)
+		- A lattice model of secure information flow (1976)
+	- 中提出
+	- 一个information flow model一般具有已下特质：
+		- **安全性质**(security property)
+		- **抽象层级**(level of abstraction)
+		- **运算符准确度**(operator precision)
+		- **验证技巧**(verification technique)
+	- 本文根据这些特质形成了对于IFT技巧的分类：
+	- ![image.png](../assets/image_1664179318483_0.png)
+	- ## 分类解释
+		- ### 运算符准确度
+			- class comibing operator 如何更新安全等级？
+			- **conservarive**：IFT 运算符使用一个最小上限[[$red]]==(?)==
+			- **precise**：IFT运算符会考虑数据值的影响
+			- **tradeoffs**：IFT运算符在精确性和计算复杂度之间寻找平衡
+		- ### 安全性质
+			- 支持的安全性质
+			- **机密性(confidentiality)**：阻止敏感信息的泄露
+			- **完整性(integrity)**：禁止不受信实体修改可信数据
+			- **独立性(isolation)**：阻止两个不同可信级别的实体进行通信
+			- **持续时间(Constant time)**：捕捉整个运行时变化下的信息流
+			- **设计完整性(design integrity)**：检测由未归档的设计修改导致的有害信息流
+		- ### 抽象层级
+			- 该技巧适用的抽象层级
+			- **系统(system)**：考虑系统层级的信息流
+			- **算法(algorithmic)**：在高级综合时适用
+			- **架构(architecture)**：在ISA层级可用
+			- **RTL**：RTL设计适用
+			- **门级别(gate)**：门级别的网表适用
+			- **电路(circuit)**：模拟和混合信号硬件设计可用
+		- ### 验证技巧
+			- **模拟(simulation)**：使用模拟工具确定信息流
+			- **Formal verification**：使用形式化方法验证安全性质
+			- **仿真(emulation)**：允许硬件仿真信息流的行为
+			- **虚拟原型(virtual prototyping)**：创造一个硬件的软件版本来测量信息流
+			- **runtime**：在运行时动态追踪信息流
+- # Information flow
+	- [[$red]]==**information flow tracking 和 information flow control 是一个东西?**==
+	- ## information flow model的构成
+		- 一个information flow model $\mathcal{FM}$ 由五部分构成$<\mathcal{N,P,SC,\oplus,\rightarrow}>$
+			- $\mathcal{N} = \{a,b,\cdots\}$，是***储存对象(storage objects)***的集合，储存对象所代表的实际对象取决于抽象层级，可以是文件，分段，寄存器，触发器等
+			- $\mathcal{P}=\{p,q,\cdots\}$，是***过程(processes)***的集合，信息流将会流经这些对象；例如：函数，算术操作和布尔门等
+			- $\mathcal{SC}=\{A,B\}$，是**安全分级(security class)**的集合，标注了数据的机密性
+				- 最经典的例如$\mathsf{secret,unclassified}$。
+				- 安全分级可以被静态绑定给数据对象，也可以在运行过程中依据一些策略根据信息流被动态更新
+				- **AKA. *tag, label* **
+			- $\oplus$，是***分级组合运算符(class combination operator)***
+				- 将一个分级对映射为另一个分级：$\mathcal{SC\times SC \mapsto SC}$
+			- $\rightarrow$ 是一个***流关系(flow relation)***
+				- 定义了什么层级的信息可以流向什么层级
+				- $\rightarrow \subseteq \mathcal{SC}\times \mathcal{SC}$
+				- 信息从A流向B意味着改变A的值有可能改变B的值
+				- $A\rightarrow B$表示层级A的信息被允许流向层级B
+	- ## Storage objects and processes
+		- 在硬件中，储存对象是HDL语言中可以用于接受或储存值的类型，其硬件实现通常包括：(输入输出端口)，（内部连线），**寄存器**，**触发器**和**内存块**；为方便考虑，一般只考虑具有状态的部件，即专注于加粗的部件，忽略括号内的部件
+		- 过程作为应用在储存对象上的操作，可以被定义为寄存器转移操作，有限状态自动机动作，组合函数和其他常见硬件计算模型
+	- ## security calsses and flow relations
+		- 信息流策略定义了数据对象之间可能的关系
+		- 数据对象定义了系统的功能状态，标签确定了系统的安全状态
+		- 可以用$\rightarrow$定义何种标签的数据可以流向何种标签
+		- 也可以用$\nrightarrow$定义禁止两种标签的数据之间进行信息流通
+		- 常用***格(lattice，一种偏序集)***来描述这种流向关系，Denning定义信息流策略为一种有限格
+		- $A \oplus B$表示A和B在有限格$\mathcal{E}$中的**最小上界**，有：
+			- $A \rightarrow A\oplus B, B\rightarrow A\oplus B$
+			- $A \rightarrow C, B\rightarrow C \Longrightarrow A\oplus B \rightarrow C$
+			- 将$\rightarrow$看作一种偏序关系$\sqsubseteq$便很好理解
+			- 事实上，$\rightarrow$就是一种偏序关系
+		- $A\odot B$表示A和B在$\mathcal{E}$中的**最大下界**
+			- $A\odot B = \oplus LSet(A,B)$
+				- $LSet(A,B) = \{C\ |\ C \rightarrow A \mathrm{and} C \rightarrow B\}$
+		- $\mathcal{E}$上最小上界和最大上界又被称为**最大元素**和**最小元素**
+			- $\mathsf{high} = A_1\oplus \ldots \oplus A_n$
+			- $\mathsf{low} = A_1\odot \ldots \odot A_n$
+		- 一个数据流策略可以用一个安全格来建模
+		- 偏序关系定义了流向，操作符定义了两种标签的信息交会之后的标签
+	- ## Noninterference
+		- 可以参见 [[A Perspective on Information-Flow Control]]
+		- 本文的几种表述：
+			- high输入不能够影响low输出
+			- low对象不能从high对象处获得任何数据
+			- 系统在任何相同的low输入上只能输出同样的low输出，不论high输入是什么
+			- 系统在任何low输入序列下的回应都完全一致而不论high输入为何
+		- 如此便确保不可能通过修改low输入的值获取任何high对象的值

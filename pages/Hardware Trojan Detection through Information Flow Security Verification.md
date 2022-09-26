@@ -1,6 +1,5 @@
 - 补充： [[DFT简介]]
 - # Introduction
-  collapsed:: true
 	- 现有的硬件木马检测可以分类为
 		- **结构和功能分析**
 			- 利用一些定量的指标将哪些第激活可能性的信号和门标记出来，这些信号和门很有可能是木马的一部分
@@ -23,7 +22,6 @@
 		- 提出一个全新的3PIPs木马检测框架，该框架基于IFS(information flow security)验证，检测由木马程序造成的IFS政策违法
 		- 检测到木马之后可以提取出triggering condition
 - # 前置知识和定义
-  collapsed:: true
 	- ## 木马的两种类别
 		- **一型**
 			- 使用有效的asset传播通道传递有效载荷
@@ -78,7 +76,6 @@
 		- 作者认为，木马会导致密文输出的敏感性不是0而是一个正整数
 		- 然而sensitivity checking是**可以被绕过**的
 - # TROJAN DETECTION THROUGH IFS VERIFICATION
-  collapsed:: true
 	- [[$blue]]==基于一个观察==：**不管多小的木马，都会改变设计中本来计划的信息流，导致信息流安全策略的违反**
 		- 问题在于如何在没有golden reference model的情况下检测IFS violation
 	- [[$blue]]==给予一个新兴概念==：将asset建模为永0和永1错误来影响ATPG算法来检测错误
@@ -111,7 +108,6 @@
 	- IFS框架利用了现存的测试工具，比如Tetramx，Fastscan，Encounter Test等
 		- 本文使用Tetramax和自行开发的tcl代码来实现IFS验证框架
 	- ## 机密性验证
-	  collapsed:: true
 		- 机密性要求高机密系统中的信息永远不能泄露给未加密的系统
 		- 在本文语境下，意味着一个asset不能从能被攻击者观测到的观测点泄露出去
 		- ### 算法
@@ -147,10 +143,8 @@
 				- 记录有效观测点的所有扇入元素(例如AES下模块中的密文输出接口)
 				- 任何不在这些扇入元素中的观测点都是潜在的泄露点
 	- ## 完整性验证
-	  collapsed:: true
 		- 一个不被信任的控制点，永远不能影响一个受信系统的针脚
 		- ### 算法
-		  collapsed:: true
 			- 接受的输入和机密性的算法相同
 			- 初始化层级为1，为所有FF添加扫描能力
 			- 对于任何asset a，
