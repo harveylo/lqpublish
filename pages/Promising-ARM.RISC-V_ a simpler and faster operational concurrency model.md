@@ -1,4 +1,3 @@
-- ![Pulte 等。 - 2019 - Promising-ARMRISC-V a simpler and faster operati.pdf](../assets/Pulte_等。_-_2019_-_Promising-ARMRISC-V_a_simpler_and_faster_operati_1644850284336_0.pdf)
-- [[PA/R-DIC]]
-- [[PA/R-QA]]
-- TODO 把这篇文章看完
+title:: Promising-ARM/RISC-V: a simpler and faster operational concurrency model
+
+-

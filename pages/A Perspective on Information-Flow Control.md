@@ -132,14 +132,12 @@
 		- 之前单纯只包含一个变量环境$\gamma$的环境$E$扩展为一个三元组$(\gamma,\iota,\omega)$，后两者分辨代表输入值集合和输出值集合
 		- $\dot{v}$：一个decoration，指示一个变量或nothing
 		- Big step的操作语义中一步到位得出最终环境的evaluation被分割为了两种：
-		  collapsed:: true
 			- **terminating evaluation**：该evaluation种的c可以一步完成，执行之后程序就终止：
 				- $\langle c,E_1 \rangle \overset{\dot{v}}{\rightarrow} E_2$
 			- **nonterminating evaluation**：c不是能够一步完成的，执行之后会有剩余的指令：
 				- $\langle c_1,E_1\rangle \overset{\dot{v}}{\rightarrow} \langle c_2, E_2\rangle$
 			- 两种evaluation箭头上的decoration表示可能被观测到的行为
 		- **改进后的语义：**
-		  collapsed:: true
 			- ![image.png](../assets/image_1662395277761_0.png){:height 343, :width 442}
 			- **[[$red]]==个人理解：==**input不断消耗input池中的值，output不停地向output结果中append output
 		- ### Low equivalence
@@ -150,7 +148,6 @@
 			- 在后续的定义中，对于输出满足low equivalence的要求可以去除，因为后续加入的对于公共可观测事件的相等要求隐含了对于公共输出的要求
 		- ### Progress-insensitive vs. progress-sensitive noninterference
 			- **记法**：
-			  collapsed:: true
 				- $R$：指代任意执行上下文$\langle c, E\rangle$ 或者环境$E$
 				- $\langle c,E\rangle \overset{\dot{v}}{\rightarrow} R$：一直执行evaluation直到有可观测的输出出现，或则执行到termination(可以有可观测输出也可以什么都没有)
 				- ![image.png](../assets/image_1662453269986_0.png){:height 80, :width 497}
@@ -160,7 +157,6 @@
 				- 对于observable的定义:
 					- ![image.png](../assets/image_1662454320451_0.png)
 			- **Progress-insensitive noninterference**
-			  collapsed:: true
 				- 满足：在任何两个环境下，如果在一个环境下执行了一步并产生了一些可观测输出，那么要么在另一个环境下diverge silently，要么执行一步并产生同样的相同输出。并且之后的每一步都要满足此要求
 				- $o$：值的列表
 				- 两个值的列表是progress-insensitive indistinguishable的，如果：
@@ -184,7 +180,7 @@
 		- ### Flow sensitivity
 			- compositionality可能会导致将部分安全的程序标记为不安全
 			- 因为PINI和PSNI只关心输出，满足这两个性质的最终环境的low equivalence可能并不成立
-			- 不成立的一大原因是没有规定变量映射可以随控制流改变的语义
+			- 不成立的一大原因是没有规定变**量映射可以随控制流改变的语义
 			- 一个改进就是允许在执行过程中改变变量映射
 			- 允许初始变量映射和最终变量映射不同，这叫做**flow sensitivity**
 			- 引入变量映射的“包含关系（include）”

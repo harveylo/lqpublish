@@ -89,3 +89,88 @@
 			- 系统在任何相同的low输入上只能输出同样的low输出，不论high输入是什么
 			- 系统在任何low输入序列下的回应都完全一致而不论high输入为何
 		- 如此便确保不可能通过修改low输入的值获取任何high对象的值
+	- ## Types of Information Flow Relations
+		- flow relation 定义了不同对象之间能否进行数据交换的安全策略
+		- information flow relation 确定是否存在flow of information
+		- 信息可以通过**功能信道(functional channel)**(布尔门，算数运算符，事物)和**物理信道(physical channel)**(能耗，电磁，热力学)流动
+			- 根据本文描述，物理信道更像是可以用来推测某些信息的侧信道
+		- 功能信道又可以被更进一步被分类为
+			- **显式(explicit)**
+				- 与直接的数据移动有关
+					- 因此又叫**数据流(data flow)**
+			- **隐式(implicit)**
+				- 又上下文相关的执行导致，例如条件语句
+				- 选择器中的sel的值便可能流向mux的输出
+					- 随着抽象层度的降低，这种隐式流也变得越来越显式
+					- ![image.png](../assets/image_1664283974895_0.png)
+				- 换言之：[[$blue]]==**所有的功能信息流，在门级别都是显式的**==
+				- 在越低的抽象层级，分辨显式和隐式流将越困难
+				- 又包含一种更为特殊的**timing flow**
+					- 信息流流过时间相关的行为
+					- ![image.png](../assets/image_1664284757163_0.png)
+					- 不管hit与否，valid都为1，因此hit没有隐式更没有显式流向valid，但是cache读取时间远远小于DRAM，因此通过判断valid被设置的时间可以的值hit的情况，因此hit通过时间流向了valid([[$red]]==感觉像是physical channel？==)
+	- ## Covert and Side Channels
+		- ### 密道
+			- ***储存密道(Covert and Side Channels)***
+				- 将信息传输到一个存储位置，让本来无权限沟通的实体也能交流
+			- ***时间密道(Timing covert channals)***
+				- 将信息通过使用系统资源的方式传送出去，其他进程可以通过观测系统资源的被使用情况来提取信息
+			- 使用本不是为了传递信息的机制来传递信息
+		- ### 侧信道(side channel)
+			- 通过非功能(通常是物理)特征来泄露信息
+			- 包括执行时间，电量消耗，电磁辐射，声响等
+		- 密道和侧信道之间的最大不同是，密道往往是认为构造的用于泄露的信息的通道，而侧信道大多是无意中形成的，但是可能会被利用
+- # Operator Precision
+	- ## Precision of IFT
+		- **Precise IFT**
+			- 令一个函数$O=f(I_1,\ldots,I_n)$，precise IFT标明存在$I_k$到$O$的信息流，当且仅当
+				- $I_k$的值的变化会影响输出的变化
+				- $I_k\rightarrow O \Leftrightarrow f(I_1,\ldots,I_k,\ldots,I_n)\ne f(I_1,\ldots,I_k',\ldots,I_n)$
+		- 精确IFT能够准确地建模出硬件设计中地信息流行为，而非精确IFT可能出现**假阳(标记不存在地信息流)**和**假阴(漏标信息流)**
+		- 大多数非精确IFT都会产生假阳，安全但是会导致硬件设计偏向保守
+		- 时间和资源不足时也会导致非精确IFT[[$red]]==(主动选择还是被动结果?)==
+	- ## imprecise IFT
+		- 认为信息流和组建的功能性以及输入状态无关，只要任何一个输入为$\mathsf{high}$，那输出就是$\mathsf{high}$
+		- 令$\mathcal{L}$为获取标签的函数，对于输出和n个输入，采取最小上界运算符来获取输出label可以描述为：
+			- $\mathcal{L}(O)=\mathcal{L}(I_1)\oplus \cdots\oplus \mathcal{L}(I_n)$
+			- 计算复杂度为$O(2^n)$[[$red]]==(感觉应该是O(n)?)==
+		- 相较于精确IFT计算速度更快，可用于快速侧写潜在的信息流安全脆弱性
+	- ## precise IFT
+		- 既考虑硬件组件的功能性，又考虑输出
+			- $\mathcal{L}(O) = f(I_1,\ldots,I_n,\mathcal{L}(I_1),\ldots,\mathcal{L}(I_n))$
+		- 计算复杂度是$O(2^{2n})$[[$red]]==(?)==
+		- **Gate level information flow tracking** (GLIFT)是最先建立的精确IFT技巧
+		- ![image.png](../assets/image_1664291086668_0.png)
+		- 左边是没有考虑输入数值，使用最小上界的非精确IFT，右边是考虑值的精确IFT
+		- 一些文献综述
+	- ## Precision and complexity tradoffs
+		- 有研究将非精确IFT的假阳归结于静态逻辑冒险，如2位MUX种出现的假阳是因为静态0或静态1逻辑冒险
+		- **[[$blue]]==降低精确度就意味着逐渐忽略输入变量的值==**
+- # Security properties
+	- ***trace property***：单个trace可以满足或违反的property
+	- ***hyperproperties***：在一个trace集合中的所有trace(这种集合也叫system)都要满足某一trace property
+		- 验证hyperproperty的一种方式是保持某些值不变，而便利关键输入的所有输入空间
+		- 例如，验证机密性时，保持所有公共可观测对象为low，它们的数值也不关心，然后标记敏感对象为high，并遍历high的所有可能取值，确保都不会使公共可观测对象变为high
+	- 接下来的部分使用**System Verilog Assertion(SVA)**语言描述性质
+	- ## 机密性(Confidentiality)
+		- 信息不会从敏感对象(high)流向未加密对象(low)
+		- ![image.png](../assets/image_1664294476441_0.png)
+	- ## 完整性(Integrity)
+		- 和机密性非常相似
+		- 将公共访问标记为high，然后确保敏感变量在执行中保持low
+	- ## 独立性(Isolation)
+		- 不同加密层级之间的对象不应该有任何信息交换
+		- 是双向(two-way)性质[[$red]]==(按两种方向各验证一次？)==
+	- ## 常量时间(Constant Time)
+		- 捕捉timing flow的前提是区分logical 和 timing flow
+		- ![image.png](../assets/image_1664295960239_0.png)
+		- 说白了就是不同输入，获取输出的执行时间是**常量时间**，不然就可以通过计时获取信息
+	- ## 设计完整性(Design integrity)
+		- 可以用来检测硬件木马
+		- **感觉还是机密性完整性那一套**
+		- ![image.png](../assets/image_1664296224355_0.png)
+	- ## 常见弱点枚举(CommonWeakness Enumeration)
+		- Common Weakness Enumeration(CWE)是一个设局开发的软硬件弱点种类列表
+		- 大多数都能够用IFT建模
+- # LEVEL OF ABSTRACTION
+	-

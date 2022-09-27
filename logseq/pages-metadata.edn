@@ -1,12 +1,9 @@
 [{:block/name "$blue",
-  :block/created-at 1650717765252,
-  :block/updated-at 1650717765252}
- {:block/name "$green",
-  :block/created-at 1650717756331,
-  :block/updated-at 1650717756331}
+  :block/created-at 1664296050896,
+  :block/updated-at 1664296050896}
  {:block/name "$red",
-  :block/created-at 1650717753097,
-  :block/updated-at 1650717753097}
+  :block/created-at 1664295148840,
+  :block/updated-at 1664295148840}
  {:block/name
   "../assets/collotta_等。_-_2021_-_a_fuzzy_control_system_for_energy‐efficient_wirele_1641815664400_0.pdf",
   :block/created-at 1648662334967,
@@ -35,7 +32,7 @@
   :block/updated-at 1641822577795}
  {:block/name "a perspective on information-flow control",
   :block/created-at 1661960022042,
-  :block/updated-at 1662803517517}
+  :block/updated-at 1664269182249}
  {:block/name "a promising semantics for relaxed-memory concurrency",
   :block/created-at 1644152070699,
   :block/updated-at 1648359031768}
@@ -301,7 +298,7 @@
   :block/updated-at 1659714162592}
  {:block/name "hardware information flow tracking",
   :block/created-at 1664176110089,
-  :block/updated-at 1664203817551}
+  :block/updated-at 1664296425831}
  {:block/name
   "hardware trojan detection through information flow security verification",
   :block/created-at 1664108525609,
@@ -492,9 +489,9 @@
  {:block/name "lab1 mux",
   :block/created-at 1664108525872,
   :block/updated-at 1664108525872}
- {:block/name "lab2 decoder",
+ {:block/name "lab2 decoder & encoder",
   :block/created-at 1664160846802,
-  :block/updated-at 1664210919160}
+  :block/updated-at 1664268121329}
  {:block/name "later",
   :block/created-at 1648662334967,
   :block/updated-at 1648662334967}
@@ -656,9 +653,9 @@
   :block/created-at 1648662334966,
   :block/updated-at 1648662334966}
  {:block/name
-  "promising-arm/risc-v_ a simpler and faster operational concurrency model",
-  :block/created-at 1644850279561,
-  :block/updated-at 1648912662998}
+  "promising-arm/risc-v: a simpler and faster operational concurrency model",
+  :block/created-at 1664271090491,
+  :block/updated-at 1664271090491}
  {:block/name "pvwk01",
   :block/created-at 1647477191329,
   :block/updated-at 1647477536585}
@@ -734,7 +731,10 @@
   :block/updated-at 1664213001581}
  {:block/name "sep 27th, 2022",
   :block/created-at 1664208003386,
-  :block/updated-at 1664208003386}
+  :block/updated-at 1664296461549}
+ {:block/name "sep 28th, 2022",
+  :block/created-at 1664294401087,
+  :block/updated-at 1664294401087}
  {:block/name "sep 3rd, 2022",
   :block/created-at 1662300176415,
   :block/updated-at 1662300176415}
