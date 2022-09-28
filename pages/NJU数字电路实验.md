@@ -1,2 +1,3 @@
 - # [[LAB1 MUX]]
 - # [[LAB2 DECODER & ENCODER]]
+- # [[LAB3 ADDER & ALU]]

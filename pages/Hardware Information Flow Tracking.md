@@ -173,4 +173,94 @@
 		- Common Weakness Enumeration(CWE)是一个设局开发的软硬件弱点种类列表
 		- 大多数都能够用IFT建模
 - # LEVEL OF ABSTRACTION
-	-
+	- ![image.png](../assets/image_1664363523916_0.png)
+	- electronic system level (ESL) ->High level synthesis (HLS) tools -> RTL -> Gate level
+		- 细节越来越多，越复杂
+	- **系统层级**
+		- 优点：找出的问题修复成本低
+		- 缺点：缺少实现细节，只能做出一些很保守的假设
+	- **架构层级**
+		- 优点：有足够的设计信息用于验证按群相关的软硬件之间的干扰
+		- 缺点：准确找出显式流和计时信道较难
+	- **RTL**
+		- 优点：准确的时钟周期天然方便了寻找计时信息流
+		- 缺点：复杂的语义特点(各种控制语句)使得IFT分析举步维艰
+	- **门级别**
+		- 优点：所有的信息流到此级别都成为了显式流，使得IFT分析复杂度下降
+		- 缺点：规模太大，模拟和验证同样的性质比RTL慢一到两个数量级
+	- 不同的层级适合验证不同的安全性质
+	- ![image.png](../assets/image_1664348223103_0.png)
+	- ## System Level
+		- dynamic information flow tracking(DIFT)
+		- 有的技巧应用在运行时，有的应用在静态分析
+		- ### IFT Through Co-processing Unit
+			- 介绍了一系列软硬件工具
+		- ### IFT for Verifying and Enforcing SoC Security
+			- 介绍了一些列技巧和相关工作
+		- ### IFT for Enforcing Embedded System Security
+			- 一系列工作总结
+	- ## Algorithmic Level
+		- 介绍了三种架构(工具，方法论)
+	- ## Architecture Level
+		- ### Capability Vector Architecture
+			- 一种实现information flow control的方式
+			- 每一种操作都需要请求相关的capability vector，只有当相关的capability vector存在时才能执行操作
+			- 如，一条将数据从A移动到B的指令，会请求capability vector <(A,READ) and (B,WRITE)>
+		- ### DIFT and Related Architectures
+			- 使用协处理器完成IFC，例如用一个处理器来负责检查每一条指令的tag check，如果检查失败，会抛出异常
+			- **Runtime Information Flow Engine (RIFLE) **
+				- 将程序的二进制源码从常规ISA翻译为信息流安全的ISA
+				- 跑在具有IFT能力的硬件上，和负责实施安全策略的安全强化操作系统交互
+			- 接下来介绍了多种可以辅助DIFT硬件和软件架构，以及为了降低追踪开销而做出的各种努力
+		- ### Execution Lease Architectures
+			- execution lease 是 一种lease architecture，能够将执行的上下文隔离在一定范围内，因此副作用也被限制
+		- ### IFT on Multi-core Architectures
+			- 由于在多核处理器中，数据和元数据的处理被打撒为不同的顺序，如何维系DIFT在该环境下的正确性很有挑战性
+			- **ShadowReplica**使用一个shadow thread和一个空闲的CPU核心来解耦执行和数据流追踪
+				- 两个过程通过共享数据结构来通信
+			- **SMT-based IFT (SIFT)**
+				- Simultaneous Multithreading(SMT)
+				- 一个执行在空闲上线问空间中的单独的线程来执行taint propagation和policy checking
+		- ### IFT on RISC-V Architectures
+			- **Programmable Unit for Metadata Processing (PUMP)**，经过强化之后可以执行IFT操作的RISC指令集
+				- 会检查每一条指令的输入的tag，判断操作是否可执行并确定输出的tag
+		- ### IFT for Speculative Architecture
+			- **Speculative Taint Tracking (STT)**
+				- 使用类似于DIFT的方式追踪结果的流，直到遇到密道
+				- 自动untaint所有退出speculative状态的指令来增加性能
+	- ## RTL
+		- ### State Machine Based IFT Language
+			- 介绍了两种支持IFT的HDL语言
+				- Caisson
+				- Sapper(改进了caisson的一些缺点)
+		- ### PCH and Coq Based IFT
+			- 将IFT结成到proof carrying hardware (PCH) framework
+			- 定义一些verilog到coq的法则，直接自动化verilog到coq模型的转化
+		- ### SecVerilog and SecChisel
+			- 分别是Verilog和Chisel的强化版
+		- ### RTLIFT
+			- 可以捕捉所有逻辑流
+			- 挑战在于如何找到各种复杂控制语义中的隐式流
+				- 可以转换为MUX网络来完成
+			- 允许可变的精度
+			- 介绍了两种可以用于找到计时信道的工具Clepsydra 和VeriSketch
+		- ### Control and Data FlowGraph Based RTL IFT
+			- High-level information flow tracking (HLIFT)用于检测硬件木马
+			- 通过将RTL设计的High-level information flow tracking (HLIFT)和标准库对比来检测木马
+	- ## 门级别
+		- ### GLIFT
+			- 一个被标记为high的位的值不会影响最终结果，所以可以减少位的状态到三种,low0,low1,high*
+			- 将三种状态分别编码为00,11,01(或10)，可以在原有的电路上通过较小的改动实现IFT
+		- ### Multi-level, Multi-valued and Multi-flowGLIFT
+			- 多安全层级，线性安全层级和非线性安全层级
+			- 多值（不只0，1，还有x,z）
+			- 多流：有多少输入同时影响一个输出(how many key or random number bits are affecting a target bit at the same time)
+		- ### GLIFT Enhanced with Timing Label
+			- Timing-only flow定义为，一组输入只会影响输出的时间
+		- ### Gate Level IFTThrough Structural Checking
+			- 核心是structural checking，但是这是个啥
+	- ## Circuit Level
+		- 将IFT推向模拟或者混合信号设计
+		- **难点：** 如何使用连续的模拟信号编码label，如何精确地确定输出的label
+		- VeriCoq也被扩展来支持追踪混合信号领域的敏感信号
+		-

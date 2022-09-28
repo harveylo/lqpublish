@@ -24,7 +24,7 @@
 	- ![image.png](../assets/image_1664256981119_0.png)
 	- 共阴极若某一管的输入为一则两起，共阳极相反
 - # 补充
-	- verilator 默认会在综合verilog文件时将若有的warning当作error，使用``-Wno-lint``选项不再提示warning
+	- verilator 默认会在综合verilog文件时[[$red]]==**会在遇到warning时抛出error**==，使用``-Wno-lint``选项不再提示linter相关的warning，使用``-Wno-fatal``让其不在遇到warning时停止
 	- nvboard中的七段管中的参数，A对应0，G对应7
 	- ## BCD码
 		- 用二进制来编码十进制数
