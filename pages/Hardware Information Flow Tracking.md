@@ -263,4 +263,71 @@
 		- 将IFT推向模拟或者混合信号设计
 		- **难点：** 如何使用连续的模拟信号编码label，如何精确地确定输出的label
 		- VeriCoq也被扩展来支持追踪混合信号领域的敏感信号
-		-
+- # VERIFICATION TECHNIQUE
+	- 分为**静态(模拟，形式化方法，仿真，虚拟原型)**和**动态(增强原有硬件)**两种
+	- **形式化验证**是[[$blue]]==完全==的，但是[[$red]]==状态爆炸==，验一些IP和小的子系统还行
+	- **虚拟原型**允许对可能的信息流违反做[[$blue]]==快速==但是[[$red]]==保守==的侧写(大量假阳[[$red]]==(?)==)
+	- **运行时IFT**可以[[$blue]]==监控真实的信息流==，但是导致面积和性能的损失
+	- ## 模拟
+		- 类似于功能验证模拟，都是给出通过testbench，给出特定的测试序列，观测结果
+			- 功能验证验证功能的正确性，IFT simulation观测是否违反了一些安全策略
+		- 有的IFT技巧使用标准的硬件描述语言来描述其信息流模型（GLIFT，RLTIFT），这些技巧可以使用开源的EDA模拟工具执行
+		- 也有商业IFT模拟工具
+	- ## 形式化验证
+		- 使用equivalence checking, SAT solving, theorem proving, or type checking等形式化方法来验证信息流性质
+		- 优点：可靠
+		- 缺点：状态爆炸，且非常依赖于巧妙设计的安全性质
+		- ### Equivalence Checking
+			- 将key information 分别置为不同的值，观察输出是否相同[[$red]]==(?)==
+		- ### SAT 求解器
+			- 将性质转换为约束，调用求解器求解
+			- 当策略被违反时会给出反例，帮助硬件设计
+			- 缺点：验证时序逻辑电路比较困难
+			- 一款商用软件：Mentor Graphics Questa Formal
+		- ### 定理证明
+			- 有工具可以将HDL转化为Coq
+			- 仍然需要大量人类操作
+		- ### 类型检查
+			- 在类型系统中加入classified 和 unclassified两种类型，观察是否有类型冲突
+			- SecVerilog提供在编译时检查信息流的工具
+	- ## 仿真
+		- 速度快，软硬件安全协同验证[[$red]]==(?)==
+		- 一个硬件安全平台Raddix-M，可以验证固件的安全性
+	- ## 虚拟原型
+		- 创建一个不同硬件组件的抽象模型
+	- ## 运行时
+		- 用专用的硬件来检车和控制运行时的信息流
+		- 通常在RTL即以上层级，越低层级执行IFT的成本就越大
+		- 需要额外的label内存和IFT逻辑，或者在架构层面，额外的propagation unit 和 协处理器
+		- 不存在状态爆炸，但是增加资源消耗以及性能开销
+	- ![image.png](../assets/image_1664465325674_0.png)
+- # FUTURE RESEARCH DIRECTIONS AND CHALLENGES
+	- ## Automated Security Property Generation
+		- 现阶段给出一个安全性质往往需要形式化验证，安全，被验证硬件设计相关的知识，相当困难并且耗时
+		- 两大方向，随后介绍
+	- ## Parameterized Security Properties
+		- 开发一种security Verification IP (VIP)
+		- 安全性质模板，根据性质参数自动构建性质
+		- 是可行的，但是目前(2021)相关研究还有待进一步开展
+	- ## Hardware Access Control Policy Language
+		- 将描述的性质编译为现有硬件IFT工具可以使用的性质
+		- 有人做过芯片外内存控制器的语言
+	- ## Novel Information Flow Models
+		- 需要更加定量的IF模型来刻画能耗，故障，电磁辐射等侧信道
+		- 已经有人做过定量信息流模型的初始工作
+	- ## Automated Debugging
+		- 目前的IFT工具最多给出一个反例，难以debug
+		- 如果能提供错误定位之类的功能，将能大大减轻工作量
+	- ## Firmware IFT
+		- 固件的攻击价值很高，通常包含或控制一些敏感信息
+		- 对固件进行IFT要求跨软硬件的协同
+		- 有人做了一些初始的研究工作
+	- ## Analog/Mixed-signal Hardware IFT
+		- 更下一层楼，到模拟信号层级
+		- 在模拟信号上进行IFT的主要挑战是标签的编码
+		- 已经有人做出了初始尝试
+	- ## Relationship between IFT and Traditional Function Hardware Verification and Test
+		- 将一些经典的问题(switching circuit theory)和IFT统一起来，开发一个统一的验证模型
+		- controllability, observability, X-propagation, and fault propagation
+		- 最近有人做出了初步尝试，证明了IFT可以解决taint和x-propagation问题
+		- 解决这个问题可以减少建模次数和工作量，增加模型复用率
