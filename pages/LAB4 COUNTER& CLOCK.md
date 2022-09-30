@@ -1,0 +1,8 @@
+- # 加法计数器
+	- 利用触发器可以构成简单的计数器
+	- ![image.png](../assets/image_1664545940104_0.png)
+	- ![image.png](../assets/image_1664545951173_0.png)
+- # 减法计数器
+	- ![image.png](../assets/image_1664555001319_0.png)
+	- ![image.png](../assets/image_1664555008950_0.png)
+	-
