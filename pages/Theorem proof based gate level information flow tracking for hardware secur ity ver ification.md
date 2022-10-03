@@ -27,4 +27,33 @@
 - # Related work
 	- 一句话，除了定理证明，别的方法都不好使(介绍了模拟，SAT，类型检查和定理证明在硬件security verification方面的发展和优缺点)
 - # Preliminaries
-	-
+	- ## GLIFT
+		- **fine-granularity**(精确IFT)
+		- 使用的安全等级模型为两级，**low, high**，使用0，1来编码
+		- 采用的label计算不是简单的或(有效，但是**保守**，容易导致大量假阳)，而是更为精确的计算方式
+		- 例：
+			- ![image.png](../assets/image_1664786263872_0.png)
+			- 上图中的选择器，At，Bt，St，Ot分别是A,B,S,O的label位
+			- $O_t = S\cdot A_t + \overline{S} \cdot B_t + (A\oplus B) \cdot S_t + A_t\cdot S_t + B_t \cdot S_t$[[$red]]==**(?)**==
+				- **解释**：
+					- 当S为1时，O会采用A的值，因此此时O的label等于A的label
+					- 当S为0时，O会采用B的值，因此此时O的label等于B的label
+					- 当A和B的值不相同(异或在AB不相同时为1)时，则可以通过O的输出推断出S的值，因此此时O的label 等于S的label、
+					- [[$red]]==最后两项无法理解==
+						- **解答**：[[$blue]]==时时牢记：在不改变low输入的情况下，不能产生任何可观测(low)的输出变化==
+						- 所以，当A和S都是high的时候，B保持不变，输出也可能发生变化，因此O必须是high的，不然就会产生IFT安全策略的违反
+	- ## Theorem proving based formal verification
+		- 将电路(HDL, 网表)转化为形式化电路(公理和假设)
+		- 将specification描述为Theorem
+		- ![image.png](../assets/image_1664794971582_0.png)
+- # Design methodology
+	- ![image.png](../assets/image_1664795731608_0.png){:height 469, :width 434}
+	- 验证方法包括两部分，**脆弱性分析**和**触发条件推导**
+	- 提出了专门用与描述硬件的语言
+- # Theorem proof based gate level information flow tracking
+	- ## Precise IFT Model
+		- $\mathtt{hi}$：逻辑1，secret/untrusted
+		- $\mathtt{lo}$：逻辑0，unclassified/trusted
+		- 例子：
+			- ![image.png](../assets/image_1664797678032_0.png){:height 240, :width 314}
+			- $O_t = A\cdot B_t + B \cdot A_t + A_t \cdot B_t$

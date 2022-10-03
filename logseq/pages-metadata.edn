@@ -506,7 +506,7 @@
   :block/updated-at 1664470319774}
  {:block/name "lab4 counter& clock",
   :block/created-at 1664544363216,
-  :block/updated-at 1664555009419}
+  :block/updated-at 1664778983401}
  {:block/name "later",
   :block/created-at 1648662334967,
   :block/updated-at 1648662334967}
@@ -655,6 +655,9 @@
  {:block/name "oct 2nd, 2022",
   :block/created-at 1664698997242,
   :block/updated-at 1664713178072}
+ {:block/name "oct 3rd, 2022",
+  :block/created-at 1664773345028,
+  :block/updated-at 1664779405709}
  {:block/name "pa",
   :block/created-at 1648662334967,
   :block/updated-at 1648662334967}
@@ -792,7 +795,7 @@
  {:block/name
   "theorem proof based gate level information flow tracking for hardware secur ity ver ification",
   :block/created-at 1664544327357,
-  :block/updated-at 1664544327357}
+  :block/updated-at 1664798943669}
  {:block/name "todo",
   :block/created-at 1648662334968,
   :block/updated-at 1648662334968}
