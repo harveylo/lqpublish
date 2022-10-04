@@ -1,6 +1,7 @@
 - 补充：[[DFT简介]]
 - 补充：[[数字集成电路设计流程简介]]
 - 补充： [[mosfet简介]]
+- 补充：[[CDMA简介]]
 - # Hardware trojan and its detection
 	- hardware trojan 由两部分构成
 		- trigger
