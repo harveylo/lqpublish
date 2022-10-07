@@ -10,6 +10,9 @@
  {:block/name "$blue",
   :block/created-at 1664296050896,
   :block/updated-at 1664296050896}
+ {:block/name "$green",
+  :block/created-at 1665143835834,
+  :block/updated-at 1665143835834}
  {:block/name "$red",
   :block/created-at 1664295148840,
   :block/updated-at 1664295148840}
@@ -29,6 +32,9 @@
   "../assets/tian_等。_-_2019_-_a_multi-hop_routing_protocol_for_video_transmissio_1641822575709_0.pdf",
   :block/created-at 1648662334967,
   :block/updated-at 1648662334967}
+ {:block/name "2022-10-7论文讨论",
+  :block/created-at 1665143835234,
+  :block/updated-at 1665143924044}
  {:block/name "a",
   :block/created-at 1648662334966,
   :block/updated-at 1648662334966}
@@ -48,7 +54,7 @@
  {:block/name
   "an improved aes hardware trojan benchmark to validate trojan detection schemes in an asic design flow",
   :block/created-at 1663073936550,
-  :block/updated-at 1664895118823}
+  :block/updated-at 1665138728778}
  {:block/name "apr 10th, 2022",
   :block/created-at 1649553147233,
   :block/updated-at 1649553147233}
@@ -310,11 +316,11 @@
   :block/updated-at 1659714162592}
  {:block/name "hardware information flow tracking",
   :block/created-at 1664176110089,
-  :block/updated-at 1664469163311}
+  :block/updated-at 1665157878593}
  {:block/name
   "hardware trojan detection through information flow security verification",
   :block/created-at 1664108525609,
-  :block/updated-at 1664108525609}
+  :block/updated-at 1665149387677}
  {:block/name
   "hls__collotta_等。_-_2021_-_a_fuzzy_control_system_for_energy‐efficient_wirele_1641815664400_0",
   :block/created-at 1648662334968,
@@ -645,7 +651,7 @@
  {:block/name
   "modular deductive verification of multiprocessor hardware designs",
   :block/created-at 1664108525790,
-  :block/updated-at 1664108525790}
+  :block/updated-at 1665157191951}
  {:block/name "mosfet简介",
   :block/created-at 1664108527657,
   :block/updated-at 1664108527657}
@@ -676,6 +682,9 @@
  {:block/name "oct 6th, 2022",
   :block/created-at 1665043149811,
   :block/updated-at 1665043418670}
+ {:block/name "oct 7th, 2022",
+  :block/created-at 1665131083599,
+  :block/updated-at 1665131465689}
  {:block/name "pa",
   :block/created-at 1648662334967,
   :block/updated-at 1648662334967}
@@ -1005,7 +1014,7 @@
   :block/updated-at 1664108528045}
  {:block/name "论文阅读",
   :block/created-at 1641815492082,
-  :block/updated-at 1664176110091}
+  :block/updated-at 1665131743368}
  {:block/name "课堂笔记",
   :block/created-at 1645696984989,
   :block/updated-at 1660548493043}

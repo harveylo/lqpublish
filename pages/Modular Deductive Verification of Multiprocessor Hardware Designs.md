@@ -14,6 +14,7 @@
 		- Bluespec由MIT自己开发
 		- Bluespec将硬件建模为一个迁移系统的原子规则
 		- 有商用编译器将Bluespec转变为其他语言代码（例如verilog）
+	- [[$red]]==**sequential consistency 和 store atomic之间有没有联系？**==
 - # Related work
 	- 前人对于多处理器。多层级内存系统的验证集中于model checking
 	- 因此陷入了model checking的通病：状态爆炸
@@ -49,7 +50,7 @@
 		- **定义4**，通信组合（communicating composition）
 			- 记作$A+B$
 			- $A,B$具有相同的的标签集合$\mathcal{L}$，状态机和分别为$\mathcal{S}_A,\mathcal{S}_B$
-			- $A,B$的通信组合记为$A+B$，新的LTS的状态为$\mathcal{S}_A\times \mathcal{S}_B$，标签集合为空，迁移规则如下：
+			- $A,B$的通信组合记为$A+B$，新的LTS的状态为$\mathcal{S}_A\times \mathcal{S}_B$，**标签集合为空**，迁移规则如下：
 			- ![image.png](../assets/image_1663680930704_0.png)
 	- ## Refinement between LTSes
 		- **定义5**，trace-refines
@@ -66,7 +67,7 @@
 		- **定理 1**
 			- $\sqsubseteq$ 是**自反**和**传递**的
 		- **定理2**
-			- 如果$sqsubseteq_f B$，则$A^n\sqsubseteq_{f^n} B^n$
+			- 如果$A \sqsubseteq_f B$，则$A^n\sqsubseteq_{f^n} B^n$
 			- 若$f(\ell) = \ell'$，则 $f^n(i,\ell)=(i,\ell')$
 			- 若$f(\ell)=\epsilon$，则 $f^n(i,\ell) = \epsilon$
 		- **定理3**
@@ -76,7 +77,7 @@
 		- **处理器(Processor)**
 		- **本地缓存(Local buffer)**
 		- **内存子系统(memory subsystem)**
-	- 哪怕在若内存模型中，读操作的原子性仍然是需要满足的，读操作的原子性非常重要，是顺序一致性的保证[[$red]]==(?)==
+	- 哪怕在弱内存模型中，读操作的原子性仍然是需要满足的，读操作的原子性非常重要，是顺序一致性的保证[[$red]]==(?)==
 	- 一个简单的内存建模
 		- ![image.png](../assets/image_1663851777603_0.png)
 		- Mm的状态为一个三元组$(ins,outs,m)$，分别为来自处理器的输入buffer，送往处理器的输出buffer和地址到值的映射
@@ -136,7 +137,10 @@
 		- $rob$作为reorder-buffer状态的一个元变量，作用在reorder-buffer状态上的操作有：
 			- $\mathsf{insert}(pc,rob)$，将位于pc处的指令压入rob中
 			- $\mathsf{compute}(rob)$，rob内部的计算，返回更新之后的状态和一个可发射的可选speculative load指令
+				- 如果是load指令，那么在存入ROB的同时直接执行load
+				- 否则仅仅只是放入ROB
 			- $\mathsf{updLd}(rob,t,v)$，告知buffer内存返回了对某speculative load指令的回应，$t\ne \epsilon$
+				- 所以t仅仅只是为了区分需要送达在rob中的哪一条load指令，可能是rob的编号
 			- $\mathsf{commit}(rob)$
 				- 如果积累了足够的内存回应来准确执行该指令，则返回程序顺序中的下一条指令
 					- 同时还会返回该指令对应的pc和下一个pc
@@ -149,7 +153,7 @@
 					- 上一条commit的指令，是一条分支指令，该分支经过计算之后得出不跳转的结果，因此，该指令commit时，会将pc+4作为新pc
 					- 而如果预测的是要进行跳转，按照reorder中的程序顺序，跳转指令之后紧接着的下一条指令便是跳转之后地址的指令，此时若commit，则得到的pc便不匹配，说明预测失败
 				- 所以预测失败时，将会清空reorder buffer，并修正预测，重新取指
-			- **LdRpGd和LdRpBad**，这两条指令是在提交load指令时会再进行一次verification load，对比两次load的值，如果不同，则也说明预测失败[[$red]]==(?)==
+			- **LdRpGd和LdRpBad**，这两条指令是在提交load指令时会再进行一次verification load，对比两次load的值，如果不同，则说明提前执行该load指令是错误的，在程序顺序上可能在该指令之前发生了对同一个地址的store，因而说明预测有误，因此采取最新的verification load的值来实际执行该指令，并清空给ROB，纠正分支预测
 	- ## 带前瞻执行的LTS的正确性
 		- **ROB的正确性不变式**
 			- ![image.png](../assets/image_1663947411155_0.png)
@@ -215,7 +219,7 @@
 		- **引理2**
 			- 如果地址$a$地数据正处于转移中，即处于时间$T$，$\forall T\cdot T_s \le T\le T_r$，$T_s$是发送该数据的时间，而$T_r$是接受该数据的时间，则没有任何cache可以处理$a$的store请求并且数据必须通过一个干净的cache发送
 		- **引理3**
-			- 在任何时间，$\forall p,forall c,foarall a\cdot parent(c,p)\Rightarrow\\ cs(c,a)\le dir(p,c,a)\wedge \mathsf{dirCompat}(p,c,dir(p,c,a),a)\wedge dir(p,c,a)\le cs(p,a)$
+			- 在任何时间，$\forall p,\forall c,\forall a\cdot parent(c,p)\Rightarrow\\ cs(c,a)\le dir(p,c,a)\wedge \mathsf{dirCompat}(p,c,dir(p,c,a),a)\wedge dir(p,c,a)\le cs(p,a)$
 		- [[$red]]==**证明最终由coq完成，代码量约为12000行**==
 - # 最终结果
 	- **定理8**

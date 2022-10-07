@@ -67,7 +67,7 @@
 		- 数据对象定义了系统的功能状态，标签确定了系统的安全状态
 		- 可以用$\rightarrow$定义何种标签的数据可以流向何种标签
 		- 也可以用$\nrightarrow$定义禁止两种标签的数据之间进行信息流通
-		- 常用***格(lattice，一种偏序集)***来描述这种流向关系，Denning定义信息流策略为一种有限格
+		- 常用***格(lattice，一种偏序集)***来描述这种流关系，Denning定义信息流策略为一种有限格
 		- $A \oplus B$表示A和B在有限格$\mathcal{E}$中的**最小上界**，有：
 			- $A \rightarrow A\oplus B, B\rightarrow A\oplus B$
 			- $A \rightarrow C, B\rightarrow C \Longrightarrow A\oplus B \rightarrow C$
@@ -80,7 +80,7 @@
 			- $\mathsf{high} = A_1\oplus \ldots \oplus A_n$
 			- $\mathsf{low} = A_1\odot \ldots \odot A_n$
 		- 一个数据流策略可以用一个安全格来建模
-		- 偏序关系定义了流向，操作符定义了两种标签的信息交会之后的标签
+		- 偏序关系定义了流，操作符定义了两种标签的信息交会之后的标签
 	- ## Noninterference
 		- 可以参见 [[A Perspective on Information-Flow Control]]
 		- 本文的几种表述：
