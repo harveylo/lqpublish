@@ -510,6 +510,9 @@
  {:block/name "lab4 counter& clock",
   :block/created-at 1664544363216,
   :block/updated-at 1664778983401}
+ {:block/name "lab5 register file & memory",
+  :block/created-at 1665043150219,
+  :block/updated-at 1665043150219}
  {:block/name "later",
   :block/created-at 1648662334967,
   :block/updated-at 1648662334967}
@@ -646,9 +649,12 @@
  {:block/name "mosfet简介",
   :block/created-at 1664108527657,
   :block/updated-at 1664108527657}
+ {:block/name "nju palab",
+  :block/created-at 1665043150531,
+  :block/updated-at 1665043150531}
  {:block/name "nju数字电路实验",
   :block/created-at 1664108527701,
-  :block/updated-at 1664544363216}
+  :block/updated-at 1664953986871}
  {:block/name "now",
   :block/created-at 1648662334969,
   :block/updated-at 1648662334969}
@@ -663,10 +669,13 @@
   :block/updated-at 1664857832917}
  {:block/name "oct 4th, 2022",
   :block/created-at 1664857810869,
-  :block/updated-at 1664857852466}
+  :block/updated-at 1664953849782}
  {:block/name "oct 5th, 2022",
   :block/created-at 1664899201252,
-  :block/updated-at 1664899201252}
+  :block/updated-at 1664953863700}
+ {:block/name "oct 6th, 2022",
+  :block/created-at 1665043149811,
+  :block/updated-at 1665043418670}
  {:block/name "pa",
   :block/created-at 1648662334967,
   :block/updated-at 1648662334967}
@@ -676,6 +685,9 @@
  {:block/name "pa/r-qa",
   :block/created-at 1648662334968,
   :block/updated-at 1648662334968}
+ {:block/name "pa1",
+  :block/created-at 1665043150221,
+  :block/updated-at 1665052213594}
  {:block/name "pcie简介",
   :block/created-at 1659284323347,
   :block/updated-at 1659284470634}
@@ -976,6 +988,9 @@
  {:block/name "补充：msi协议",
   :block/created-at 1664108527321,
   :block/updated-at 1664108527321}
+ {:block/name "补充：编程模型",
+  :block/created-at 1665043440645,
+  :block/updated-at 1665046235435}
  {:block/name "计算系统的形式语义",
   :block/created-at 1648662334967,
   :block/updated-at 1648662334967}
@@ -1002,4 +1017,4 @@
   :block/updated-at 1646121863019}
  {:block/name "预学习",
   :block/created-at 1664108527715, 
-  :block/updated-at 1664620706102}]
+  :block/updated-at 1664968916058}]

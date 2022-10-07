@@ -1,0 +1,11 @@
+- ## [[补充：编程模型]]
+- **调用多线程编译** 在make后使用-j，可以指定使用多少个线程来进行编译，如``-j2``
+	- 使用``lscpu``查看有几核+
+- **使用ccache降低编译时间**
+	- ccache可以把每一次编译产生的文件储存起来，当下一次进行编译，而文件没有产生变化时，能极大提升编译性能
+	- 在环境变量的``PATH``中增添``/usr/lib/ccache``
+- [RISC-V ELF psABI Document](https://github.com/riscv-non-isa/riscv-elf-psabi-doc)
+- x86中，程序计数器叫EIP(extended instruction pointer)
+- 由于一台电脑可以看作一个状态机，而一个程序加载进内存以后就是确定了一个唯一的状态，在该种太后的迁移方式也是唯一确定的
+- 某种程度上来说，程序也是个状态机
+-
