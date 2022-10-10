@@ -37,7 +37,7 @@
 		- 使用的安全等级模型为两级，**low, high**，使用0，1来编码
 		- 采用的label计算不是简单的或(有效，但是**保守**，容易导致大量假阳)，而是更为精确的计算方式
 		- 例：
-			- ![image.png](../assets/image_1664786263872_0.png)
+			- ![image.png](../assets/image_1664786263872_0.png){:height 265, :width 386}
 			- 上图中的选择器，At，Bt，St，Ot分别是A,B,S,O的label位
 			- $O_t = S\cdot A_t + \overline{S} \cdot B_t + (A\oplus B) \cdot S_t + A_t\cdot S_t + B_t \cdot S_t$[[$red]]==**(?)**==
 				- **解释**：
@@ -115,7 +115,6 @@
 				  end.
 				  ```
 				- t应该表示的时间戳
-				-
 			- 到目前为止还无法描述时序逻辑，加入DFF的相关定义来补足对于时序逻辑的表达能力
 				- ```
 				  Definition DFF (I CLK Q:bus) := fun t:nat => Q (S t) = I t.
@@ -151,9 +150,9 @@
 			- 编写了一个python converter
 	- ## 定理生成和证明
 		- 使用公理来给需要标记的为进行标记
-		- $\mathtt{Axiom\ key_taint:forall t:nat, key_t t = hi.}$
+		- $\mathtt{Axiom\ key\_taint:forall t:nat, key_t t = hi.}$
 		- 使用定理来指出不应该泄露信息的输出位
-		- $\mathtt{Theorem\ no_leaking_information:O_t t = lo}.$
+		- $\mathtt{Theorem\ no\_leaking\_information:O_t t = lo}.$
 		- [[$red]]==**纯手工证明？**==
 	- ## 触发条件推导
 		- 反向推理，根据每一个门来写一个引理或命题来反向证明
@@ -196,6 +195,7 @@
 			- 当观测到一个特定的plain-text时激活
 			- 通过一个RF天线泄露信息
 			- 声明key的label为hi，然后要证明cipher输出为hi，antena的输出应该为lo
+	- **[[$red]]==检测过程感觉是把木马看作一个白箱，什么细节都知道，那当然好检测==**
 	- [[$red]]==**看完这一节感觉仍然不知所云......**==
 	- [[$red]]==完全没有了解到其具体是怎样通过定理证明一步步证明性质成立与否的==
 	- [[$red]]==建模方式感觉有点awkward..==

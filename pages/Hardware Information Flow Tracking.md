@@ -108,7 +108,7 @@
 				- 又包含一种更为特殊的**timing flow**
 					- 信息流流过时间相关的行为
 					- ![image.png](../assets/image_1664284757163_0.png)
-					- 不管hit与否，valid都为1，因此hit没有隐式更没有显式流向valid，但是cache读取时间远远小于DRAM，因此通过判断valid被设置的时间可以的值hit的情况，因此hit通过时间流向了valid([[$red]]==感觉像是physical channel？==)
+					- 不管hit与否，valid都为1，因此hit没有隐式更没有显式流向valid，但是cache读取时间远远小于DRAM，因此通过判断valid被设置的时间可以的值hit的情况，因此hit通过时间流向了valid([[$red]]==感觉像是physical channel？==)s
 	- ## Covert and Side Channels
 		- ### 密道
 			- ***储存密道(Covert and Side Channels)***
@@ -144,7 +144,7 @@
 		- 左边是没有考虑输入数值，使用最小上界的非精确IFT，右边是考虑值的精确IFT
 		- 一些文献综述
 	- ## Precision and complexity tradoffs
-		- 有研究将非精确IFT的假阳归结于静态逻辑冒险，如2位MUX种出现的假阳是因为静态0或静态1逻辑冒险
+		- 有研究将非精确IFT的假阳归结于静态逻辑冒险，如2位MUX出现的假阳是因为静态0或静态1逻辑冒险
 		- **[[$blue]]==降低精确度就意味着逐渐忽略输入变量的值==**
 - # Security properties
 	- ***trace property***：单个trace可以满足或违反的property
@@ -298,7 +298,7 @@
 	- ## 运行时
 		- 用专用的硬件来检车和控制运行时的信息流
 		- 通常在RTL即以上层级，越低层级执行IFT的成本就越大
-		- 需要额外的label内存和IFT逻辑，或者在架构层面，额外的propagation unit 和 协处理器
+		- 需要额外的label内存和IFT逻辑，或者在架构层面，额外的propagation unit 和 协+处理器
 		- 不存在状态爆炸，但是增加资源消耗以及性能开销
 	- ![image.png](../assets/image_1664465325674_0.png)
 - # FUTURE RESEARCH DIRECTIONS AND CHALLENGES

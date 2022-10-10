@@ -152,7 +152,6 @@
 				- 但是static的数据和函数成员只能声明，不能定义
 	- ## 代码可读性（可维护性）
 		- ### 螺旋法则（clockwise/spiral rule）
-		  collapsed:: true
 			- **尽在对付一些不可读代码时可以使用的方法，自己写代码时并不建议把代码写成需要这样才能看懂的地步**
 			- https://c-faq.com/decl/spiral.anderson.html
 			- 用于解读某一identifier的含义
@@ -172,7 +171,6 @@
 				- [[$blue]]==不言自明==：通过**阅读代码**能够理解一段程序的行为（implementation）
 				- [[$blue]]==不证自明==：通过**阅读代码**能够验证一段程序implementation和specification之间的一致性
 			- **使用预编译宏控制代码生成**
-			  collapsed:: true
 				- ```
 				  #define FORALL_REGS(_)  _(X) _(Y)
 				  #define LOGIC           X1 = !X && Y; \
