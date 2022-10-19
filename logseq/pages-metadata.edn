@@ -308,6 +308,9 @@
   "formal reasoning of implicit information flow security by relational hoare logic",
   :block/created-at 1661487383581,
   :block/updated-at 1661705603666}
+ {:block/name "formal verification in hardware design: a survey",
+  :block/created-at 1666185332513,
+  :block/updated-at 1666185332513}
  {:block/name "gcc编译过程",
   :block/created-at 1654018914490,
   :block/updated-at 1662898803721}
@@ -518,7 +521,7 @@
   :block/updated-at 1664778983401}
  {:block/name "lab5 register file & memory",
   :block/created-at 1665043150219,
-  :block/updated-at 1665043150219}
+  :block/updated-at 1666171841439}
  {:block/name "later",
   :block/created-at 1648662334967,
   :block/updated-at 1648662334967}
@@ -670,6 +673,27 @@
  {:block/name "oct 11th, 2022",
   :block/created-at 1665417603423,
   :block/updated-at 1665503567278}
+ {:block/name "oct 12th, 2022",
+  :block/created-at 1665560415539,
+  :block/updated-at 1665577108247}
+ {:block/name "oct 13th, 2022",
+  :block/created-at 1665590400704,
+  :block/updated-at 1665651406212}
+ {:block/name "oct 14th, 2022",
+  :block/created-at 1665741032475,
+  :block/updated-at 1665741036703}
+ {:block/name "oct 15th, 2022",
+  :block/created-at 1665820034098,
+  :block/updated-at 1665820044825}
+ {:block/name "oct 16th, 2022",
+  :block/created-at 1666160967623,
+  :block/updated-at 1666160967623}
+ {:block/name "oct 18th, 2022",
+  :block/created-at 1666160967650,
+  :block/updated-at 1666160967650}
+ {:block/name "oct 19th, 2022",
+  :block/created-at 1666160967260,
+  :block/updated-at 1666166462975}
  {:block/name "oct 1st, 2022",
   :block/created-at 1664553601789,
   :block/updated-at 1664613170641}
@@ -708,7 +732,7 @@
   :block/updated-at 1648662334968}
  {:block/name "pa1",
   :block/created-at 1665043150221,
-  :block/updated-at 1665394541211}
+  :block/updated-at 1666098097587}
  {:block/name "pcie简介",
   :block/created-at 1659284323347,
   :block/updated-at 1659284470634}
@@ -859,9 +883,15 @@
  {:block/name "内存管理",
   :block/created-at 1659287144718,
   :block/updated-at 1659288511206}
+ {:block/name "刷题记录",
+  :block/created-at 1666160967771,
+  :block/updated-at 1666160967771}
  {:block/name "可信软件开发",
   :block/created-at 1648662334968,
   :block/updated-at 1648662334968}
+ {:block/name "差分信号",
+  :block/created-at 1666171841438,
+  :block/updated-at 1666176144228}
  {:block/name "操作系统",
   :block/created-at 1650851705184,
   :block/updated-at 1650851770622}
@@ -969,7 +999,7 @@
   :block/updated-at 1651217573496}
  {:block/name "第二课：text editor（vim）",
   :block/created-at 1651291782242,
-  :block/updated-at 1663691498290}
+  :block/updated-at 1665652007226}
  {:block/name "第二课：变换",
   :block/created-at 1648912530610,
   :block/updated-at 1650715173781}
@@ -1002,7 +1032,7 @@
   :block/updated-at 1661487383273}
  {:block/name "自学笔记",
   :block/created-at 1654005766017,
-  :block/updated-at 1659709054955}
+  :block/updated-at 1666101527189}
  {:block/name "自己动手写cpu",
   :block/created-at 1655219480229,
   :block/updated-at 1659235343648}
@@ -1026,7 +1056,7 @@
   :block/updated-at 1664108528045}
  {:block/name "论文阅读",
   :block/created-at 1641815492082,
-  :block/updated-at 1665131743368}
+  :block/updated-at 1666185358061}
  {:block/name "课堂笔记",
   :block/created-at 1645696984989,
   :block/updated-at 1660548493043}

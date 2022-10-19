@@ -1,12 +1,21 @@
-[{:block/name "$blue",
-  :block/created-at 1650717765252,
-  :block/updated-at 1650717765252}
+[{:block/name "#blue",
+  :block/created-at 1664463788404,
+  :block/updated-at 1664463788404}
+ {:block/name "#green",
+  :block/created-at 1664463788402,
+  :block/updated-at 1664463788402}
+ {:block/name "#red",
+  :block/created-at 1664463788403,
+  :block/updated-at 1664463788403}
+ {:block/name "$blue",
+  :block/created-at 1664296050896,
+  :block/updated-at 1664296050896}
  {:block/name "$green",
-  :block/created-at 1650717756331,
-  :block/updated-at 1650717756331}
+  :block/created-at 1665143835834,
+  :block/updated-at 1665143835834}
  {:block/name "$red",
-  :block/created-at 1650717753097,
-  :block/updated-at 1650717753097}
+  :block/created-at 1664295148840,
+  :block/updated-at 1664295148840}
  {:block/name
   "../assets/collotta_等。_-_2021_-_a_fuzzy_control_system_for_energy‐efficient_wirele_1641815664400_0.pdf",
   :block/created-at 1648662334967,
@@ -23,6 +32,9 @@
   "../assets/tian_等。_-_2019_-_a_multi-hop_routing_protocol_for_video_transmissio_1641822575709_0.pdf",
   :block/created-at 1648662334967,
   :block/updated-at 1648662334967}
+ {:block/name "2022-10-7论文讨论",
+  :block/created-at 1665143835234,
+  :block/updated-at 1665143924044}
  {:block/name "a",
   :block/created-at 1648662334966,
   :block/updated-at 1648662334966}
@@ -35,14 +47,14 @@
   :block/updated-at 1641822577795}
  {:block/name "a perspective on information-flow control",
   :block/created-at 1661960022042,
-  :block/updated-at 1662803517517}
+  :block/updated-at 1664269182249}
  {:block/name "a promising semantics for relaxed-memory concurrency",
   :block/created-at 1644152070699,
   :block/updated-at 1648359031768}
  {:block/name
   "an improved aes hardware trojan benchmark to validate trojan detection schemes in an asic design flow",
   :block/created-at 1663073936550,
-  :block/updated-at 1663308686283}
+  :block/updated-at 1665138728778}
  {:block/name "apr 10th, 2022",
   :block/created-at 1649553147233,
   :block/updated-at 1649553147233}
@@ -232,6 +244,9 @@
  {:block/name "card",
   :block/created-at 1648662334967,
   :block/updated-at 1648662334967}
+ {:block/name "cdma简介",
+  :block/created-at 1664895118823,
+  :block/updated-at 1664895118823}
  {:block/name "contents",
   :block/created-at 1641817710684,
   :block/updated-at 1648661863588}
@@ -299,10 +314,13 @@
  {:block/name "git快速入门",
   :block/created-at 1659709054953,
   :block/updated-at 1659714162592}
+ {:block/name "hardware information flow tracking",
+  :block/created-at 1664176110089,
+  :block/updated-at 1665217762722}
  {:block/name
   "hardware trojan detection through information flow security verification",
-  :block/created-at 1663310936550,
-  :block/updated-at 1663494387562}
+  :block/created-at 1664108525609,
+  :block/updated-at 1665149387677}
  {:block/name
   "hls__collotta_等。_-_2021_-_a_fuzzy_control_system_for_energy‐efficient_wirele_1641815664400_0",
   :block/created-at 1648662334968,
@@ -487,8 +505,20 @@
   :block/created-at 1654786873334,
   :block/updated-at 1654786873334}
  {:block/name "lab1 mux",
-  :block/created-at 1663779555597,
-  :block/updated-at 1663779571220}
+  :block/created-at 1664108525872,
+  :block/updated-at 1664108525872}
+ {:block/name "lab2 decoder & encoder",
+  :block/created-at 1664160846802,
+  :block/updated-at 1664382429932}
+ {:block/name "lab3 adder & alu",
+  :block/created-at 1664371854706,
+  :block/updated-at 1664470319774}
+ {:block/name "lab4 counter& clock",
+  :block/created-at 1664544363216,
+  :block/updated-at 1664778983401}
+ {:block/name "lab5 register file & memory",
+  :block/created-at 1665043150219,
+  :block/updated-at 1665043150219}
  {:block/name "later",
   :block/created-at 1648662334967,
   :block/updated-at 1648662334967}
@@ -620,17 +650,68 @@
   :block/updated-at 1656046693027}
  {:block/name
   "modular deductive verification of multiprocessor hardware designs",
-  :block/created-at 1663602223935,
-  :block/updated-at 1664038808586}
+  :block/created-at 1664108525790,
+  :block/updated-at 1665157191951}
  {:block/name "mosfet简介",
-  :block/created-at 1663233952159,
-  :block/updated-at 1663236217426}
+  :block/created-at 1664108527657,
+  :block/updated-at 1664108527657}
+ {:block/name "nju palab",
+  :block/created-at 1665043150531,
+  :block/updated-at 1665043150531}
  {:block/name "nju数字电路实验",
-  :block/created-at 1663755813356,
-  :block/updated-at 1663779555597}
+  :block/created-at 1664108527701,
+  :block/updated-at 1664953986871}
  {:block/name "now",
   :block/created-at 1648662334969,
   :block/updated-at 1648662334969}
+ {:block/name "oct 10th, 2022",
+  :block/created-at 1665380155377,
+  :block/updated-at 1665420109281}
+ {:block/name "oct 11th, 2022",
+  :block/created-at 1665417603423,
+  :block/updated-at 1665503567278}
+ {:block/name "oct 12th, 2022",
+  :block/created-at 1665560415539,
+  :block/updated-at 1665577108247}
+ {:block/name "oct 13th, 2022",
+  :block/created-at 1665590400704,
+  :block/updated-at 1665651406212}
+ {:block/name "oct 14th, 2022",
+  :block/created-at 1665741032475,
+  :block/updated-at 1665741036703}
+ {:block/name "oct 15th, 2022",
+  :block/created-at 1665820034098,
+  :block/updated-at 1665820044825}
+ {:block/name "oct 16th, 2022",
+  :block/created-at 1665925076656,
+  :block/updated-at 1665925085746}
+ {:block/name "oct 1st, 2022",
+  :block/created-at 1664553601789,
+  :block/updated-at 1664613170641}
+ {:block/name "oct 2nd, 2022",
+  :block/created-at 1664698997242,
+  :block/updated-at 1664713178072}
+ {:block/name "oct 3rd, 2022",
+  :block/created-at 1664773345028,
+  :block/updated-at 1664857832917}
+ {:block/name "oct 4th, 2022",
+  :block/created-at 1664857810869,
+  :block/updated-at 1664953849782}
+ {:block/name "oct 5th, 2022",
+  :block/created-at 1664899201252,
+  :block/updated-at 1664953863700}
+ {:block/name "oct 6th, 2022",
+  :block/created-at 1665043149811,
+  :block/updated-at 1665043418670}
+ {:block/name "oct 7th, 2022",
+  :block/created-at 1665131083599,
+  :block/updated-at 1665131465689}
+ {:block/name "oct 8th, 2022",
+  :block/created-at 1665210108749,
+  :block/updated-at 1665299276327}
+ {:block/name "oct 9th, 2022",
+  :block/created-at 1665380155696,
+  :block/updated-at 1665380409721}
  {:block/name "pa",
   :block/created-at 1648662334967,
   :block/updated-at 1648662334967}
@@ -640,6 +721,9 @@
  {:block/name "pa/r-qa",
   :block/created-at 1648662334968,
   :block/updated-at 1648662334968}
+ {:block/name "pa1",
+  :block/created-at 1665043150221,
+  :block/updated-at 1665577139468}
  {:block/name "pcie简介",
   :block/created-at 1659284323347,
   :block/updated-at 1659284470634}
@@ -650,9 +734,9 @@
   :block/created-at 1648662334966,
   :block/updated-at 1648662334966}
  {:block/name
-  "promising-arm/risc-v_ a simpler and faster operational concurrency model",
-  :block/created-at 1644850279561,
-  :block/updated-at 1648912662998}
+  "promising-arm/risc-v: a simpler and faster operational concurrency model",
+  :block/created-at 1664271090491,
+  :block/updated-at 1664271090491}
  {:block/name "pvwk01",
   :block/created-at 1647477191329,
   :block/updated-at 1647477536585}
@@ -691,38 +775,53 @@
   :block/created-at 1663171203635,
   :block/updated-at 1663214255372}
  {:block/name "sep 16th, 2022",
-  :block/created-at 1663257602181,
-  :block/updated-at 1663397525592}
+  :block/created-at 1664108525611,
+  :block/updated-at 1664108525611}
  {:block/name "sep 17th, 2022",
-  :block/created-at 1663344001673,
-  :block/updated-at 1663422278038}
+  :block/created-at 1664108526199,
+  :block/updated-at 1664108526199}
  {:block/name "sep 18th, 2022",
-  :block/created-at 1663430403057,
-  :block/updated-at 1663477360647}
+  :block/created-at 1664108525669,
+  :block/updated-at 1664108525669}
  {:block/name "sep 19th, 2022",
-  :block/created-at 1663602224055,
-  :block/updated-at 1663602263374}
+  :block/created-at 1664108525792,
+  :block/updated-at 1664108525792}
  {:block/name "sep 1st, 2022",
   :block/created-at 1661961604341,
   :block/updated-at 1661961604341}
  {:block/name "sep 20th, 2022",
-  :block/created-at 1663603203884,
-  :block/updated-at 1663741835760}
+  :block/created-at 1664108525837,
+  :block/updated-at 1664108525837}
  {:block/name "sep 21st, 2022",
-  :block/created-at 1663689603397,
-  :block/updated-at 1663779587783}
+  :block/created-at 1664108525874,
+  :block/updated-at 1664108525874}
  {:block/name "sep 22nd, 2022",
-  :block/created-at 1663776000367,
-  :block/updated-at 1663824471282}
+  :block/created-at 1664108525978,
+  :block/updated-at 1664108525978}
  {:block/name "sep 23rd, 2022",
-  :block/created-at 1663862401317,
-  :block/updated-at 1663919461694}
+  :block/created-at 1664108526016,
+  :block/updated-at 1664108526016}
  {:block/name "sep 24th, 2022",
-  :block/created-at 1663948802599,
-  :block/updated-at 1663997863326}
+  :block/created-at 1664108526057,
+  :block/updated-at 1664108539247}
  {:block/name "sep 25th, 2022",
   :block/created-at 1664035202016,
-  :block/updated-at 1664035202016}
+  :block/updated-at 1664160886550}
+ {:block/name "sep 26th, 2022",
+  :block/created-at 1664121645789,
+  :block/updated-at 1664213001581}
+ {:block/name "sep 27th, 2022",
+  :block/created-at 1664208003386,
+  :block/updated-at 1664296461549}
+ {:block/name "sep 28th, 2022",
+  :block/created-at 1664294401087,
+  :block/updated-at 1664382634697}
+ {:block/name "sep 29th, 2022",
+  :block/created-at 1664380803079,
+  :block/updated-at 1664469244116}
+ {:block/name "sep 30th, 2022",
+  :block/created-at 1664467202760,
+  :block/updated-at 1664554853261}
  {:block/name "sep 3rd, 2022",
   :block/created-at 1662300176415,
   :block/updated-at 1662300176415}
@@ -750,6 +849,10 @@
  {:block/name "the missing semester for your cs education",
   :block/created-at 1650971574342,
   :block/updated-at 1660371914845}
+ {:block/name
+  "theorem proof based gate level information flow tracking for hardware secur ity ver ification",
+  :block/created-at 1664544327357,
+  :block/updated-at 1665227891475}
  {:block/name "todo",
   :block/created-at 1648662334968,
   :block/updated-at 1648662334968}
@@ -766,8 +869,8 @@
   :block/created-at 1648662334968,
   :block/updated-at 1648662334968}
  {:block/name "一生一芯",
-  :block/created-at 1663602224295,
-  :block/updated-at 1663602224295}
+  :block/created-at 1664108527717,
+  :block/updated-at 1664108527717}
  {:block/name "内存管理",
   :block/created-at 1659287144718,
   :block/updated-at 1659288511206}
@@ -803,7 +906,7 @@
   :block/updated-at 1660548534928}
  {:block/name "模板",
   :block/created-at 1648791771854,
-  :block/updated-at 1657593031667}
+  :block/updated-at 1664108937033}
  {:block/name "现代计算机图形学入门",
   :block/created-at 1648822605196,
   :block/updated-at 1650713646274}
@@ -881,7 +984,7 @@
   :block/updated-at 1651217573496}
  {:block/name "第二课：text editor（vim）",
   :block/created-at 1651291782242,
-  :block/updated-at 1663691498290}
+  :block/updated-at 1665652007226}
  {:block/name "第二课：变换",
   :block/created-at 1648912530610,
   :block/updated-at 1650715173781}
@@ -919,20 +1022,26 @@
   :block/created-at 1655219480229,
   :block/updated-at 1659235343648}
  {:block/name "补充：msi协议",
-  :block/created-at 1664007087723,
-  :block/updated-at 1664019726856}
+  :block/created-at 1664108527321,
+  :block/updated-at 1664108527321}
+ {:block/name "补充：编程模型",
+  :block/created-at 1665043440645,
+  :block/updated-at 1665046235435}
  {:block/name "计算系统的形式语义",
   :block/created-at 1648662334967,
   :block/updated-at 1648662334967}
  {:block/name "论文写作",
-  :block/created-at 1663602224195,
-  :block/updated-at 1663602224195}
+  :block/created-at 1664108528046,
+  :block/updated-at 1664160954586}
+ {:block/name "论文写作第三课",
+  :block/created-at 1664160954583,
+  :block/updated-at 1664163139240}
  {:block/name "论文写作第二课",
-  :block/created-at 1663602224194,
-  :block/updated-at 1663602224194}
+  :block/created-at 1664108528045,
+  :block/updated-at 1664108528045}
  {:block/name "论文阅读",
   :block/created-at 1641815492082,
-  :block/updated-at 1663310936551}
+  :block/updated-at 1665131743368}
  {:block/name "课堂笔记",
   :block/created-at 1645696984989,
   :block/updated-at 1660548493043}
@@ -943,5 +1052,5 @@
   :block/created-at 1646121465714,
   :block/updated-at 1646121863019}
  {:block/name "预学习",
-  :block/created-at 1663602224295, 
-  :block/updated-at 1663755813356}]
+  :block/created-at 1664108527715, 
+  :block/updated-at 1664968916058}]
