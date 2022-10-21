@@ -1,0 +1,19 @@
+- # 移位寄存器
+	- ![../_images/shift01.png](https://nju-projectn.github.io/dlco-lecture-note/_images/shift01.png)
+	- 常见的位移寄存器工作方式：
+		- 000：清零
+		- 001：置数
+		- 010：逻辑右移
+		- 011：逻辑左移
+		- 100：算术右移
+		- 101：左端串行输入1位值，并行输出8位值
+		- 110：循环右移
+		- 111：循环左移
+- # 筒形移位器
+	- 一个时钟周期内能移动多位，效率比移位寄存器高
+	- 使用组合逻辑
+	- ![../_images/barrel01.png](https://nju-projectn.github.io/dlco-lecture-note/_images/barrel01.png)
+	- 具体电路实现
+		- ![../_images/barrel02.png](https://nju-projectn.github.io/dlco-lecture-note/_images/barrel02.png)
+	- 第一级利用shamt[0]来控制是否需要移动一位，第二级在第一级的移动结果上用shamt[1]来控制是否要移动两位，第三级在第二级的基础上再对应判断是否要移动四位
+	-
