@@ -310,7 +310,7 @@
   :block/updated-at 1661705603666}
  {:block/name "formal verification in hardware design: a survey",
   :block/created-at 1666185332513,
-  :block/updated-at 1666281186659}
+  :block/updated-at 1666627813324}
  {:block/name "gcc编译过程",
   :block/created-at 1654018914490,
   :block/updated-at 1662898803721}
@@ -709,6 +709,18 @@
  {:block/name "oct 21st, 2022",
   :block/created-at 1666336253521,
   :block/updated-at 1666336285599}
+ {:block/name "oct 22nd, 2022",
+  :block/created-at 1666482137783,
+  :block/updated-at 1666482137783}
+ {:block/name "oct 23rd, 2022",
+  :block/created-at 1666454401878,
+  :block/updated-at 1666454401878}
+ {:block/name "oct 24th, 2022",
+  :block/created-at 1666624303786,
+  :block/updated-at 1666624303786}
+ {:block/name "oct 25th, 2022",
+  :block/created-at 1666627203654,
+  :block/updated-at 1666627203654}
  {:block/name "oct 2nd, 2022",
   :block/created-at 1664698997242,
   :block/updated-at 1664713178072}
@@ -1005,7 +1017,7 @@
   :block/updated-at 1658508463005}
  {:block/name "第二章：经典命题逻辑",
   :block/created-at 1646231162064,
-  :block/updated-at 1648803284114}
+  :block/updated-at 1666626610428}
  {:block/name "第二课：text editorvim",
   :block/created-at 1651217573496,
   :block/updated-at 1651217573496}

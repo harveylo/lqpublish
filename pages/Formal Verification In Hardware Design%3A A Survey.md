@@ -9,6 +9,62 @@ title:: Formal Verification In Hardware Design: A Survey
 			- 主要是时序的性质，即动态的性质
 			- 利用时序逻辑描述性质
 			- 此时验证需要展示系统所有的可能行贿都满足specification的时序性质
+			- 又称：[[$red]]==**性质验证（property verification）**==
 		- 基于系统的高层及模型specification
-			- 此时验证需要证明系统实现的所有可能行为都和高层级specification的行为是一致的、
-	-
+			- 此时验证需要证明系统实现的所有可能行为都和高层级specification的行为是一致的
+			- 又称：[[$red]]==**实现验证（implementation verification）**==
+	- 两种验证都是同一个问题的不同描述，specification 本质上就是定义了一些系统中对于有效行为的一些限制（constraints），verification就是证明实现满足了这些限制
+	- ## 使用时序逻辑描述specification
+		- ### 时序逻辑的核心
+			- 一个系统$M$会在任何一个时间节点处在一个状态集合$S$中的某一个状态上，并会随着时间推移进行各种状态的迁移
+			- *原子命题(Atomic proposition)*和每一个状态有关，是时序逻辑公式的基础建造材料
+			- 实际操作中，状态机和通常由布尔n元组组成，如此一来原子命题便可以很简单的描述为：“状态中的第i个元素的值是true(false)”
+			- 时序操作符号将原子命题的真假值在不同时间点下联系起来
+		- 有很多种时序逻辑模型
+		- ## 选择时序逻辑的考虑
+			- **逻辑的表达能力**
+				- 有的性质只能在合适的时序逻辑下被表达
+			- **逻辑的复杂度**
+				- 一般来说，表达能力越强的逻辑，其验证的计算复杂度往往更高
+				- 选择何时的逻辑可以降低验证的成本
+			- **确保specification和验证者实际想验证性质的一致性**
+				- 这个只能人工来做
+		- ### CTL（Computation Tree Logic）
+			- 命题逻辑在分支时间上的变种
+			- 离散时间
+			- **CTL公式和语义**
+				- 一个时序结构形如：$M=(S,R,L)$
+					- $S$是状态集合
+					- $R\subseteq S \times S$是一个全双元关系($\forall_{s\in S}\exists_{t\in S}(s,t)\in R$)，表示状态的迁移
+					- $L:S\rightarrow 2^{\mathscr{P}}$，标记某一个状态下，$\mathscr{P}$中的哪些哪些原子命题为true
+				- 一条**路径（path）**是指一个无限的状态序列
+				- 一个CTL公式递归定义如下
+					- 所有的原子命题是一个CTL公式
+					- 如果$f_1$和$f_2$是CTL公式，那么$\neg f_1,f_1\wedge f_2, \bold{AX}f_1,\bold{EX}f_1,\bold{A}[f_1\bold{U}f_2], \bold{E}[f_1\bold{U}f_2]$也是CTL公式
+				- $\bold{AX}$表示“所有的后继”，对于状态$s_0$，如果$s_0$的所有后继都满足公式$f_1$，则称$\bold{AX}f_1$在$s_0$上成立
+				- $\bold{EX}$表示“存在一个后继”
+				- $\bold{A}[f_1\bold{U}f_2]$表示“总是-直到”，从$s_0$开始的每一条路径上，要么$f_1$一直成立，要么在某一时刻前$f_1$一直成立，且在该时刻$f_2$成立
+				- 相应的$\bold{EU}$表示“存在-直到”
+				- 一些延申定义：
+					- $\bold{AF}f = \bold{A}[true\bold{U}f]$ (f最终会被满足)
+					- $\bold{EF}f=\bold{E}[true\bold{U}f]$ (存在一个可到达的状态满足$f$)
+					- $\bold{EG}f = \neg\bold{AF}\neg f$ (存在一条路径，该路径上所有的状态都满足$f$)
+					- $\bold{AG}f = \neg \bold{EF}\neg f$ (所有的可能路径上$f$都必须一直被满足)
+				- [[$blue]]==**个人理解**==：X表示next，U表示until，F表示future，G表示global
+				- 对于一个$M=(S,R,L),s_0\in S,S_0\subseteq S$
+					- $M,s_0\vDash f$表示$f$在$M$的状态$s_0$上满足, 当$M$在上线文中明确时，可以省略不写
+					- $M,S_0\vDash f \equiv \forall_{s\in S_0}M,s,\vDash f$
+					- $M \vDash f \equiv M,S\vDash f$
+				- $\vDash$的语义递归定义如下
+					- $M,s_0\vDash p$ iff $p \in L(s_0)$
+					- $M,s_0 \vDash \neg f$ iff not $(M,s_0) \vDash f$
+					- $M,s_0 \vDash f_1 \wedge f_2$ iff $(M,s_0 \vDash f_1)$ and $(M,s_0\vDash f_2)$
+					- $M,s_0 \vDash \bold{AX}f$ iff $\forall _{t\in S}(s_0,t)\in R \rightarrow (M,t\vDash f)$
+					- $M,s_0\vDash \bold{EX}f$ iff $\exists_{t\in S} (s_0,t)\in R \wedge (M,t \vdash f)$
+						- [[$red]]==注意此处任意用的蕴含， 存在用的且==
+					- $M,s_0 \vDash \bold{A}[f_1\bold{U}f_2]$ iff 对于所有路径$s_0,s_1,\ldots$ 
+					  都有$\exists_{i\ge 0}(M,s_i\vDash f_2)\wedge \forall_{j=0,\ldots, i-1}M,s_j\vDash f_1$
+					- $M,s_0,\vDash \bold{E}[f_1\bold{U}f_2]$ iff 存在某条路径$s_0,S-1,\ldots$
+					  都有$\exists_{i\ge 0}(M,s_i\vDash f_2) \wedge \forall_{j=0,\ldots,i-1}M,s_j\vDash f_1$
+					-
+						-
