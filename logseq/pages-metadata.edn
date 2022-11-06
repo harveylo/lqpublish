@@ -250,6 +250,9 @@
  {:block/name "contents",
   :block/created-at 1641817710684,
   :block/updated-at 1648661863588}
+ {:block/name "cpu架构之争：risc的诞生与发展缩影",
+  :block/created-at 1666950190448,
+  :block/updated-at 1666951442737}
  {:block/name "c语言拾遗",
   :block/created-at 1661959596499,
   :block/updated-at 1663060239156}
@@ -310,7 +313,7 @@
   :block/updated-at 1661705603666}
  {:block/name "formal verification in hardware design: a survey",
   :block/created-at 1666185332513,
-  :block/updated-at 1666627813324}
+  :block/updated-at 1666777782287}
  {:block/name "gcc编译过程",
   :block/created-at 1654018914490,
   :block/updated-at 1662898803721}
@@ -528,6 +531,9 @@
  {:block/name "lab7 fsm & keyboard input",
   :block/created-at 1666337525145,
   :block/updated-at 1666359966461}
+ {:block/name "lab8 vga",
+  :block/created-at 1666950101233,
+  :block/updated-at 1666950101233}
  {:block/name "later",
   :block/created-at 1648662334967,
   :block/updated-at 1648662334967}
@@ -669,7 +675,13 @@
   :block/updated-at 1666259809449}
  {:block/name "nju数字电路实验",
   :block/created-at 1664108527701,
-  :block/updated-at 1666337525146}
+  :block/updated-at 1666864686361}
+ {:block/name "nov 1st, 2022",
+  :block/created-at 1667307601309,
+  :block/updated-at 1667307610423}
+ {:block/name "nov 2nd, 2022",
+  :block/created-at 1667377003056,
+  :block/updated-at 1667377019396}
  {:block/name "now",
   :block/created-at 1648662334969,
   :block/updated-at 1648662334969}
@@ -720,7 +732,19 @@
   :block/updated-at 1666624303786}
  {:block/name "oct 25th, 2022",
   :block/created-at 1666627203654,
-  :block/updated-at 1666627203654}
+  :block/updated-at 1666693722763}
+ {:block/name "oct 26th, 2022",
+  :block/created-at 1666713604974,
+  :block/updated-at 1666801616974}
+ {:block/name "oct 27th, 2022",
+  :block/created-at 1666800011041,
+  :block/updated-at 1666864758276}
+ {:block/name "oct 28th, 2022",
+  :block/created-at 1666950100898,
+  :block/updated-at 1666950127667}
+ {:block/name "oct 29th, 2022",
+  :block/created-at 1667024288807,
+  :block/updated-at 1667030266893}
  {:block/name "oct 2nd, 2022",
   :block/created-at 1664698997242,
   :block/updated-at 1664713178072}
@@ -904,9 +928,12 @@
  {:block/name "一生一芯",
   :block/created-at 1664108527717,
   :block/updated-at 1664108527717}
+ {:block/name "内存一致性模型",
+  :block/created-at 1667307643499,
+  :block/updated-at 1667313954050}
  {:block/name "内存管理",
   :block/created-at 1659287144718,
-  :block/updated-at 1659288511206}
+  :block/updated-at 1667307643500}
  {:block/name "刷题记录",
   :block/created-at 1666160967771,
   :block/updated-at 1666160967771}
@@ -943,6 +970,9 @@
  {:block/name "暑期学校]-2022",
   :block/created-at 1660548493042,
   :block/updated-at 1660548534928}
+ {:block/name "杂文阅读",
+  :block/created-at 1666950169496,
+  :block/updated-at 1666950190449}
  {:block/name "模板",
   :block/created-at 1648791771854,
   :block/updated-at 1664108937033}
@@ -1056,7 +1086,7 @@
   :block/updated-at 1661487383273}
  {:block/name "自学笔记",
   :block/created-at 1654005766017,
-  :block/updated-at 1666101527189}
+  :block/updated-at 1666950169497}
  {:block/name "自己动手写cpu",
   :block/created-at 1655219480229,
   :block/updated-at 1659235343648}
