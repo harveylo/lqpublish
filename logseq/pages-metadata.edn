@@ -672,16 +672,28 @@
   :block/updated-at 1664108527657}
  {:block/name "nju palab",
   :block/created-at 1665043150531,
-  :block/updated-at 1666259809449}
+  :block/updated-at 1667812697938}
  {:block/name "nju数字电路实验",
   :block/created-at 1664108527701,
   :block/updated-at 1666864686361}
+ {:block/name "nov 10th, 2022",
+  :block/created-at 1668010648496,
+  :block/updated-at 1668064724949}
  {:block/name "nov 1st, 2022",
   :block/created-at 1667307601309,
   :block/updated-at 1667307610423}
  {:block/name "nov 2nd, 2022",
-  :block/created-at 1667377003056,
-  :block/updated-at 1667377019396}
+  :block/created-at 1667808010966,
+  :block/updated-at 1667808010966}
+ {:block/name "nov 7th, 2022",
+  :block/created-at 1667808010661,
+  :block/updated-at 1667808394670}
+ {:block/name "nov 8th, 2022",
+  :block/created-at 1667836800849,
+  :block/updated-at 1667926826621}
+ {:block/name "nov 9th, 2022",
+  :block/created-at 1667923201428,
+  :block/updated-at 1668013045862}
  {:block/name "now",
   :block/created-at 1648662334969,
   :block/updated-at 1648662334969}
@@ -781,6 +793,9 @@
  {:block/name "pa1",
   :block/created-at 1665043150221,
   :block/updated-at 1666098097587}
+ {:block/name "pa2",
+  :block/created-at 1667812697938,
+  :block/updated-at 1667829719739}
  {:block/name "pcie简介",
   :block/created-at 1659284323347,
   :block/updated-at 1659284470634}
@@ -1048,9 +1063,6 @@
  {:block/name "第二章：经典命题逻辑",
   :block/created-at 1646231162064,
   :block/updated-at 1666626610428}
- {:block/name "第二课：text editorvim",
-  :block/created-at 1651217573496,
-  :block/updated-at 1651217573496}
  {:block/name "第二课：text editor（vim）",
   :block/created-at 1651291782242,
   :block/updated-at 1665652007226}
