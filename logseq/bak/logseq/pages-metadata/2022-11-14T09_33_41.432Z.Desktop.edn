@@ -250,6 +250,9 @@
  {:block/name "contents",
   :block/created-at 1641817710684,
   :block/updated-at 1648661863588}
+ {:block/name "cpu架构之争：risc的诞生与发展缩影",
+  :block/created-at 1666950190448,
+  :block/updated-at 1666951442737}
  {:block/name "c语言拾遗",
   :block/created-at 1661959596499,
   :block/updated-at 1663060239156}
@@ -308,6 +311,9 @@
   "formal reasoning of implicit information flow security by relational hoare logic",
   :block/created-at 1661487383581,
   :block/updated-at 1661705603666}
+ {:block/name "formal verification in hardware design: a survey",
+  :block/created-at 1666185332513,
+  :block/updated-at 1666777782287}
  {:block/name "gcc编译过程",
   :block/created-at 1654018914490,
   :block/updated-at 1662898803721}
@@ -518,7 +524,16 @@
   :block/updated-at 1664778983401}
  {:block/name "lab5 register file & memory",
   :block/created-at 1665043150219,
-  :block/updated-at 1665043150219}
+  :block/updated-at 1666171841439}
+ {:block/name "lab6 shift register",
+  :block/created-at 1666259841833,
+  :block/updated-at 1666260642833}
+ {:block/name "lab7 fsm & keyboard input",
+  :block/created-at 1666337525145,
+  :block/updated-at 1666359966461}
+ {:block/name "lab8 vga",
+  :block/created-at 1666950101233,
+  :block/updated-at 1666950101233}
  {:block/name "later",
   :block/created-at 1648662334967,
   :block/updated-at 1648662334967}
@@ -651,16 +666,43 @@
  {:block/name
   "modular deductive verification of multiprocessor hardware designs",
   :block/created-at 1664108525790,
-  :block/updated-at 1665157191951}
+  :block/updated-at 1666255025827}
  {:block/name "mosfet简介",
   :block/created-at 1664108527657,
   :block/updated-at 1664108527657}
  {:block/name "nju palab",
   :block/created-at 1665043150531,
-  :block/updated-at 1665043150531}
+  :block/updated-at 1667812697938}
  {:block/name "nju数字电路实验",
   :block/created-at 1664108527701,
-  :block/updated-at 1664953986871}
+  :block/updated-at 1666864686361}
+ {:block/name "nov 10th, 2022",
+  :block/created-at 1668010648496,
+  :block/updated-at 1668176206736}
+ {:block/name "nov 11th, 2022",
+  :block/created-at 1668146349205,
+  :block/updated-at 1668175726803}
+ {:block/name "nov 12th, 2022",
+  :block/created-at 1668241354581,
+  :block/updated-at 1668244737627}
+ {:block/name "nov 14th, 2022",
+  :block/created-at 1668415494940,
+  :block/updated-at 1668415509205}
+ {:block/name "nov 1st, 2022",
+  :block/created-at 1667307601309,
+  :block/updated-at 1667307610423}
+ {:block/name "nov 2nd, 2022",
+  :block/created-at 1667808010966,
+  :block/updated-at 1667808010966}
+ {:block/name "nov 7th, 2022",
+  :block/created-at 1667808010661,
+  :block/updated-at 1667808394670}
+ {:block/name "nov 8th, 2022",
+  :block/created-at 1667836800849,
+  :block/updated-at 1667926826621}
+ {:block/name "nov 9th, 2022",
+  :block/created-at 1667923201428,
+  :block/updated-at 1668013045862}
  {:block/name "now",
   :block/created-at 1648662334969,
   :block/updated-at 1648662334969}
@@ -683,14 +725,47 @@
   :block/created-at 1665820034098,
   :block/updated-at 1665820044825}
  {:block/name "oct 16th, 2022",
-  :block/created-at 1666097316937,
-  :block/updated-at 1666097316937}
+  :block/created-at 1666160967623,
+  :block/updated-at 1666160967623}
  {:block/name "oct 18th, 2022",
-  :block/created-at 1666097316965,
-  :block/updated-at 1666098327665}
+  :block/created-at 1666160967650,
+  :block/updated-at 1666160967650}
+ {:block/name "oct 19th, 2022",
+  :block/created-at 1666160967260,
+  :block/updated-at 1666188530245}
  {:block/name "oct 1st, 2022",
   :block/created-at 1664553601789,
   :block/updated-at 1664613170641}
+ {:block/name "oct 20th, 2022",
+  :block/created-at 1666247811884,
+  :block/updated-at 1666336271714}
+ {:block/name "oct 21st, 2022",
+  :block/created-at 1666336253521,
+  :block/updated-at 1666336285599}
+ {:block/name "oct 22nd, 2022",
+  :block/created-at 1666482137783,
+  :block/updated-at 1666482137783}
+ {:block/name "oct 23rd, 2022",
+  :block/created-at 1666454401878,
+  :block/updated-at 1666454401878}
+ {:block/name "oct 24th, 2022",
+  :block/created-at 1666624303786,
+  :block/updated-at 1666624303786}
+ {:block/name "oct 25th, 2022",
+  :block/created-at 1666627203654,
+  :block/updated-at 1666693722763}
+ {:block/name "oct 26th, 2022",
+  :block/created-at 1666713604974,
+  :block/updated-at 1666801616974}
+ {:block/name "oct 27th, 2022",
+  :block/created-at 1666800011041,
+  :block/updated-at 1666864758276}
+ {:block/name "oct 28th, 2022",
+  :block/created-at 1666950100898,
+  :block/updated-at 1666950127667}
+ {:block/name "oct 29th, 2022",
+  :block/created-at 1667024288807,
+  :block/updated-at 1667030266893}
  {:block/name "oct 2nd, 2022",
   :block/created-at 1664698997242,
   :block/updated-at 1664713178072}
@@ -727,6 +802,9 @@
  {:block/name "pa1",
   :block/created-at 1665043150221,
   :block/updated-at 1666098097587}
+ {:block/name "pa2",
+  :block/created-at 1667812697938,
+  :block/updated-at 1667829719739}
  {:block/name "pcie简介",
   :block/created-at 1659284323347,
   :block/updated-at 1659284470634}
@@ -874,15 +952,24 @@
  {:block/name "一生一芯",
   :block/created-at 1664108527717,
   :block/updated-at 1664108527717}
+ {:block/name "内存一致性模型",
+  :block/created-at 1667307643499,
+  :block/updated-at 1667313954050}
  {:block/name "内存管理",
   :block/created-at 1659287144718,
-  :block/updated-at 1659288511206}
+  :block/updated-at 1667307643500}
  {:block/name "刷题记录",
-  :block/created-at 1666101527189,
-  :block/updated-at 1666101748297}
+  :block/created-at 1666160967771,
+  :block/updated-at 1666160967771}
  {:block/name "可信软件开发",
   :block/created-at 1648662334968,
   :block/updated-at 1648662334968}
+ {:block/name "差分信号",
+  :block/created-at 1666171841438,
+  :block/updated-at 1666176144228}
+ {:block/name "弱内存模型的形式语义与验证",
+  :block/created-at 1668416508454,
+  :block/updated-at 1668416759214}
  {:block/name "操作系统",
   :block/created-at 1650851705184,
   :block/updated-at 1650851770622}
@@ -910,6 +997,9 @@
  {:block/name "暑期学校]-2022",
   :block/created-at 1660548493042,
   :block/updated-at 1660548534928}
+ {:block/name "杂文阅读",
+  :block/created-at 1666950169496,
+  :block/updated-at 1666950190449}
  {:block/name "模板",
   :block/created-at 1648791771854,
   :block/updated-at 1664108937033}
@@ -984,10 +1074,7 @@
   :block/updated-at 1658508463005}
  {:block/name "第二章：经典命题逻辑",
   :block/created-at 1646231162064,
-  :block/updated-at 1648803284114}
- {:block/name "第二课：text editorvim",
-  :block/created-at 1651217573496,
-  :block/updated-at 1651217573496}
+  :block/updated-at 1666626610428}
  {:block/name "第二课：text editor（vim）",
   :block/created-at 1651291782242,
   :block/updated-at 1665652007226}
@@ -1023,7 +1110,7 @@
   :block/updated-at 1661487383273}
  {:block/name "自学笔记",
   :block/created-at 1654005766017,
-  :block/updated-at 1666101527189}
+  :block/updated-at 1666950169497}
  {:block/name "自己动手写cpu",
   :block/created-at 1655219480229,
   :block/updated-at 1659235343648}
@@ -1047,7 +1134,7 @@
   :block/updated-at 1664108528045}
  {:block/name "论文阅读",
   :block/created-at 1641815492082,
-  :block/updated-at 1665131743368}
+  :block/updated-at 1668416508455}
  {:block/name "课堂笔记",
   :block/created-at 1645696984989,
   :block/updated-at 1660548493043}
