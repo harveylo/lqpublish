@@ -696,7 +696,10 @@
   :block/updated-at 1668529965377}
  {:block/name "nov 16th, 2022",
   :block/created-at 1668528004555,
-  :block/updated-at 1668581787574}
+  :block/updated-at 1668615764920}
+ {:block/name "nov 17th, 2022",
+  :block/created-at 1668614404674,
+  :block/updated-at 1668674506189}
  {:block/name "nov 1st, 2022",
   :block/created-at 1667307601309,
   :block/updated-at 1667307610423}
