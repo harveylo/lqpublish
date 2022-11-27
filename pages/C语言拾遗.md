@@ -1,5 +1,5 @@
 - # 编译过程
-	- [[$red]]==**参考之前的笔记**==[[gcc编译过程]]
+	- [[$red]]==**参考之前的笔记**==[[gcc编译过程简介]]
 	- 整体过程
 		- .c {Preproessing: -E}-> .i {Compiling: -S}-> .s {assembling: -c}-> .o {linking}-> .out
 	- 使用-E选项可以读到宏展开之后的代码，有时可以便于理解
