@@ -45,4 +45,10 @@
 			     int i;
 			  }
 			  ```
-		-
+	- ## 定义是如何从Kconfig最终到c文件中的？
+		- Make会调用生成menuconfig的命令
+		- 该命令从Kconfig文件生成图形化菜单
+		- 在菜单中配置之后，生成.config文件
+		- 通过.config文件中的东西生成autoconf.h头文件，所有定义都在其中
+			- 应该是在执行mconf或conf是完成的头文件生成
+			- 具体生成函数在confdata.c文件中
