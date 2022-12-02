@@ -1,0 +1,12 @@
+- # 问题：
+	- [[$red]]==什么是specification language==
+		- 是专门用于描述specification的语言吗？
+		- 除了LTL还有哪些specification language
+	- [[$red]]==什么是specification debugging==
+	- [[$red]]==什么是runtime verification==
+- # 基础
+	- 一个自然数上的区间$I=[a,b]0\le a\le b$，a，b都是自然数，是一个自然数的集合$\{i\ |\ a\le i\le b\}$
+	- 当且仅当$b<+\infin$时，$I$是受约束(bounded)的，否则就是不受约束(unbounded)的
+	- MLTL的原子命题$\varphi$的语法如下：
+		- $\phi::=\text{true | false | }p\ |\ \neg \varphi\ |\ \varphi\wedge \psi\ |\ \varphi\vee\psi\ |\ \varphi \ \mathcal{U}_I\ \psi\ |\ \varphi\ \mathcal{R}_I\ \psi$
+	-
