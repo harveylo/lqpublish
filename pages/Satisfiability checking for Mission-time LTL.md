@@ -1,9 +1,11 @@
+- 补充：[[计算复杂度理论相关概念]]
 - # 问题：
 	- [[$red]]==什么是specification language==
 		- 是专门用于描述specification的语言吗？
 		- 除了LTL还有哪些specification language
 	- [[$red]]==什么是specification debugging==
 	- [[$red]]==什么是runtime verification==
+	- [[$red]]==什么是PSPACE-COMPLETE==
 - # 基础
 	- 一个自然数上的区间$I=[a,b]0\le a\le b$，a，b都是自然数，是一个自然数的集合$\{i\ |\ a\le i\le b\}$
 	- 当且仅当$b<+\infin$时，$I$是受约束(bounded)的，否则就是不受约束(unbounded)的
@@ -54,13 +56,31 @@
 		- 讲MLTL，LTL，$\text{LTL}_f$的可满足性问题分别缩写为$\text{MLTL-SAT, LTL-SAT, LTL}_f\text{-SAT}$
 	- ## LTL over finite traces
 		- $\text{LTL}_f$是LTL逻辑的一个变种， 有着和LTL相同的语法
-		- 但是在$\text{LTL}_f$中，双元操作符$\mathcal{X}$是weak next $\mathcal{N}$
+		- 但是在$\text{LTL}_f$中，$\mathcal{X}$的一个变种是weak next $\mathcal{N}$
 			- 例如，在一个有限trace序列的最后一项上，$\mathcal{X}\psi$是不满足的，但是$\mathcal{N}\psi$是可满足的
 		- ### 和LTL公式之间的转换
 			- 给定一个$\text{LTL}_f$公式$\varphi$，存在一个LTL公式$\psi$，使得$\varphi$是可满足的当且仅当$\psi$是可满足的
-			- ![image.png](../assets/image_1670079845954_0.png)
+			- ![image.png](../assets/image_1670079845954_0.png){:height 142, :width 341}
 			- Tail是一个原子命题，表示一个满足公式的trace的结尾
 - # MLTL-SAT的复杂度
 	- 众所周知，MITL(Metric Interval Temporal Logic)的可满足问题是[[$red]]==EXPSPACE-complete==的，而MITL的碎片$\text{MITL}_{0,\infin}$是PSPACE-complete。
 	- MLTL可以看作MITL的变种
 	- 通过将MLTL规约到$\text{LTL}_f$上来证明MLTL可满足问题是NEXPTIME-complete
+	- **引理1**： 令$\varphi$为一个MLTL公式，且K是出现在$\varphi$区间最大的自然数(如果$\varphi$中没有区间，则K置为1)，则存在一个$\text{LTL}_f$公式$\theta$能和$\varphi$识别相同的语言，且$\theta$地大小为$O(K\cdot|cl(\varphi|)$
+		- **证明**
+			- 对于一个MLTL公式$\varphi$，递归定义一个$\text{LTL}_f$公式$f(\varphi)$如下：
+			- 如果$\varphi$为true，false或一个原子命题，则$f(\varphi)=\varphi$
+			- 如果$\varphi=\neg\psi$，则$f(\varphi)=\neg f(\psi)$
+			- 如果$\varphi=\xi\wedge \psi$，则$f(\varphi)=f(\xi)\wedge f(\psi)$
+			- 如果$\varphi=\xi\mathcal{\ U}_{[a,b]}\ \psi$，则
+				- ![image.png](../assets/image_1670212300069_0.png){:height 89, :width 477}
+				- 就是一层层地打开$\mathcal{U}$
+				- 注意在MLTL中，$\mathcal{U}$之后地性质一定要在给定的区间中最终成立
+			- 使用递归定义地方式证明$\pi\vDash \varphi$当且仅当$\pi\vDash f(\varphi)$
+				- 如果$\varphi = \neg \psi,f(\varphi)=\neg f(\psi)$，根据归纳假设，$\pi\vDash\psi$当且仅当$\pi\vDash f(\psi)$，则其逆否命题$\pi\nvDash\psi$当且仅当$\pi\nvDash f(\psi)$同样成立，根据定义可得$\pi\vDash \neg\psi$当且仅当$\pi\vDash \neg f(\psi)=f(\neg \psi)$
+				- 如果$\varphi=\xi\wedge\psi, f(\varphi)=f(\xi)\wedge f(\psi)$，证明同上一条
+				- 如果$\varphi=\xi \mathcal{\ U}_{[a,b]}\ \psi$，则再分为$0<a\le b, 0=a<b,0=a=b$三种情况讨论
+	- **定理1**：MLTL可满足性问题的复杂度是NEXPTIME-complete的
+		- **证明**：
+			-
+	-
