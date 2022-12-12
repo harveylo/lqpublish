@@ -36,20 +36,21 @@
 - # 补充
 	- [[C内联汇编]]
 	- [[库函数stdarg]]
-	- ``extern "C"``，用于让C能够连接C++的函数
-		- C++中有函数名重载，因此C++编译器不能将函数名作为唯一的ID进行连接
-			- 因此C++编译器会给每一个函数附加诸如参数类型的额外信息
-		- 而C不能进行函数名重载，因此没有这方面的考虑
-		- 在C++中加上``extern "C"``的关键字之后，C++编译器将不会再给该函数附加额外信息
-		- 可以单独使用，也可以作为代码块使用
-			- ```
-			  extern "C" void foo(int);
-			  extern "C"
-			  {
-			     void g(char);
-			     int i;
-			  }
-			  ```
+	- ## C和C++的混编
+		- ``extern "C"``，用于让C能够连接C++的函数
+			- C++中有函数名重载，因此C++编译器不能将函数名作为唯一的ID进行连接
+				- 因此C++编译器会给每一个函数附加诸如参数类型的额外信息
+			- 而C不能进行函数名重载，因此没有这方面的考虑
+			- 在C++中加上``extern "C"``的关键字之后，C++编译器将不会再给该函数附加额外信息
+			- 可以单独使用，也可以作为代码块使用
+				- ```
+				  extern "C" void foo(int);
+				  extern "C"
+				  {
+				     void g(char);
+				     int i;
+				  }
+				  ```
 	- ## 定义是如何从Kconfig最终到c文件中的？
 		- Make会调用生成menuconfig的命令
 		- 该命令从Kconfig文件生成图形化菜单
@@ -62,3 +63,20 @@
 	- ## 什么时候getopt-long会返回1？
 		- 在指定optstring的时候，如果在开头加一个``-``，则如果处理到一个不匹配的字符串，则返回值则会是1
 		- 似乎只会对遇到的第一个不匹配参数有用
+- # 部分问题回答
+	- ## 错误码为什么是1？make程序如何得到这个错误码
+		- 测试用例调用的check函数在测试不通过时会调用``halt(1)``
+		- 该函数的具体实现为调用相关平台的``nemu_trap(code)``宏，且调用时会把1作为参数传入
+		- ``nemu_trap(code)``在riscv平台下的具体定义为：
+			- ``asm volatile("mv a0, %0; ebreak" : :"r"(code)``
+			- 为内联汇编代码
+		- nemu在执行ret语句时会调用宏``NEMUTRAP(s->pc,R(10))``
+			- R(10)为读取寄存器a0的值
+			- 该宏的详细定义为``#define NEMUTRAP(thispc, code) set_nemu_state(NEMU_END,thispc,code)``
+		- ``set_nemu_state(int state, vaddr_t pc, int halt_ret)``函数会设置各种nemu_state结构体中的各种属性，具体的：
+			- ```
+			  nemu_state.state = state
+			  nemu_state.halt_pc = pc;
+			  nemu_state.halt_ret=halt_ret
+			  ```
+		- 而在nemu对于每一条指令的执行过程中，如果nemu_state的状态变味了END，nemu将会停止执行，并且在nemu-main.c的main函数中，返回值时会判断nemu_state中的halt_ret，如果不为0，则会返回1
