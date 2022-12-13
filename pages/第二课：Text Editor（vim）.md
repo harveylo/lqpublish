@@ -90,6 +90,14 @@
 					- 不添加该选项则只替换第一个符合pattern的
 				- ``c``：对每一次替换都进行确认
 				- ``I``：查找pattern时大小写敏感
+					- 强制大小写不敏感搜索：`/harttle\c`
+					- 强制大小写敏感搜索：`/harttle\C`
+					- 强制大小写不敏感替换：`s/harttle\c/Harttle`
+					- 强制大小写敏感替换：`s/harttle\C/Harttle`
+					- 设置为大小写敏感：`:set ignorecase`
+					- 设置为大小写不敏感：`:set noignorecase`
+					- 设置为智能模式（有大写时敏感否则不敏感）：`:set smartcase`
+					- 设置为非智能模式：`:set nosmartcase`
 					-
 	- ## Insert状态
 		- **[[$red]]==转换方法==**
