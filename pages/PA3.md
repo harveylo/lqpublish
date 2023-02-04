@@ -1,9 +1,53 @@
+- # 杂项
+	- [[The RISC-V Instruction Set Manual Volume II: Privileged Architecture]]
 - # 个人思考
 	- ## 对于AM(abstract-machine)的理解
 		- 一开始我认为AM就是一个操作系统，加载程序到nemu的内存指定位置，然后执行
 		- 然而实际上AM应该是一个特殊的抽象层，正如其名字**abstract machine**一样是一台省去了物理实现的抽象计算机
 		- AM实际做的事是在物理计算机(NEMU)的基础上增添了一层新的抽象层，将NEMU的实现细节(指令集等)全部略去，使得后续的实验可以很方便地展开
 		- 不过AM也做了一部分操作系统会做的事，例如库函数地实现等
+- # [[$red]]==部分问题回答==
+	- ## 理解上下文结构的前世今生
+		- 上下文结构体Context在实际运行时是被**分配在栈空间上**的
+		- 需要弄清楚，[[$red]]==**NANO-lite操作系统是如何执行一次trap的**==
+		- 首先，操作系统在启动时需要通过**init_req**函数注册**异常回调函数**
+			- 操作系统需要自定义一个根据不同的异常Event进行相应的回调函数**do_event**
+				- 此函数接受一个时间Event和一个Context指针，返回一个Context指针
+			- 然后调用am中的**cte_init**函数，并传入自定义的do_event函数
+		- cte_init函数会完成更低一层的工作
+			- 首先会设置**异常向量**
+				- 当发生异常(ecall)时会跳转到储存于mtvec寄存器中保存的pc
+				- 将mtvec寄存器的值设置为函数**__am_asm_trap**的地址
+			- 然后将传入的do_event函数作为该文件中的一个静态全局变量**user_handler**保存下来
+		- 因此当程序执行一次**yield**时，
+			- 软件会：
+				- 将异常编号保存进寄存器a7中
+				- 使用ecall指令
+			- 硬件(NEMU)会完成(通过**isa_raise_intr**函数)：
+				- 将当前指令的pc保存进mepc中
+				- 将异常编号放入mcause中
+				- 将pc设置为mtvec的值 **等价于** 进入**__am_asm_trap**函数执行
+		- __am_asm_trap函数负责trap的**事前(保存上下文)**和**事后(恢复上下文)**处理处理(软件层面)
+			- 在``abstract-machine/am/src/$ARCH/nemu/trap.s``中使用汇编语言编写
+				- 因为保存和恢复上下文的操作需要直接在和硬件打交道(操作寄存器)，因此使用汇编语言
+			- 此函数首先会将sp寄存器(栈顶寄存器)减去Context结构体大小来在内存上分配出一个Context的空间
+			- 然后再保存mcause，mstatus和mepc寄存器的值进入Context中
+			- 根据保存时的偏移可知，Context结构体中各成员的顺序应该是：
+				- 通用寄存器
+				- mcause
+				- mstatus
+				- mepc
+				- 地址空间
+		- 在保存好Context之后，将Context在内存中的地址保存到寄存器a0中，作为接下来调用函数的参数
+			- a0通常作为保存调用参数的寄存求之一
+		- 调用**__am_irq_handle**函数进行事件分发
+			- 声明一个Event结构体
+			- 根据不同的mcause值，设置Evnet中event的值
+			- 将当前Context和Event传入user_handler函数，进行用户自定义的异常处理
+		- 处理完成之后，回到__am_asm_trap函数中执行
+			- 还原上下文，然后使用mret指令让硬件恢复到异常发生时或下一条指令的地址(用户选择)
+	- ## 理解穿越时空的旅程
+		- 上一个问题的回答已经完成了本问题的解答
 - # 操作系统对硬件的需求
 	- 一个最基础的操作系统需要**做两件事**
 		- 用户程序结束之后，跳转到操作系统的代码继续执行
@@ -40,9 +84,10 @@
 			- PA中使用三个CSR寄存器
 				- **mepc**(Machine Exception PC)：存放触发异常的PC
 				- **mstatus**(Machine Status)：存放处理器的状态(全局中断使能(globle interrupt enable)等很多其他信息)，结构如下所示
-					- ![image.png](../assets/image_1674546567451_0.png)
+					- ![image.png](../assets/image_1674919591276_0.png)
+					-
 				- **mcause**(Machine Exception Cause)：存放触发异常的原因
-			- 剩下的CSR寄存器
+			- 剩下的部分CSR寄存器
 				- **mtvec**(Machine Trap Vector)：保存发生exception时处理器需要跳转到的地址
 				- **mie**(Machine Interrupt Enable)：指出处理器目前能处理和必须忽略的中断
 				- **mip**(Machine Interrupt Pending)：列出目前正准备处理的中断
@@ -53,7 +98,7 @@
 				- **mscratch**(Machine Scratch)：暂时存放一个字大小的数据
 		- ### 触发exception后的响应过程(简化)
 			- 将当前PC值保存到mepc寄存器
-			- 在mcause寄存器中设置一场号
+			- 在mcause寄存器中设置异常号
 			- 从mtvec寄存器中读取异常入口值
 			- 跳转到异常入口地址
 		- 在实际的硬件上，对异常的响应还涉及到特权等级切换等操作
@@ -69,4 +114,12 @@
 		- 对状态转移的扩充需要追加考虑指令执行“失败”时的操作
 			- 引入一个虚拟的指令，执行该指令则代表进入了异常处理
 - # 将上下文管理抽象为CTE
+	- 上下文(Context)=程序状态
+	- 操作系统需要进行上下文管理
+	- 上下文管理的具体实现是**架构相关**的
+	- 因此为了通用性，在**AM**中增添一组抽象API：**CTE**(ConText Extension)
+	- 这些API需要给操作系统进行上下文管理提供统一的必要的信息，包括
+		- **引起执行流切换的原因**，操作系统会根据不同的切换原因做出相应操作
+		- **程序上下文**，操作系统读取一些上下文寄存器获取更多信息
+-
 	-

@@ -7,6 +7,7 @@
 	- 服务器监听连接建立请求
 	- 客户端通过向服务器发送请求建立连接
 	- 连接建立需要经过**三次挥手(Three-way handshake)**
+	  id:: 63bd79f8-1e6c-41e8-a20b-49d6dc0b6aa6
 		- ![](https://lh6.googleusercontent.com/-L9GyKGal2kX0x1uhEr_WcIPJNjaXt56MwI4dppR9LKS0SKciZ4ehop6uYdAM7RFm9PYoPcK445rVYeqzjAWSOaHNXd6wvgoWbVUVQnwLZe-M2iav6FZVIfTlE15ULPrWuEYi4Mw){:height 363, :width 580}
 		- 客户端首先向服务器发送同步消息(synchronized message)，也称**SYN消息**
 		- 然后服务器用一个同步回应消息应答，称**SYN/ACK消息**
