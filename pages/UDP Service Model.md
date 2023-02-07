@@ -1,6 +1,6 @@
 - UDP的模型相较于TCP异常简单
 - **UDP头结构**
-	- ![File:UDP header.png - Wikimedia Commons](https://upload.wikimedia.org/wikipedia/commons/0/0c/UDP_header.png)
+	- ![File:UDP header.png - Wikimedia Commons](https://upload.wikimedia.org/wikipedia/commons/0/0c/UDP_header.png){:height 200, :width 725}
 	- 校验和在IPv4下是可选的，如果发送者不发送校验和，则校验和会被填零
 	- 校验和如果使用，则：
 		- ![image.png](../assets/image_1674836994056_0.png)

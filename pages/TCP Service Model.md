@@ -1,8 +1,6 @@
 - TCP通信需要建立连接(意味着需要维护一个状态机)
-- TCP连接的建立：[三次握手](63bd79f8-1e6c-41e8-a20b-49d6dc0b6aa6)
-- TCP连接的断开：**四次挥手**
-	- ![image.png](../assets/image_1674662896616_0.png)
-	- 发送FIN为1的报文表示本方已经完成了数据传输，之后不再回发送数据
+- TCP连接的建立：[[三次挥手(Three-way handshake)]]
+- TCP连接的断开：[[四次挥手(Four-way handshake)]]
 - # TCP的性质和对应行为
 	- **字节流**
 		- 可靠的自己递送服务
@@ -15,14 +13,7 @@
 		- 数据被按照传输顺序地送给应用
 	- **拥塞控制**(Congestion Control)
 		- 控制网络拥塞
-- # TCP头结构
-	- ![TCP Header | TCP Header Format | TCP Flags | Gate Vidyalay](https://www.gatevidyalay.com/wp-content/uploads/2018/09/TCP-Header-Format.png)
-	- 对于目标端口号，有一些约定俗成的默认端口号，[IANA端口号列表](https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml?&page=1)
-	- 在打开一个连接的时候，发起连接者应该分配一个源端口号用于区分不同的连接
-	- 序列号是这一帧中第一个字节的序列号
-	- 确认号表示到这个号之前(不包括)的所有字节都已经被接受，相当于告诉了期待的下一个字节的序列号
-	- PSH信号表示让另一方在受到信息之后立即递送给应用层，而不是等待更多数据的到来
-		- 在传递时间敏感数据时很管用，例如按键信号
+- # [[TCP头结构]]
 - 一个TCP连接由一个**[[$red]]==五元组唯一确认==**
 	- **TCP头**中的**源端口**，**目标端口**
 	- **IP头**中的**目标IP地址**，**源IP地址**，**协议ID**(置为TCP)

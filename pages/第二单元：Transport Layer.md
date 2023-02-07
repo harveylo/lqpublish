@@ -5,3 +5,4 @@
 - # [[Error Detection: 4 schemes]]
 - # [[Finite State Machine]]
 - # [[Flow Control]]
+- # [[Retransmition Strategies]]
