@@ -210,4 +210,24 @@
 		- 用户程序开始运行时，program break就位于``_end``处，表示堆区大小为0
 	- 调用malloc时实际上可能也通过sbrk对堆区的大小进行了调整
 	- 用户程序**[[$red]]==不应该==**直接调用``sbrk``管理堆区大小，不然会使malloc和free函数对于堆区的自动管理失效
-	-
+- # [[$red]]==第三阶段最后必答题==
+	- ## hello程序一开始在哪里？
+		- hello程序最开始只是一个c源文件
+			- include了一些库文件，这些库文件并不是常用的系统库文件，而是另外编写的NewLib里的库文件
+		- 然后使用相应的工具链编译为对应平台上的elf文件，此文件后被拷贝到nano-lite下作为一个disk文件
+	- ## 怎么出现在内存中的？
+		- 在拷贝称为nano-lite下的一个disk文件之后，编译nano-lite时会将其作为一部分编译进入到nano-lite的elf文件中
+		- 然后在nemu中执行nano-lite，在执行到nano-lite会在main函数中调用``init_proc``，该函数又会调用``naive_uload``，``naive_uload``接着调用自己编写的loader函数，该函数将ramdisk中的相关程序段根据program header的信息加载到指定的内存位置，然后返回elf头中的entry point。
+		- ``naive_uload``在收到loader返回的entry point之后直接将该entry point的地址当作一个函数机型调用，于是便进入了hello程序执行。
+	- ## 它的第一条指令在哪里
+		- 根据elf头的entry point指明
+	- ## 为什么会出现在目前的内存位置
+		- 如上上个问题的回答所述，loader根据program header中的描述将相关的程序段加载进了指定的内存位置
+	- ## 究竟怎么执行到它的第一条指令的
+		- 如上上上个问题回答所述，``naive_uload``函数在收到loader函数返回的entry point之后，将该entry point的值直接作为一个函数进行调用
+			- ``((void(*)())entry)()``
+	- ## 每一个字符串经历了什么才会最终出现在终端上
+		- 通过readelf可以看到格式字符串是被保存在``.rodata``节的
+		- 在实际执行时，Newlib的printf库函数会通过格式字符串格式化输出，该输出被保存在一个位于**堆区**的buff上
+		- 通过sbrk函数经由系统调用控制堆区的大小，然后就可以使用malloc从堆区上获取内存空间使用
+		- 格式化完成之后再通过write系统调用将buff中的内容输出到串口，最后输出到屏幕上

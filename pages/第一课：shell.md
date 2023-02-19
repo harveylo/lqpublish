@@ -20,6 +20,8 @@
 - reset：完全重置屏幕，但速度较慢
 - printf "\033c"，bash 下可使用的full reset技巧，运行较reset更快
 	- 自己写的clears命令
+- **echo和printf的区别**
+	- echo输出的内容会在末尾自带一个换行符`\n`，printf则完全按格式打印
 - # 常用命令集锦
 	- ## 文件管理
 		- `cd` ,  `pwd` ,  `mkdir` ,  `rmdir` ,  `ls` ,  `cp` ,  `rm` ,  `mv` ,  `tar`
