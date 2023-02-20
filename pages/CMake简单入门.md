@@ -1,0 +1,10 @@
+- # CMake是什么？
+	- CMake是一个高级编译配置工具
+	- 可以根据简单的语句来**描述**所有平台的安装(编译)过程
+	- 最初是作为Makefile生成器，但现在已经能够输出各种各样的**makefile**或者**project**文件，类似于Unix下的**automake**
+	- CMake的configuration file名叫``CMakeList.txt``
+	- CMake并不直接建构出最终软件，而是产生标准的construct file，例如Unix的Makefile，visual C++的projects/worspaces，然后再使用一般的建构方式使用
+	- 所以对于C或者C++项目来说，使用CMake的一般流程是：编写``CMakeList.txt``-> 运行``cmake``构建出项目 -> 运行``make``正式编译项目
+	-
+	-
+	-
