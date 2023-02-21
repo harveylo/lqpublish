@@ -1,10 +1,46 @@
 - # CMake是什么？
-	- CMake是一个高级编译配置工具
+	- CMake是一个高级编译配置工具，全程为**Cross Platform Make**，比``make``更高一级
 	- 可以根据简单的语句来**描述**所有平台的安装(编译)过程
 	- 最初是作为Makefile生成器，但现在已经能够输出各种各样的**makefile**或者**project**文件，类似于Unix下的**automake**
 	- CMake的configuration file名叫``CMakeList.txt``
 	- CMake并不直接建构出最终软件，而是产生标准的construct file，例如Unix的Makefile，visual C++的projects/worspaces，然后再使用一般的建构方式使用
-	- 所以对于C或者C++项目来说，使用CMake的一般流程是：编写``CMakeList.txt``-> 运行``cmake``构建出项目 -> 运行``make``正式编译项目
+	- 所以对于C或者C++项目来说，使用CMake的**一般流程**是：编写``CMakeList.txt``-> 运行``cmake``构建出项目 -> 运行``make``正式编译项目
+	- CMake可以
+		- 编译源代码
+		- 制作程序库
+		- 产生适配器(wrapper)
+		- 以任意顺序构建可执行程序
+- # CMake语言和项目组织结构
+	- CMake的输入文件应该使用CMake语言编写，放置于``CMakeLists.txt``或``.cmake``文件中
+	- 一个项目中的CMake源文件被组织为：
+		- **目录(Dicrectories)**
+			- 格式：``CMakeLists.txt``
+			- 当CMake处理一个项目源树(Source Tree)时，入口就是一个位于最顶层源目录(source directory)的名为**CMakeLists.txt**的文件
+			- 该文件可能包含了所有的构建specification，也可以使用``add_subdirectory()``添加建造子目录
+				- 每一个使用该命令添加的建造子目录也必须包含一个``CMakeLists.txt``文件作为该目录的entry point
+			- 对于每一个被处理的源目录，CMake会再建造树上生成一个对应目录作为默认的工作和输出目录
+		- **脚本(Scripts)**
+			- 格式：``<scripts>.cmake``
+			- ``cmake``使用``-P``选项可以直接执行使用CMake语言编写的脚本
+				- 仅仅执行其中的语句，不生成建造系统，因此不允许含有定义了建造目标或者行为的语句
+		- **模块(Modules)**
+			- 格式：``<module>.cmake``
+			- 目录和脚本中的cmake语言代码都可以包含``include()``语句来在当前scope和context下装载一个cmake模块源文件
+			- ``man 7 cmake-module``可以查看已安装的cmake distribution自带的模块
+			- 项目也可以提供自己的模块，用``CMAKE_MODULE_PATH``来指定这些模块的位置
 	-
-	-
+- # 基本命令
+	- ## PROJECT
+		- ``PROJECT()``
+		- 可以用来指定工程项目的名称和支持的语言，若不指定支持的语言，则默认支持所有语言
+		- **举例：**
+			- ``PROJECT(HELLO)``，指定了工程名称为HELLO，且支持所有语言
+			- ``PROJECT(HELLO CXX)``，指定了工程名称，且支持的语言仅有C++
+			- ``PROJECT(HELLO C CXX)``，指定了工程名称，且支持C，C++
+		- 此关键字还会隐式定义两个CMake变量
+			- ``<PROJECT-NAME_BINARY_DIR>``
+				- 该变量的指明项目的编译文件目录，后续使用``add_subdirectory()``时该变量非常有用
+			- ``<PROJECT-NAME_SOURCE_DIR>``
+				- 同上，但是指明的是源文件目录
+		-
 	-
