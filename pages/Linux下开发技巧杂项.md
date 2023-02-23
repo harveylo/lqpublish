@@ -1,0 +1,2 @@
+- **查看静态库中的内容**
+	- ``nm -g --defined-only  <libname>``
