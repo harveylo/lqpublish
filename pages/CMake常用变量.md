@@ -1,0 +1,4 @@
+- # CMAKE_BUILD_TYPE
+	- 这个变量将只执行那些有相应configuration的建造命令
+	- 一般在shell中使用``cmake``命令时通过选项``-DCMAKE_BUILD_TYPE``给出
+	- 常用的configuration有``Debug``，`Release`, `RelWithDebInfo`和`MinSizeRel`等，同时也支持自定义configuration
