@@ -134,6 +134,7 @@
 		- 但是此选项会被跨target依赖(inter-target dependencies)覆盖，如果父项目的一个目标构造依赖于一个此子目录的目标，那么子目录中的被依赖目标会被包含进父项目的建造系统中
 	- 如果``SYSTEM``参数被给出，那么此子目录的``SYSTEM``目录属性会被置为true
 - # INSTALL
+  collapsed:: true
 	- [Manual Page](https://cmake.org/cmake/help/latest/command/install.html)
 	- ```
 	  install(TARGETS <target>... [...])
@@ -397,3 +398,66 @@
 			- 如果一个库的所有源文件都没有include某个其他库的头文件，但是在自己的头文件中include了一个其他库的头文件，这属于``INTERFACE``
 			- 如果一个库在自己的头文件和源文件中都include了一个其他库的头文件，则属于``PUBLIC``
 		- 如果不给出依赖类型，那么链接依赖会**默认传递**，即若另一个目标需要链接这个目标，这该目标的所有链接的库都会出现在另一个目标的链接列表里
+- # FILE
+	- ```
+	  Reading
+	    file(READ <filename> <out-var> [...])
+	    file(STRINGS <filename> <out-var> [...])
+	    file(<HASH> <filename> <out-var>)
+	    file(TIMESTAMP <filename> <out-var> [...])
+	    file(GET_RUNTIME_DEPENDENCIES [...])
+	  
+	  Writing
+	    file({WRITE | APPEND} <filename> <content>...)
+	    file({TOUCH | TOUCH_NOCREATE} [<file>...])
+	    file(GENERATE OUTPUT <output-file> [...])
+	    file(CONFIGURE OUTPUT <output-file> CONTENT <content> [...])
+	  
+	  Filesystem
+	    file({GLOB | GLOB_RECURSE} <out-var> [...] [<globbing-expr>...])
+	    file(MAKE_DIRECTORY [<dir>...])
+	    file({REMOVE | REMOVE_RECURSE } [<files>...])
+	    file(RENAME <oldname> <newname> [...])
+	    file(COPY_FILE <oldname> <newname> [...])
+	    file({COPY | INSTALL} <file>... DESTINATION <dir> [...])
+	    file(SIZE <filename> <out-var>)
+	    file(READ_SYMLINK <linkname> <out-var>)
+	    file(CREATE_LINK <original> <linkname> [...])
+	    file(CHMOD <files>... <directories>... PERMISSIONS <permissions>... [...])
+	    file(CHMOD_RECURSE <files>... <directories>... PERMISSIONS <permissions>... [...])
+	  
+	  Path Conversion
+	    file(REAL_PATH <path> <out-var> [BASE_DIRECTORY <dir>] [EXPAND_TILDE])
+	    file(RELATIVE_PATH <out-var> <directory> <file>)
+	    file({TO_CMAKE_PATH | TO_NATIVE_PATH} <path> <out-var>)
+	  
+	  Transfer
+	    file(DOWNLOAD <url> [<file>] [...])
+	    file(UPLOAD <file> <url> [...])
+	  
+	  Locking
+	    file(LOCK <path> [...])
+	  
+	  Archiving
+	    file(ARCHIVE_CREATE OUTPUT <archive> PATHS <paths>... [...])
+	    file(ARCHIVE_EXTRACT INPUT <archive> [...])
+	  ```
+	- ## 文件系统(Filesystem)
+		- ```
+		  file(GLOB <variable>
+		       [LIST_DIRECTORIES true|false] [RELATIVE <path>] [CONFIGURE_DEPENDS]
+		       [<globbing-expressions>...])
+		  file(GLOB_RECURSE <variable> [FOLLOW_SYMLINKS]
+		       [LIST_DIRECTORIES true|false] [RELATIVE <path>] [CONFIGURE_DEPENDS]
+		       [<globbing-expressions>...])
+		  ```
+		- 生成和``globbing-expression``匹配的文件列表，并将值储存在``variable``中
+			- ``globbing-expression``类似与正则表达式，不过简单得多
+			- google一下glob
+		- ``RELATIVE <path>``，如果给出， ``globbing-expression``则会作为相对于``<path>``的相对路径返回
+		- **在3.6以后**：结果会以字典序返回
+		- 在windows和macos下，如果所使用的文件系统是大小写敏感的，则globbing也是大小写敏感的
+			- 在其他平台下，globbing是大小写敏感的
+		- **在3.3以后**：默认情况下``GLOB``会列出目录
+			- 如果``LIST_DIRECTORIES``设会false，则会忽略目录
+		- **在3.12以后**：如果给出了``CONFIGURE_DEPENDS``标识，CMake会在主建造系统中增添检查

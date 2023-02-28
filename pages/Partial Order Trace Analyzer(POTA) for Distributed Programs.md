@@ -1,0 +1,15 @@
+- 比较久远(2003)
+- 提出一个偏序trace分析器，使用时序逻辑分析消息传递和共享内存程序
+- 其提出，之前的所有运行时验证工具都是使用一次执行的trace的全序模型进行验证，而POTA使用了偏序模型
+- 使用偏序模型允许捕捉指数级的interleaving以及找出在total order下无法找到的bug
+	- 但存在状态爆炸的问题
+- POTA使用一种叫做computation slicing的有效抽象技巧
+	- 此技巧的作用在于可以减缓状态爆炸问题，只专注于那些感兴趣的状态
+- 在POTA种，它们实现了在时序逻辑(CTL的一个子集)下的computation slicing算法
+	- 复杂度直接变成了在线程数上的多项式时间
+- 而且还能将执行trace翻译成Promela，使得能验证250个进程的trace
+- **此文章讲的trace的偏序关系(happen before)以及全序关系(interleaving)好像值得深究一下**
+	- 文章说前一个关系反而能更好的代表并行
+- **Computation Slice**也许也是一个可以深究的点
+	- 对于给定的一个谓词，一个computation slice就是一个包含最少全局状态的满足该谓词的computation的最少状态数
+	- 可以快速筛出不关心的全局状态
