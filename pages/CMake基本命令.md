@@ -297,7 +297,7 @@
 				- 可执行文件，除了macos上被标记为``MACOS_BUNDLE``的可执行文件，应该使用``BUNDLE``
 				- DLL库，.dll文件，注意和.lib的DLL import库分开
 - # ADD_LIBRARY
-  collapsed:: true
+  id:: 63fb1780-70ba-4128-9ff4-9ca146352792
 	- [Manual Page](https://cmake.org/cmake/help/latest/command/add_library.html)
 	- ## 普通库
 		- ```
@@ -310,11 +310,12 @@
 		- ``STATIC``表示构建静态库
 		- ``SHARED``表示构建编译时**动态连接**，运行时加载的动态库
 		- ``MODULE``表示构建编译时**不连接**，运行时通过类似于dlopen的函数进行加载和运行的动态库
+			- 不能用作``target_link_libraries``指令的链接参数
+			- 作为一个使用运行时技巧的插件来加载
 		- 如果以上三个选项一个都不给出，则根据变量``BUILD_SHARED_LIBS``变量的值是否为``ON``确定创建``SAHRE``或``STATIC``库
 		- 对于``SAHRE``和``MODULE``库，目标``POSITION_INDEPENDENT_CODE``的属性被自动设置为``ON``
 		- ``SHARED``库可以被标记上``FRAMEWORK``目标属性来构建一个macos框架
 		- 在**版本3.8**之后，``STATIC``也可以被标记上``FRAMEWORK``属性以构建静态框架
-		-
 - # SET_TARGET_PROPERTIES
   collapsed:: true
 	- ```
