@@ -17,6 +17,24 @@
 	- **行为改变**
 		- 可以改变程序的行为，如同[aspect-oriented programming](https://en.wikipedia.org/wiki/Aspect-oriented_programming)一样
 		- 例如，元编程可以用于注入feature flags或者bug修复
+- # 元编程的一种分类
+	- 可以通关元编程使用的语言来对元编程做出区分
+	- 一般来说，元编程的输入叫做**领域语言(domain language)**，其输出的程序所使用的语言叫做**宿主语言(host language)**
+	- ## 使用领域语言元编程
+		- Metaprogramming with Domain Language
+		- 元程序定义**一种专门的语言**来对希望生成的程序进行生成
+		- 生成的程序使用的是**另一种语言**
+		- 逻辑代码(实现代码)和元程序的代码(描述代码)是分离的
+		- **Domain Language** -> **Metaprogram** -> **Host Language**
+		- **举例**：
+			- YACC(Yet Another Compiler-Compiler)
+			- 使用CFG(Context Free Grammar)描述一种语言的语法
+			- 生成一个语法分析器(使用C语言实现)
+	- ## 使用宿主语言元编程
+		- Metaprogramming with host language
+		- 用于描述的语言和用于实现的语言是**同一种语言**
+		- 逻辑代码和元代码写在一起，使用同一种语言，元程序代码通过某种机制(通常是编译)**生成**逻辑代码
+		- 产生一种**元程序在改写自己**的效果
 - # 生成系统（Build systems）
 	- 一个生成系统可以用来帮助一个项目不同的生成目标
 	- 生成系统往往具有一些共性，一般来说都是定义一些依赖（dependence），和目标，构建目标之前需要先完成该目标的依赖。

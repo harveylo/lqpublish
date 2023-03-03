@@ -84,6 +84,7 @@
 	- ## 配置记录
 		- ``message(CONFIGURE_LOG <text>...)``
 - # ADD_EXECUTABLE
+  collapsed:: true
 	- [Manual Page](https://cmake.org/cmake/help/latest/command/add_executable.html)
 	- ## 普通可执行文件
 		- ```
@@ -134,7 +135,6 @@
 		- 但是此选项会被跨target依赖(inter-target dependencies)覆盖，如果父项目的一个目标构造依赖于一个此子目录的目标，那么子目录中的被依赖目标会被包含进父项目的建造系统中
 	- 如果``SYSTEM``参数被给出，那么此子目录的``SYSTEM``目录属性会被置为true
 - # INSTALL
-  collapsed:: true
 	- [Manual Page](https://cmake.org/cmake/help/latest/command/install.html)
 	- ```
 	  install(TARGETS <target>... [...])
@@ -234,6 +234,8 @@
 			  )
 			  ```
 	- ## 安装目录
+	  id:: 63fb1780-6af7-49c2-aeff-8e0e67cf086d
+	  collapsed:: true
 		- ```
 		  install(DIRECTORY dirs...
 		          TYPE <type> | DESTINATION <dir>
@@ -297,6 +299,7 @@
 				- 可执行文件，除了macos上被标记为``MACOS_BUNDLE``的可执行文件，应该使用``BUNDLE``
 				- DLL库，.dll文件，注意和.lib的DLL import库分开
 - # ADD_LIBRARY
+  collapsed:: true
   id:: 63fb1780-70ba-4128-9ff4-9ca146352792
 	- [Manual Page](https://cmake.org/cmake/help/latest/command/add_library.html)
 	- ## 普通库
@@ -312,6 +315,7 @@
 		- ``MODULE``表示构建编译时**不连接**，运行时通过类似于dlopen的函数进行加载和运行的动态库
 			- 不能用作``target_link_libraries``指令的链接参数
 			- 作为一个使用运行时技巧的插件来加载
+		- 如果一个库没有任何**输出符号**，则该库不能作为``SAHRED``(这种库一般都是不需要进行链接的运行时动态加载库)，因为CMake要求一个``SHARED``库至少要输出一个符号
 		- 如果以上三个选项一个都不给出，则根据变量``BUILD_SHARED_LIBS``变量的值是否为``ON``确定创建``SAHRE``或``STATIC``库
 		- 对于``SAHRE``和``MODULE``库，目标``POSITION_INDEPENDENT_CODE``的属性被自动设置为``ON``
 		- ``SHARED``库可以被标记上``FRAMEWORK``目标属性来构建一个macos框架
@@ -400,6 +404,7 @@
 			- 如果一个库在自己的头文件和源文件中都include了一个其他库的头文件，则属于``PUBLIC``
 		- 如果不给出依赖类型，那么链接依赖会**默认传递**，即若另一个目标需要链接这个目标，这该目标的所有链接的库都会出现在另一个目标的链接列表里
 - # FILE
+  collapsed:: true
 	- ```
 	  Reading
 	    file(READ <filename> <out-var> [...])
@@ -452,13 +457,153 @@
 		       [LIST_DIRECTORIES true|false] [RELATIVE <path>] [CONFIGURE_DEPENDS]
 		       [<globbing-expressions>...])
 		  ```
-		- 生成和``globbing-expression``匹配的文件列表，并将值储存在``variable``中
-			- ``globbing-expression``类似与正则表达式，不过简单得多
-			- google一下glob
-		- ``RELATIVE <path>``，如果给出， ``globbing-expression``则会作为相对于``<path>``的相对路径返回
-		- **在3.6以后**：结果会以字典序返回
-		- 在windows和macos下，如果所使用的文件系统是大小写敏感的，则globbing也是大小写敏感的
-			- 在其他平台下，globbing是大小写敏感的
-		- **在3.3以后**：默认情况下``GLOB``会列出目录
-			- 如果``LIST_DIRECTORIES``设会false，则会忽略目录
-		- **在3.12以后**：如果给出了``CONFIGURE_DEPENDS``标识，CMake会在主建造系统中增添检查
+			- 生成和``globbing-expression``匹配的文件列表，并将值储存在``variable``中
+				- ``globbing-expression``类似与正则表达式，不过简单得多
+				- google一下glob
+			- ``RELATIVE <path>``，如果给出， ``globbing-expression``则会作为相对于``<path>``的相对路径返回
+			- **在3.6以后**：结果会以字典序返回
+			- 在windows和macos下，如果所使用的文件系统是大小写敏感的，则globbing也是大小写敏感的
+				- 在其他平台下，globbing是大小写敏感的
+			- **在3.3以后**：默认情况下``GLOB``会列出目录
+				- 如果``LIST_DIRECTORIES``设会false，则会忽略目录
+			- **在3.12以后**：如果给出了``CONFIGURE_DEPENDS``标识，CMake会向主建造系统中的check目标增添在建造时重新运行拥有此标识的``GLOB``命令的逻辑。如果有任何命令的输出有所改变，CMake会重新生成构建系统
+				- [[$red]]==**注意**==：并不推荐使用GLOB来从source tree上收集源文件
+					- 如果任何``CMakeLists.txt``文件都没有变更而有源文件被增添或删除，那么生成的构建系统并不知道何时应该让CMake重新生成一次。
+					- ``CONFIGURE_DEPENDS``标识可能并不会在任何生成器上稳定运行，或者如果一个并不支持该标识的新生成器在未来加入，则使用该表示的项目会被卡住
+					- 即使``CONFIGURE_DEPENDS``标识稳定运行，每次构建时执行该检查仍然是一笔很大的开销
+			- ``GLOB_RECURSE``模式会遍历所有匹配目录的子目录
+				- symlink子目录的遍历与否取决于``FOLLOW_SYMLINKS``是否给出或策略``CMP009``是否置为``NEW``
+			- **在3.3以后**：默认情况下，``CLOB_RECURSE``忽略结果列表中的所有目录(只列出文件，不列目录)。
+				- 将``LIST_DIRECTORIES``置为true可在结果列表中列出目录
+				- 如果``FOLLOW_SYMLINKS``或者策略``CMP009``置为``NEW``，则``LIST_DIRECTORIES``会把symlinks当作目录对待
+		- ```
+		  file(MAKE_DIRECTORY [<directories>...])
+		  ```
+			- 创建目录，如果需要的话会一并创建父目录
+		- ```
+		  file(REMOVE [<files>...])
+		  file(REMOVE_RECURSE [<files>...])
+		  ```
+			- 删除指定的文件
+			- ``REMOVE_RECURSE``模式会删除所有给定的文件和目录和他们的子目录，非空目录也会被删除
+			- 当给定的目录和文件不存在时，不会产生error
+			- 如果给出的路径是相对路径，则从当前source目录寻址
+			- **在3.15以后**：空的目录或文件输入会被**忽略**。之前的版本中空输入会被当做一个相对路径，也就是当前的source目录，会删除掉当前目录下的所有文件
+		- ```
+		  file(RENAME <oldname> <newname>
+		       [RESULT <result>]
+		       [NO_REPLACE])
+		  ```
+			- 将一个文件或目录在当前文件系统内从``<oldname>``移动到``<newname>``，**原子性**替换
+			- ``RESULT <result>``
+				- **在3.21版本**中新增
+				- 如果操作成功，将``<result>``变量设置为0，反之为一个错误信息
+				- 如果``RESULT``没有给出，则操作失败会发出一个错误
+			- ``<NO_REPLACE>``
+				- **在3.21版本**中新增
+				- 如果``<newname>``已经存在，则不会覆盖已存在的文件或目录
+				- 如果``RESULT <result>``给出，``<result>``变量会被设置为``NO_REPLACE``，否则会发出一个error
+		- ```
+		  file(COPY_FILE <oldname> <newname>
+		       [RESULT <result>]
+		       [ONLY_IF_DIFFERENT]
+		       [INPUT_MAY_BE_RECENT])
+		  ```
+			- **在3.21版本**中新增
+			- 将文件从``<oldname>``复制到``<newname>``
+			- **不支持**复制目录
+			- symlinks会被**忽略**，且文件会被作文新文件赋值到目标路径(时间戳会变为最新的时间戳而不是和原文件保持一致)
+			- ``<RESULT> result``
+				- 和移动文件操作的相同选项使用方式相同
+			- ``<ONLY_IF_DIFFERENT>``
+				- 如果``<newname>``已经存在，且新老文件的内容相同时不进行复制操作
+				- 使用此选项可以避免**更新文件的时间戳**
+			- ``<INPUT_MAY_BE_RECENT>``
+				- **在版本3.26**中新增
+				- 告诉CMake输入的文件可能刚被创建
+				- 仅在windows下有意义，因为在windows下，刚被创建的文件可能在一段时间内无法被访问
+				- 如果此选项给出，则CMake会在权限被拒绝之后重试操作数次
+			- 此子命令和给出``COPYONLY``选项的``configure_file``命令有一定相似性
+				- 后者会在源文件和复制目标文件之间创建依赖关系，使得当源文件被修改时CMake会被重跑一次
+				- 而前者不会创建类似地依赖关系
+		- ```
+		  file(<COPY|INSTALL> <files>... DESTINATION <dir>
+		       [NO_SOURCE_PERMISSIONS | USE_SOURCE_PERMISSIONS]
+		       [FILE_PERMISSIONS <permissions>...]
+		       [DIRECTORY_PERMISSIONS <permissions>...]
+		       [FOLLOW_SYMLINK_CHAIN]
+		       [FILES_MATCHING]
+		       [[PATTERN <pattern> | REGEX <regex>]
+		        [EXCLUDE] [PERMISSIONS <permissions>...]] [...])
+		  ```
+			- 提供功能更加强大的文件复制选项
+				- 如果只是想简单复制文件，则上面的``file(COPY_FILE)``是**更好的选择**
+			- 将**文件**，**目录**和**symlinks**复制到目标文件夹
+			- **原相对路径**从当前source目录寻址，**目标相对路径**从当前build目录寻址
+			- 复制文件会**保持**被复制文件的**时间戳**
+			- 除非显式给出了目标的权限(``FILE_PERMISSIONS``)或使用了``NO_SOURCE_PERMISSION``选项，否则保持原文件或目录的权限(相当于默认使用``USE_SOURCE_PERMISSION``)
+			- **在版本3.15**中新增
+				- 如果``FOLLOW_SYMLINK_CHAIN``给出，`COPY`会递归展开路径直到一个真正的文件被找到。
+				- 然后对每一个遇到的symlink，都在目的地安装一个对应的symlink
+				- 新建的symlink会去掉路径上的目录，只留下文件名(在目标目录)
+				- 使用``FOLLOW_SYM_LINK_CHAIN``会将库本身安装下来
+				- **例子**
+					- 在许多Unix系统下，库有可能是作为symlink链来安装的，大版本指向更具体的版本，这个选项也正是在这样的系统下最有用
+					- 假设有这样一个目录结构：
+						- /opt/foo/lib/libfoo.so.1.2 -> libfoo.so.1.2.3
+						- /opt/foo/lib/libfoo.so.1 -> libfoo.so.1.2
+						- /opt/foo/lib/libfoo.so -> libfoo.so.1
+					- 然后执行这样一条指令
+						- ``file(COPY /opt/foo/lib/libfoo.so DESTINATION lib FOLLOW_SYMLINK_CHAIN)``
+					- 则以上所有的symlink都会和``libfoo.so.1.2.3``本身复制到``lib``中
+			- 关于**权限问题**和`FILES_MATCHING`, `PATTERN`, `REGEX`选项，可以查看[install(directories)](logseq://graph/Logseq?block-id=63fb1780-6af7-49c2-aeff-8e0e67cf086d)
+			- 复制目录会保持原目录的结构，即使对其子文件或目录做了筛选
+			- ``INSTALL``和``COPY``有些许不同：前者会打印状态信息，且``NO_SOURCE_PERMISSION``是默认选项
+				- ``install``命令生成的安装脚本就会使用此signature
+			- **在版本3.22之后**：环境变量``CMAKE_INSTALL_MODE``可以覆盖file(INSTALL)的默认复制行为
+		- ```
+		  file(SIZE <filename> <variable>)
+		  ```
+			- **在版本3.14**中新增
+			- 获取``<filename>``的大小并存放进``<variable>``中
+			- 要求``<filename>``必须是一个指向一个可读文件的有效链接
+		- ```
+		  file(READ_SYMLINK <linkname> <variable>)
+		  ```
+			- **在版本3.14**中新增
+			- 获取软链接``linkname``的路径并存放于变量``<variable>``中
+			- 如果``<linkname>``不存在或者不是一个软链接，则发出一个fatal error
+			- ``<linkname>``中保存的是啥路径就返回啥路径，不会把一个相对路径处理为绝对路径
+			- 如果想得到一个句对路径，可以参考下面的例子
+				- ```
+				  set(linkname "/path/to/foo.sym")
+				  file(READ_SYMLINK "${linkname}" result)
+				  if(NOT IS_ABSOLUTE "${result}")
+				    get_filename_component(dir "${linkname}" DIRECTORY)
+				    set(result "${dir}/${result}")
+				  endif()
+				  ```
+		- ```
+		  file(CREATE_LINK <original> <linkname>
+		       [RESULT <result>] [COPY_ON_ERROR] [SYMBOLIC])
+		  ```
+			- **在版本3.14**中新增
+			- 创建一个指向``<original>``的**硬链接**
+			- 若给出``SYMBOLIC``选项，则创建软链接
+			- ``RESULT``使用方法同上
+			- ``COPY_ON_ERROR``选项如果给出，则在创建链接失败时直接将文件复制到目标路径
+		- ```
+		  file(CHMOD <files>... <directories>...
+		      [PERMISSIONS <permissions>...]
+		      [FILE_PERMISSIONS <permissions>...]
+		      [DIRECTORY_PERMISSIONS <permissions>...])
+		  ```
+			- **在版本3.19**中新增
+			- 将``<files>``和``<directories>``的权限设置为给出的权限
+			- 有效的权限选项包括：``OWNER_READ, OWNER_WRITE, OWNER_EXECUTE, GROUP_READ, GROUP_WRITE, GROUP_EXECUTE, WORLD_READ, WORLD_WRITE, WORLD_EXECUTE, SETUID, SETGI``
+			- ``PERMISSIONS``：修改所有列出目标的权限
+			- ``FILE_PERMISSIONS``：仅修改文件的权限
+			- ``DIRECTORY_PERMISSIONS``：仅修改目录权限
+			- 若``PERMISSIONS``和``FILE_PERMISSIONS``同时给出，则对于文件来说，``FILE_PERMISSIONS``覆盖``PERMISIONS``列出的权限
+			- 若``PERMISIONS``和``DIRECTORY_PERMISSIONS``同时给出，参考上一项
+			- 若``FILE_PERMISSIONS``和``DIRECTORY_PERMISSIONS``同时给出则分别设置文件和目录的权限

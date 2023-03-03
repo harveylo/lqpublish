@@ -20,4 +20,17 @@
 		- ### 普通库
 			- 可以查看``add_library``指令的[章节](logseq://graph/Logseq?block-id=63fb1780-70ba-4128-9ff4-9ca146352792)
 		- ### 苹果framework
-			-
+			- 一个``SHARED``库可以被标记上``FRAMEWORK``目标属性来创建一个macos或iosframework bundle
+			- 标记了``FRAMEWORK``属性的目标还应该同时被标记上``FRAMWORK_VERSION``目标属性
+				- 根据macos的惯例，此目标属性的值应该被设为"A"
+			- ``MACOS_FRAMWORD_IDENTIFIER``设置``CFBundleIdentifier``的值，此键用于唯一确认一个bundle
+			- ```
+			  add_library(MyFramework SHARED MyFramework.cpp)
+			  set_target_properties(MyFramework PROPERTIES
+			    FRAMEWORK TRUE
+			    FRAMEWORK_VERSION A *# Version "A" is macOS convention*
+			    MACOSX_FRAMEWORK_IDENTIFIER org.cmake.MyFramework
+			  )
+			  ```
+		- ### 目标库
+			- ``OBJECT``库
