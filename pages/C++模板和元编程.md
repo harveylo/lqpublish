@@ -41,5 +41,47 @@
 		  template <typename T> concept no_constraint = true;   // since c++20
 		  ```
 		- 前三种模板可以拥有**定义**(definition)
-		- 后两种模板不需要定义，因为起步产生运行时实体
-		-
+		- ```
+		  // definitions
+		  template <typename T> struct  class_tmpl {};
+		  template <typename T> void    function_tmpl(T) {}
+		  template <typename T> T       variable_tmpl = T(3.14);
+		  ```
+		- 后两种模板不需要定义，因为不会产生运行时实体
+		- 相较于普通的类，函数，变量，他们的模板化声明和定义只是多了一个**template**关键字和使用``<>``括起来的模板参数
+		- 模板参数通常是**类型**因为模板的本意是事项**泛型编程**(Generic Programming)
+			- 也因为如此，其本意并不是为了进行计算，因此TMP的代码语法往往反人类，难读难写
+		- **注意**：
+			- **类模板**(class template)和**模板类**(template class)并不相同，前者是一个模板，而后者是由模板生成的一个类，函数类和类函数等也都是类似的关系
+			- 优点类似于类和对象的关系
+				- 类对一个对象的特征做出**描述**，在**运行时**对象根据这些描述被创建(一块内存区间)
+				- 模板对代码做出**描述**，在**编译时**按描述生成对应代码
+		- **注意**：
+			- TODO 学习C++lambda表达式
+			- C++14中新增了泛型lambda(generic lambda)，其定义看起来像模板，但并不是模板
+			- 其函数调用运算符是一个函数模板
+			- ```
+			  // NOTE: Generic lambda (since c++14) is NOT a template,
+			  // its operator() is a member function template.
+			  auto glambda = []<typename T>(T a, auto&& b) { return a < b; };
+			  ```
+	- ## 模板的形参和实参
+		- 一个模板可以有三种类型的**形参**(parameters)
+			- **非类型模板形参**(Nontype Template Parameters)
+				- 可以接受一个确定类型的**常量**作为**实参**(arguments)
+				- 具体地说，非类型模板形参必须是一个**结构化类型**(structural type)，包括：
+					- 整形，如int, char, long
+					- 枚举型
+					- 指针和引用类型
+					- 浮点数类型和[[$red]]==字面量==(literal)类型(C++20之后支持)
+						- /TODO 学习C++中的字面量
+					- [[$red]]==**强调**==：必须是常量，因为模板是在编译时展开，这个阶段只有常量，没有变量
+			- **类型模板形参**(Type Template Patameters)
+			- **模板模板形参**(Template Template Parameters)
+			- ```
+			  // There are 3 kinds of template parameters:
+			  template <int n>                               struct NontypeTemplateParameter {};
+			  template <typename T>                          struct TypeTemplateParameter {};
+			  template <template <typename T> typename Tmpl> struct TemplateTemplateParameter {};
+			  ```
+			-
