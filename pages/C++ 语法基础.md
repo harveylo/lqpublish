@@ -8,3 +8,4 @@
 	- ## [[using关键字]]
 - # STL函数
 	- ## [[std::move]]
+	- ## [[std::declval]]

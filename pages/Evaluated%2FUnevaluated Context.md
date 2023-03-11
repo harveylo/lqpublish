@@ -1,0 +1,9 @@
+- 在某些上下文中，一个操作数不被evaluate，即为unevaluated context
+- unevaluated operand是一个full-expression
+- [[$red]]==**个人理解**==就是并不会去实际计算出其值，和编译时相关
+	- 在编译时完成其功能而不是在运行时，因此也不需要计算值
+- 典型的(应该也是所有的)unevaluated context有
+	- **typeid**
+	- **sizeof**
+	- **noexcept**
+	- **decltype**
