@@ -6,6 +6,7 @@
 	- ## [[C++ 引用与指针]]
 	- ## [[decltype关键字]]
 	- ## [[using关键字]]
+	- ## [[restrict关键字]]
 - # STL函数
 	- ## [[std::move]]
 	- ## [[std::declval]]
