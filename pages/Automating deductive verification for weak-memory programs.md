@@ -1,7 +1,0 @@
-- 使用现有的演绎验证工具将弱内存程序的逻辑编码(Viper verification infrastructure)
-- 使得可以对C11程序在不同抽象层级上进行无限制的验证
-- 用户唯一的互动就是给出specification
-- 在**Folly Library**上进行了验证实验([[$red]]==听起来有点厉害==)
-- 主要是在做deductive verification
-- 最终似乎是靠coq来完成最后的验证
-- 有点类似，但感觉不在一条赛道上

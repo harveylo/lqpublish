@@ -1,5 +1,0 @@
-- 对于有状态的协议(TCP,HTTP)，使用有限状态自动机可以很好地描述其行为
-- TCP的FSM如下
-	- ![image.png](../assets/image_1675342647531_0.png){:height 534, :width 672}
-- 另一版本的FSM
-	- ![](https://ttcplinux.sourceforge.net/documents/one/tcpstate/tcpstate.jpg)

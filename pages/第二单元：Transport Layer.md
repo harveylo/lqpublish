@@ -1,8 +1,0 @@
-- # [[TCP Service Model]]
-- # [[UDP Service Model]]
-- # [[ICMP Service Model]]
-- # [[The End-to-End Principle]]
-- # [[Error Detection: 4 schemes]]
-- # [[Finite State Machine]]
-- # [[Flow Control]]
-- # [[Retransmition Strategies]]

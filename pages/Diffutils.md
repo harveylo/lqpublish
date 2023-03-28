@@ -1,8 +1,0 @@
-- Comparing and Merging Files
-- 此手册是关于**GNU Diffutils**的，用于**比较和合并文件**，包含：
-	- ``diff``
-	- `diff3`，用于比较三个文件
-	- ``sdiff``，用于**互动式**比较和合并文件
-	- `cmp`，用于两个文件的byte by byte比较
-- # [[比较意味着什么]]
-- # [[diff输出格式]]

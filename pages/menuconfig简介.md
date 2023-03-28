@@ -1,5 +1,0 @@
-- [The kernel build system](https://www.kernel.org/doc/html/latest/kbuild/kconfig-language.html)
-- menuconfig：支持配置内核的图形化界面
-- kconfig：生成menuconfig界面的脚本语言
-- 实际上就是为了生成.config文件，直接修改.config文件实际是可行的，但是可能配置项太多记不住，所以使用图形化的menuconfig来生成，类似于make用于帮助编译，手打编译命令也是可以的，但是make简化了这些操作
-- menuconfig是一套图像化配置工具，由ncurses库提供软件支持

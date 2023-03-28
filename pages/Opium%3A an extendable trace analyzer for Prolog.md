@@ -1,7 +1,0 @@
-- 此文章比较久远(1999)
-- 宣称他们的工具是可扩展的
-- 分为两个部分，名为**Opium**的可编程可拓展trace分析器和一个用于生成trace的**Prolog tracer**
-- 他自己强调主要是用于debug
-	- 当然verification也可以是debug的一部分
-- 感觉可以强调我将要做的工作是和weak memory 高度绑定的
-	- 而且使用复杂度更低？
