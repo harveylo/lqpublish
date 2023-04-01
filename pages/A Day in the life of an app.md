@@ -1,0 +1,54 @@
+- 本节主要简单介绍一些常用的网络应用背后的通讯模型
+- 互联网的应用层控制着payload的通讯方式(以何种方式到达)
+- # 网络应用
+	- **通过网络**读写数据
+	- 最常使用且最浅显的计算机网络模型：**双向稳定字节流连接**(bidirectional, reliable byte stream connection)
+		- 一侧可以读取另一侧写入的内容
+		- 双向都可以进行操作
+		- 稳定(除非连接故障)
+- # 字节流模型
+	- 客户和服务器开启一个连接
+	- 双方都可以**通过网络**向对方通过字节流传输信息
+	- 双方都可以关闭连接
+	- 是很多其他模型的基础
+- # World Wide Web(HTTP)
+	- 万维网使用HTTP(Hypertext transfer protocol)协议
+	- **请求-回应**
+	- http协议是**Document-Centric**的
+		- 客户端的请求需要指明所需的文件
+	- http协议是基于ascii码表文本的，所以是human-readable的
+	- 客户段向服务器请求建立连接
+	- 然后通过各种不同的请求来获取信息
+		- 例如最常见的get请求，用来获取一个网页(page)的内容
+	- 服务器则会对不同的请求发送回应(respond)
+- # BitTorrent
+	- 主要用于共享文件
+	- 客户端向其他客户端请求文档
+	- bt协议将文件分为许多不同的部分，称为pieces
+	- 当一个客户端下载完成一个piece，它将告诉其他所有客户端它拥有某一个piece
+	- 一起下载某一个文件的客户端的集合叫做swarm
+	- 当一个客户端想下在某一个文件时，需要找到一个torrent file
+		- torrent file记录了一些待下载文件的信息
+		- 告诉用户，这个文件的tracker在何处
+			- tracker是一个记录了所有处于该文件swarm中客户端的节点
+		- 用户通过http协议和tracker通信，获取一个swarm客户端列表
+		- 然后向这些处于swarm中的客户端发送请求，希望获取在这些客户端上的piece
+- # Skype
+	- 主要用于语音通话
+	- 连接的两端都是client而非server
+	- 当由NAT存在的时候，其运行机制会更加复杂
+		- 当有NAT存在时，在NAT下的client可以方便地和外界建立联系，但是外界无法轻易和该client建立联系
+		- 因此skype使用了一些特殊机制来解决这个问题
+	- 当有一方在NAT之后时：
+		- 引入了一个rendezvous服务器
+			- 当登录skype的时候，都会和该服务器建立联系
+			- rendezvous服务器不在NAT后，任何client都可以简单地和其建立联系
+			- 当一个client A想和另外一个在NAT之后的client B建立联系的时候，A会去和rendezvous联系，而rendezvous此时和B有一个active connection，rendezvous会给B发送一个来自A的通话请求
+			- 当B接受了这个通话请求，B就会建立一条和A的连接
+			- 这种手段叫做reverse connection，逆转了连接建立的实际方向(最终由被请求方建立连接，而不是请求方)
+	- 当两方都在NAT之后时：
+		- 引入第二种第三方服务器：中继(relay)服务器
+		- relay不在NAT之后(显然)
+		- 当有通话请求时，两方client都和relay建立连接，由relay来中继数据
+		-
+	-

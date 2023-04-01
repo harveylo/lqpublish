@@ -1,0 +1,7 @@
+- # 什么是并发
+	- 复习concurrency和parallel的区别
+	- parallel，也就是真正的同时运行需要硬件的支持，所以也叫硬件并发(Hardware concurrency)
+	- ## 并发的方式
+		- ### 进程间并发
+			- 通过若干只有一个线程的进程完成并发
+		-

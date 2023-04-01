@@ -1,0 +1,7 @@
+- # [[第一课：shell]]
+- # [[第二课：Text Editor（vim）]]
+- # [[第三课：Data wrangling]]
+- # [[第四课：Command-line Environment]]
+- # [[第六课：Debugging and Profiling]]
+- # [[第七课：metaprogramming]]
+- # [[第八课：Security and Cryptography]]

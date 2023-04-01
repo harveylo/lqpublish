@@ -1,0 +1,3 @@
+- [在线文档](https://www.gnu.org/manual/)
+- GNU在线手册涵盖了GNU所有package的文档页，其文档页包含很多有用信息和建议
+- # [[Diffutils]]

@@ -1,0 +1,218 @@
+- 补充： [[DFT简介]]
+- # Introduction
+	- 现有的硬件木马检测可以分类为
+		- **结构和功能分析**
+			- 利用一些定量的指标将那些低激活可能性的信号和门标记出来，这些信号和门很有可能是木马的一部分
+			- UCI(unused circuits identification)，找到RTL中未使用的代码
+				- 能够被打败
+			- 功能分析利用功能魔力来找到IP中和木马有着相似特征的可疑区域
+			- Nearly-unused Circuit Identification (FANCI)
+				- 将输入和输出的依赖性弱的代码标记为可疑
+			- VeriTrust
+				- 将不受功能输入驱动的nets标记为可能的木马trigger input
+			- 以上两种测试技巧仍然能够被bypass
+			- 有人提出了基于符号代数的检测方法，但是需要一个golden reference作为对比，对于第三方IP来说，这种东西是很难甚至无法获得的
+		- **逻辑测试**
+		- **形式化验证**
+		- **information flow tracking**
+		- **runtime validation**
+	- ## 本文章的工作
+		- 提出一个comprehensive analysis of IFT/formal Trojan detection techniques
+		- 提出一个全新的3PIPs木马检测框架，该框架基于IFS(information flow security)验证，检测由木马程序造成的IFS政策违法
+		- 检测到木马之后可以提取出triggering condition
+- # 前置知识和定义
+	- ## 木马的两种类别
+		- **一型**
+			- 使用有效的asset传播通道传递有效载荷
+			- 例如RSA-T100通过有效的密文输出接口将key泄露出去
+			- 这型木马一般会创造一个bypass path让对手提取asset
+		- **二型**
+			- 此型木马使用未被授权观测或管理asset的恶意线路来传递有效载荷
+			- AES-T100，使用功能上和有效的encryption logic独立的泄露线路将key泄露出去
+		- 在**sec. 5**详细讨论
+- # 前人工作和限制
+	- ## Formal verification
+		- 基于**BMC(Bounded Model Checking)**
+		- 通过一个性质来验证有无对于关键信息的恶意修改或未授权的信息泄露
+		- 通过性质:
+			- $P\vDash (s_0==o)\vee (\neg s_0==o),\forall s_0\in 0,1$
+			- 其中$s_0$是秘密信息中的一位，o是任何一个泄漏点，例如一个输出端口
+		- 可以找到信息的泄露，但是有如下问题
+			- **假阳**：很明显，如此粗暴的性质会导致大量误报
+				- 问题在于，仅对比重要信息和泄漏点的逻辑值，而并不去探究是否有一条从该信息到泄漏点的信息流
+			- **有限的验证能力**
+				- 模型检测一个通病就是只能验证电路在很有限的几个时钟周期内的行为
+				- 因此一旦木马将触发条件设定为等待很多个时钟周期之后再触发，模型检测就无法很好地检测出该木马
+	- ## GLIFT-based Trojan Detection
+		- **gate-level information flow tracking**
+		- 对每一个数据位都加注一个taint位
+		- 将原本所有的门都增强为带有tracking logic的门
+		- **但是，**GLIFT的逻辑十分难以设计，且GLIFT也有假阳的可能
+		- 存在的限制：
+			- **无法分辨恶意和有效路径**
+				- GLIFT假设信息从key流向密文输出是很正常的，并且认为这是加密函数的一环
+				- 因此有的木马最终会将输出导向密文输出，得以绕开GLIFT检查
+			- **Taint Explosion**
+				- 在插入了dft的电路中，没法使用GLIFT
+				- 在scan mode下，一条扫描链中的触发器会被连接起来，所以当有一位被标记为high的位经过这样的电路时，所有该扫描链中的触发器都会被标记为high
+				- 仅在functional mode下使用GLIFT也是不行的[[$red]]==(?)==
+		- 有研究指出是有木马能通过scan mode递送有效载荷的，由于GLIFT在dft下的劣势，其无法检测这样的木马
+		- 而且GLIFT依赖于形式化工具来检测木马，因此共享形式化方法的**有限的验证能力**的弱点
+	- ## Jasper Security Path Verification
+		- 一个用于硬件的形式化验证工具
+		- 也是用taint
+		- 将某些信号设置为taint，然后检车这些信号的taint会不会传递到某个destination
+		- 但是IC厂家可能不知道需要去检查IP中的哪些信号来检测木马
+	- ## Trojan Detection by Signal Sensitivity Tracing
+		- 数据敏感性追踪
+		- 数据敏感性列表包含了所有的敏感信息在设计中的分布信息
+			- 可以被用来检测会泄露敏感信息的可能的木马有效载荷
+		- **不包含的敏感数据的电路信号的敏感性被设置为0**
+		- **包含敏感数据的信号的敏感性为被设置为一个正整数**
+			- 数字越大敏感性越高，越需要高级别保护
+		- 经过不同的电路操作，信号的值也会改变
+		- 只有少数操作能够降低敏感性
+		- 作者认为，木马会导致密文输出的敏感性不是0而是一个正整数
+		- 然而sensitivity checking是**可以被绕过**的
+- # TROJAN DETECTION THROUGH IFS VERIFICATION
+	- [[$blue]]==基于一个观察==：**不管多小的木马，都会改变设计中本来计划的信息流，导致信息流安全策略的违反**
+		- 问题在于如何在没有golden reference model的情况下检测IFS violation
+	- [[$blue]]==给予一个新兴概念==：将asset建模为永0和永1错误来影响ATPG算法来检测错误
+	- 一次**对于错误的成功观测**意味着
+		- 承载着asset的线路的逻辑值能够通过观测点观测到
+		- 或者asset的逻辑值能够被控制点控制
+		- **说白了就是**：存在从asset到观测点或从控制点到asset的信息流
+	- [[$blue]]==观测点是：== 任何可以被用来观测内部信号的主输出或伪主输出(scan FFS)
+	- [[$blue]]==控制点是==：任何可以被永用控制内部电路信号的主输入或伪主输入(scan FFs)
+	- 本框架需要找到所有**能够观测和识别到asset**的**观测点** 和 所有**能够控制asset**的**控制点**
+		- [[$red]]==很难用常规的full-scan(全扫描) 和 full-sequential(全时序) ATPG分析==来做IFS验证
+			- full-scan ATPG只能检测第一层的asset propagation[[$red]]==(?)==
+				- 论文：Security Vulnerability Analysis of Design-for-Test Exploits for Asset Protection in SoCs
+				- the observe points associated with a Trojan which is not located in the first level FFs, will not be detected by full-scan ATPG
+			- full-sequential ATPG需要搜索所有的输入空间来找到一个可以把fault传递到观测点的输入，因此复杂度太高
+				- 所以对于没有引入任何DFT的时序电路，很难检测其错误传递
+		- **解决方案：**
+			- 使用**partial-scan**来找到asset的观测点和控制点
+			- partial-scan中，扫描链仅包括部分sequential cell而不是所有，从block的层次来进行scan设计
+			- 传统来说，部分扫描一般用来在能够达到目标测试覆盖度的同时降低面积overhead
+			- 在此框架中，部分扫描仅被用作IFS验证，验证结束之后，厂家可以自行选择转换为full-scan
+	- **IFS验证可以进一步被分为两部分**
+		- **机密性验证**
+			- 识别是否asset能在恶意或未授权的观测点被观测到
+		- **完整性验证**
+			- 识别是否asset能在恶意或未授权的控制点被控制
+	- 使用**Malicious Observe/Control Point Identification** 技巧来区分授权和未授权观测/控制点
+		- 该技巧不需要对IP的白盒知识，不需要golden reference model
+	- 找到IFS违反之后可以通过Trigger Condition Extraction 技巧提取木马触发条件
+	- IFS框架利用了现存的测试工具，比如Tetramx，Fastscan，Encounter Test等
+		- 本文使用Tetramax和自行开发的tcl代码来实现IFS验证框架
+	- ## 机密性验证
+		- 机密性要求高机密系统中的信息永远不能泄露给未加密的系统
+		- 在本文语境下，意味着一个asset不能从能被攻击者观测到的观测点泄露出去
+		- ### 算法
+			- 以asset(一个接口名或者asset所在的net(两个或以上的互相连接的组件的集合))，门级别网表和技术库为输入
+			- 将设计中的所有的触发器替换为scan触发器(使所有的FF具备被控制和可观测的能力)
+			- 对于所有的asset中的a，找出a的扇出中的所有观测点(主输出点或ScanFF)
+				- 然后对这些FF加上capture mask，以此asset向任何观测点的传播都可以被独立追踪
+					- 不断循环以下过程
+						- 将每一个观测点FO unmask，以此让a到FO的propagation能够被观测到
+							- 添加一个在a上的stuck-at fault
+							- 然后使用ATPG算法来检测a=0和a=1是否传播到FO
+							- 如果a=0和a=1都传播到了FO，则说明有一条从a到FO的信息流，因此
+								- 将FO加入到asset的观测点中
+								- 报告从a到FO的传播路径和(控制序列或者该传播所需要的激励[[$red]]==(?)==)
+								- 接下来分析FO的扇出锥，获取下一层级的观测点，下一层的观测点暂存于FanoutTemp
+								- 取消FO的scan ability，允许asset可以通过FO传播到下一层级的观测点[[$red]]==(?)==
+								- 重新将FO mask
+						- 如果FanoutTemp不为空则
+							- 将FanoutTemp中的所有FO加入到FO集合FanoutFinal
+							- 将level加一
+						- 如果为空则结束循环
+		- 算法的最终输出为观测点，asset到每一个asset的传播路径和激励向量
+		- ### 识别出有害观测点
+			- **对于一型木马**
+				- 算法给出了所有的观测点，现在需要从中区分出授权和未授权的观测点
+				- 传播路径报告包含了asset传播到每一个观测点时经过了多少个门
+				- **[[$red]]==假设==**：木马bypass路径的传播路径要比授权的传播路径要短得多
+					- 本文认为：哪怕攻击者给bypass路径增添冗余逻辑来增加传播长度也无效，因为本文提出的方式是在综合之后的网表之上做的，而综合器会优化掉冗余的逻辑
+				- 所以可以通过分析分析传播长度来检测木马
+				- 而且传播路径报告还包含asset传播到每一个门之前经历的逻辑操作，对3PIP有着较高认知的设计者也可以通过分析这些信息来区分木马
+			- **对于二型木马**
+				- 使用***Intersect Analysis***来检测木马
+				- 记录有效观测点的所有扇入元素(例如AES下模块中的密文输出接口)
+				- 任何不在这些扇入元素中的观测点都是潜在的泄露点
+	- ## 完整性验证
+		- 一个不被信任的控制点，永远不能影响一个受信系统的针脚
+		- ### 算法
+			- 接受的输入和机密性的算法相同
+			- 初始化层级为1，为所有FF添加扫描能力
+			- 对于任何asset a，
+				- 将其扇入锥上的所有的控制点添加入FanfinFinal中
+				- 重复以下步骤
+					- 在a上添加stuck-at错误
+					- 使用ATPG分析，如果检测到的错误大于1则说明有从FaninFinal到a的信息流，则
+						- 对于所有在FaninFinal中FI
+							- 将FI添加到控制点列表中并汇报从FI到a的激活路径和(控制序列或激活该fault所需的激励)
+							- 将FI扇入中的控制点加入FaninTemp中
+							- 取消FI的扫描能力
+					- 如果FainTemp不为空
+						- 将FainTemp中的所有节点加入FaninFinal中
+						- 将层级增加一层
+					- 如果为空则结束循环
+			- 算法的输出为控制点列表，激活路径和asset激活的激励向量
+		- ### 识别出有害控制点
+			- Likewise，需要从所有控制点中区分授权有效控制点和恶意控制点，方法和机密性验证相似
+			- **对于一型木马**
+				- 仍然基于木马的激活路径深度远小于有效激活路径的深度的假设
+				- 通过检验激活路径的深度来检测木马
+			- **对于二型木马**
+				- 使用***intersect Analysis***来检测木马
+				- 记录所有有效控制点的fanout，例如
+					- 对于PC来说，有效的控制点就是流水线上ID阶段的寄存器
+				- 任何不在有效控制点fanout中的控制点都违反了完整性原则
+	- ## Trigger Condition Extraction
+		- 对于某些木马，triggering sequence可以直接从激励向量中获取
+			- 例如RSA-t100，以特定的plaintext激活，AES-T900，在特定的时钟周期之后激活
+			- 这些激活方式较为简单，可以直接从激励向量中获取
+		- 而有的木马其激活方式是一个有限状态自动机
+			- 当特定的plaintext被观测到时开始激活
+			- IFS验证的报告会报告违反了IFS策略的trojan触发电路寄存器值(Trig_Condition)，但是并不会报告导致了这种Trig_Condition的功能输入序列
+		- [[$red]]==**个人理解**==：对于通过一个FSM来激活的木马，IFS验证报告仅能获得木马激活时木马电路中的寄存器的值，而FSM是如何一步步迁移到这个状态的并不能从激励向量中直接获取，而且此时的primary input很有可能已经和激活这个FSM无关了
+			- 而那些直接通过一个输入就直接激活的木马，相当于一个只有一个状态的状态机，起始状态就是激活状态，那么此时的primary输入就是激活该木马的trigger
+		- 为了**探明**像AES-T1100这样的**FSM木马的激活条件**需要：
+			- 判断获取的Trig_Condition是否是FSM的一部分
+				- 如果某一个寄存器的输出通过一系列的组合电路链接回了他自己的输入，那么这很有可能是一个FSM中的状态寄存器
+				- 找到了状态寄存器之后，通过在论文：AVFSM: a framework for identifying and mitigating vulnerabilities in fsms中提出的FSM提取技巧来获取FSM的functionality
+					- 这一技巧确认目前的状态和到特定状态迁移的输入条件，并且重复这一过程以获取状态迁移图(State Transition Graph)
+			- 通过这个方法可以获取出发木马的输入序列
+			- 这个方法的好处在于：
+				- 不依赖于功能模拟[[$red]]==(?)==
+				- 不依赖于时序电路的展开[[$red]]==(?)==
+			- 因此克服了形式化方法中的检测能力的限制
+- # 结果
+	- s35932-T100是在DFT insertion 之后引入的木马，其具体的检测流程？[[$red]]==(?)==
+		- 是否所有的检测都是在DFT插入之后完成？
+	- ## 比较
+		- **与形式化方法比较(BMC)**
+			- 没有检测能力限制
+			- 没有大量假阳
+		- **与GLIFT比较**
+			- 可以分辨通过主输出进行leak的有效载荷与正常输出之间的区别(通过传递路径长度判断)
+			- 不会产生taint explosion[[$red]]==(?)==
+		- **与Jasper比较**
+			- Jasper需要指明需要验证的组件，而本文提出的方法不需要
+			- 所以不需要用户对3PIP有白盒认知
+		- **与PCC比较**
+			- 一些操作可能会降低信息的敏感性，致使PCC无法检测信息泄露
+			- 本文不会
+	- ## 限制
+		- 有些控制或观测点可能不会被ATPG找到(例如ATPG需要花费太多时间来找到传播或激活的路径时)
+		- 时序深度过长时也会导致观测点和控制点找不全的问题
+			- 时序深度就是在capture下执行的cycle数，假如sequential depth 是1，则
+				- 设置scan_enable为1，装载扫描链，取消scan_enable
+				- 跑一个capture cycle
+				- 设置scan_disable为1，卸下扫描链(shift out)
+		- **但是**，在ATPG都无法找到的时序深度下进行探测和控制观测/控制点的收益很低[[$red]]==(?)==
+		- ATPG无法在锁存器和不可控制的FF[[$red]]==(?)==上工作[[$red]]==(?)==
+		- **但是**，锁存器和不可控FF在一个实现良好的设计里并不常见，而且本文的方法会给出警告和这些组件的位置，可以插入测试点来测试这些位置
+		- [[$green]]==说白了就是这篇文章的方法比较完美==

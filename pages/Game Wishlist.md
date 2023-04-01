@@ -1,0 +1,39 @@
+- [x]  Nioh 2  (tr
+- [x]  Deathloop  (tr
+- [x]  days gone  (tr
+- [x]  horizon zero dawn  (ar
+- [x]  yakuza 1-6 (tr
+- [x]  Valkyrie 4 (ar
+- [x]  heats of irons (ar
+- [x]  call of duty mw franchise, advanced warfare (tr
+- [x]  deep rock galatic (ar
+- [x]  GTFO (ar
+- [x]  yakuza 7( ar
+- [x]  mass effect (tr
+- [x]  sniper ghost warrior contract 2 (ar
+- [x]  generation zero (ar
+- [x]  dragon age (EA Play
+- [x]  dying light 2 (tr
+- [ ]  death stranding dc
+- [ ]  ghostwire tokyo
+- [x]  zombie army 4 (AR
+- [ ]  god of war
+- [x]  forests  (ar
+- [x]  tiny tina (cn
+- [x]  the division 2 (playU
+- [x]  Chernobylite(ar)
+- [ ]  destroy all humans （ar
+- [ ]  destroy all humans 2 （ar
+- [x]  marven spiderman （tr
+- [ ]  broken arrow
+- [ ]  warno(tr
+- [ ]  subnautica 2
+- [ ]  judgment(ar
+- [ ]  lost judgment(ar
+- [ ]  need for speed unbound(cn
+- [ ]  Marvel's Midnight Suns
+- [x]  uncharted
+- [x]  high on life(tr)
+- [ ]  returnal (tr
+- [x]  re4 re (tr
+- [ ]  company of heroes 3 (cn

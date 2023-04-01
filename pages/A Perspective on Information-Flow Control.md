@@ -1,0 +1,243 @@
+- # Introduction
+	- ## Attacker
+		- ### program centric attacker
+			- **aware of：**
+				- public observable outputs
+					- e.g. public outputs
+				- **[[$red]]==source code==**
+			- **have control of**
+				- public input
+		- ### web attacker
+			- an honest user who runs a trusted browser on a trusted machine and that the attacker is an owner of malicious web sites that the user might be accessing
+			- 类似钓鱼网站
+	- ## Policy languages
+		- The ***Policy Language*** 描述可能的信息加密方式和不同的加密方式之间的关系
+			- 例如：一种加密中的信息如何流到另一种
+			- 学界主流（到2012年）使用一种**lattice model**来描述policy language
+		- ***semantic characterization*** 使用编程语言的语义去描述policy language的含义
+			- noninterference的一种变体
+- # Confidentiality
+	- information flow security的关键在于**preservation of confidentiality of information**
+	- ## Noninterference
+		- ### Sources of information flow
+			- 有两种主要的IF源
+				- **显式流（explicit flow）**
+					- 对于秘密的直接拷贝（一个变量的值被复制给了另外一个变量）
+					- 典型的例子：copy the value of a secret (or high) variable h into a public (or low) variable l
+				- **隐式流（implicit flow）**
+					- 出现在控制流被秘密值影响的时候
+					- 例子：秘密h的值被隐式地赋给了l
+						- ``l = false; if h then l = true else skip``
+			- 非形式化地来说，当一个程序的public outputs不取决于secret input的值时，该程序是满足noninterference的
+			- 从程序运行的角度来说，如果一个程序在不同的secret输入下，保持公共值不变运行，则公共输出应该保持不变
+		- ### general noninterference
+			- **记法**
+				- $c$，某些编程语言的一些指令
+				- $<c,E>\Downarrow o$，一个***赋值关系（evaluation relation）***，读取$c$并且在环境$E$下执行，得到一些可观测的行为$o$
+				- $\sim$ ，***low equivalence***，environment之间的关系，表示环境之间的公共部分相同
+				- $\simeq$，indistinguishablility，
+				- $NI(c) = \forall E_1,E_2\cdot E_1 \sim E_2 \wedge <c,E_1>\Downarrow o_1 \Longrightarrow \exists o_2\cdot <c,E_2>\Downarrow o_2\wedge o_1\simeq o_2$
+					- 若一个程序$c$满足*noninterference*，则记作$NI(c)$
+	- ## Termination-insensitive & termination-sensitive noninterference
+		- ### bath-job program：
+			- 一个在某一环境下开始运行，最后要么发散要么产生一个新环境的程序
+			- batch-job的attacker的攻击者模型设定为：能够检视最终环境的公共部分
+			- 一个简单的batch-job while language：
+				- ![image.png](../assets/image_1662302387984_0.png)
+				- **语义**
+					- big-step operational semantics
+						- ![image.png](../assets/image_1662304254281_0.png)
+					- $v$：所有可能值的集合
+					- $\gamma$：variable environment，一个从变量名到值的映射
+					- $E$：环境，包含一个variable environment
+					- $E[x]$：在环境$E$中获取变量$x$的值
+					- $E[x\mapsto v]$：在环境$E$中更新变量$x$的值为$v$
+						- $E[x \mapsto v][x] = v, and\ E[x \mapsto v][y] = E[y] for y \ne x$
+					- 一个evaluation relation是一个$E, x$的二元函数，输出是一个值
+						- 记作$<E,x>$
+						- ![image.png](../assets/image_1662303449156_0.png)
+						- $\star$表示二元算术运算
+						- $<c,E_1> \Rightarrow E_2$，对于$c$的evaluatoin即产出一个新的环境
+		- ### Security policy language for the batch-job while language
+			- 使用一种格来描述
+			- security labels
+				- $\sigma ::= H | L$
+				- H和L对应了两种安全等级，secret和public
+				- 有$H>L$，即secret永远不能成为public，但是反向的信息流动是允许的
+			- $\Gamma$是一个**variable security maps**，将变量名映射到security labels
+				- 映射到$L$的变量只能包含公共信息，即公共变量
+				- 映射到$H$的变量可以包含secrets，即秘密变量
+		- ### Low equivalence
+			- 环境之间的low equivalence实际上是要求被标记为公共的部分要相同
+			- 对于low equivalence的公式化定义
+				- **对于值：**
+					- ![image.png](../assets/image_1662365845321_0.png){:height 91, :width 273}
+					- 在安全等级为$L$的情况下，两个值必须要相同它们才是low equivalence的
+					- 任何两个被标记为secret的值都是low equivalence的
+				- **对于变量环境**
+					- ![image.png](../assets/image_1662366232554_0.png)
+						- 对于一个variable security maps$\Gamma$，则对于任何在其定义域中的变量$x$，两个variable maps对其的赋值都是low equivalence的，则该两个variable maps在该variable security maps下是low equivalent
+						- 所以两个low equivalent的变量环境必须包含同一个variable security maps的所有变量，并且所有公共的变量都必须包含同样的值
+				- **对于环境**
+					- 如果在某一个变量映射（variable security maps）下，两个环境中所包含的变量环境是low equivalent的，则这两环境也是low equivalent的
+		- ### Termination-insensitive vs. termination-sensitive noninterference
+			- 对于attacker来说，它在目前的模型中能够检视的是程序执行之后最终环境中的公共部分
+			- 那么程序的divergence是否是能够被观测的公共部分成为了区分termination-insensitive和termination-sensitive的标准
+			- 判断一个程序$c$是否发散的语义定义很简单：如果$c$在环境$E_1$中发散则$\neg \exists E_1 \cdot \langle c,E_1\rangle \Rightarrow E_2$
+			- **记法**：
+			  collapsed:: true
+				- $\diamond$：发散
+				- $o$：可观测的行为
+				- 由于假设attacker能观测到的行为就是程序执行后的环境，因此有：
+					- ![image.png](../assets/image_1662368554469_0.png){:height 104, :width 231}
+				- 如果divergence也是可观测的行为，则有
+					- ![image.png](../assets/image_1662368584828_0.png){:height 93, :width 258}
+			- **Termination-Insensitive noninterference (TINI)**
+			  collapsed:: true
+				- 在该NI下发散无法观测，所以发散和任何终止的输出都是indistinguishable的
+				- TINI的indistinguishability的定义如下
+					- ![image.png](../assets/image_1662371387409_0.png){:height 72, :width 343}
+				- 两个环境必须在某一个变量映射下是low equivalent的才能是indispensable的
+				- 一个程序$c$满足TINI记作$TINI(c)$
+				- $TINI(c)=\forall E_1,E_2\cdot E_1 \sim_\Gamma E_2 \wedge \langle c, E_1\rangle \Downarrow o_1 \Rightarrow \exists o_2\cdot \langle c,E_2\rangle \Downarrow o_2 \wedge o_1 \simeq_{TI} o_2$
+				- 如果两次执行中任意一次执行发散则直接满足TINI
+				- 如果两次执行都终止，则要求最终环境满足low equivalence
+				- 对于batch-job program来说，满足TINI能达到比较良好的安全性，不然还是会在每一次程序执行中泄露至多1 bit的信息
+			- **Termination-sensitive noninterference (TSNI)**
+				- 对于两个low equivalent environment，如果程序在其中一个环境中正常终止，那么就必须要在另一个环境中也正常终止且终止的最终环境要满足low equivalence
+				- 改变indistinguishability的定义便足以定义TSNI的语义
+					- ![image.png](../assets/image_1662383365300_0.png){:height 94, :width 317}
+				- 一个程序$c$满足TSNI记作$TSNI(c)$
+				- $TSNI(c)=\forall E_1,E_2\cdot E_1 \sim_\Gamma E_2 \wedge \langle c, E_1\rangle \Downarrow o_1 \Rightarrow \exists o_2\cdot \langle c,E_2\rangle \Downarrow o_2 \wedge o_1 \simeq_{TS} o_2$
+		- ### Classical formulation ofbatch-job noninterference
+		  collapsed:: true
+			- 对于一个batch-job程序的更为经典的noninterference定义是，程序在任何两个满足low equivalence的环境下执行后产生的新环境都要满足low equivalence
+			- 经典termination insensitive noninterference：
+				- $TINI_\Gamma = \forall E_1, E_2 \cdot E_1\sim_\Gamma E_2 \wedge\langle c,E_1\rangle \Rightarrow E_{11} \wedge \langle c,E_2\rangle \Rightarrow E_{22}\Longrightarrow  E_{22}\sim_\Gamma E_{11}$
+				- 对于两个有下一状态的满足low equivalence的环境，所以是termination insensitive的
+			- 经典termination sensitive noninterference：
+				- $TSNI_\Gamma = \forall E_1,E_2 \cdot E_1\sim_\Gamma E_2\wedge \langle c,E_1\rangle E_11 \Longrightarrow \exists E_22 \cdot \langle c,E_2\rangle \rightarrow E_22\wedge E_{11}\sim_\Gamma E_{22}$
+				- 对于任何两个满足low equivalence的环境，如果其中一个环境下的执行有下一个环境（terminated），那么另外一个环境下的执行也必须终止且终止环境满足low equivalence
+			- 这两种表达实际上和之前的两种表达没有区别，只不过之前的两种表达引入了indistinguishability的概念， 使得定义更加好理解
+	- ## From termination to progress
+		- 之前对于attacker能力的假设是只能检视源代码和最终程序执行完成之后最终环境
+		- 如果让attacker获得能够检视中间步骤的能力，则哪些满足TINI和TSNI的程序会瞬间泄露秘密
+		- 因此需要一种能够建模互动程序中的中间步骤观测的语义
+	- ## Progress-insensitive vs. progress-sensitive noninterference
+		- 增加对于while language的input 和 output的定义
+		- 攻击者现在能够检视一个程序的公共output
+	- ## While language with input and output
+		- 新增加的指令：$in_\sigma x$，$out_\sigma x$
+		- $\sigma$指明了输入输出信息是public还是secret
+		- 之前单纯只包含一个变量环境$\gamma$的环境$E$扩展为一个三元组$(\gamma,\iota,\omega)$，后两者分辨代表输入值集合和输出值集合
+		- $\dot{v}$：一个decoration，指示一个变量或nothing
+		- Big step的操作语义中一步到位得出最终环境的evaluation被分割为了两种：
+			- **terminating evaluation**：该evaluation种的c可以一步完成，执行之后程序就终止：
+				- $\langle c,E_1 \rangle \overset{\dot{v}}{\rightarrow} E_2$
+			- **nonterminating evaluation**：c不是能够一步完成的，执行之后会有剩余的指令：
+				- $\langle c_1,E_1\rangle \overset{\dot{v}}{\rightarrow} \langle c_2, E_2\rangle$
+			- 两种evaluation箭头上的decoration表示可能被观测到的行为
+		- **改进后的语义：**
+			- ![image.png](../assets/image_1662395277761_0.png){:height 343, :width 442}
+			- **[[$red]]==个人理解：==**input不断消耗input池中的值，output不停地向output结果中append output
+		- ### Low equivalence
+			- 对于值和变量环境之间的low equivalence定义和TINI和TSNI**保持一致**
+			- 对于输入输出列表：只要公共部分保持相同即满足low equivalence
+				- $(\overline{v},\overline{v}_1)\sim (\overline{v},\overline{v}_2)$
+			- 对于两个环境，在给定的变量映射下，如果变量环境和输入输出列表都满足low equivalence则这两个环境满足low equivalence
+			- 在后续的定义中，对于输出满足low equivalence的要求可以去除，因为后续加入的对于公共可观测事件的相等要求隐含了对于公共输出的要求
+		- ### Progress-insensitive vs. progress-sensitive noninterference
+			- **记法**：
+				- $R$：指代任意执行上下文$\langle c, E\rangle$ 或者环境$E$
+				- $\langle c,E\rangle \overset{\dot{v}}{\rightarrow} R$：一直执行evaluation直到有可观测的输出出现，或则执行到termination(可以有可观测输出也可以什么都没有)
+				- ![image.png](../assets/image_1662453269986_0.png){:height 80, :width 497}
+				- 可观测的事件可以累计到一起
+					- ![image.png](../assets/image_1662453720370_0.png)
+				- $\neg \exists R,vs \cdot \langle c, E\rangle \overset{vs}{\Rightarrow} R$：表示$\langle c,E\rangle$ silently diverges
+				- 对于observable的定义:
+					- ![image.png](../assets/image_1662454320451_0.png)
+			- **Progress-insensitive noninterference**
+				- 满足：在任何两个环境下，如果在一个环境下执行了一步并产生了一些可观测输出，那么要么在另一个环境下diverge silently，要么执行一步并产生同样的相同输出。并且之后的每一步都要满足此要求
+				- $o$：值的列表
+				- 两个值的列表是progress-insensitive indistinguishable的，如果：
+					- $o_1\simeq_{PI} overset{def}{=} o_1=o_2 \vee (\exists o,o'\cdot o_1 = o\cdot \diamond \wedge o_2 = o\cdot o')\vee (\exists o,o'\cdot o_2 = o\cdot \diamond \wedge o_1 = o\cdot o')$
+				- 满足PINI(c)的定义
+					- $PINI(c) = \forall E_1,E_2\cdot E_1\sim_\Gamma E_2 \wedge \langle c,E_1\rangle \Downarrow o_1 \Longrightarrow \exists o_2 \cdot \langle c,E_2\rangle \Downarrow o_2\wedge o_1\simeq_{PI}o_2$
+			- **Progress-sensitive noninterference**
+				- 在一个环境中有进度，那么也必须在另一个环境中有进度
+				- 需要修改针对可观测行为之间indistinguishability关系的定义
+					- $o_1\simeq_{PS} o_2 \overset{def}{=}o_1=o_2$
+				- $PSNI(c) = \forall E_1,E_2 \cdot E_1 \sim_\Gamma E_2 \wedge \langle c, E_1\rangle \Downarrow o_1\Longrightarrow \exists o_2\cdot \langle c , E_2\rangle \Downarrow o_2 \wedge o_1 =simeq_{PS} o_2$
+	- ## A note on compositionality and flow sensitivity
+		- secure composition允许将已经被验证安全部件组合起来构成一个更大的安全部件
+		- 类型系统就是secure compositional的
+		- ### Compositionality of TINI and TSNI
+			- TINI和TSNI在给定变量映射下都是compositional的
+			- $TINI_\Gamma(c_1)\wedge TINI_\Gamma(c_2)\Longrightarrow TINI_\Gamma(c_1;c_2)$
+			- 然而PINI和PSNI[[$red]]==**不满足**==compositionality
+				- 执行过程中没有对环境做出任何保证，仅对可观测行为做出了要求
+				- 将最终环境也设置为可观测便可以满足compositionality
+		- ### Flow sensitivity
+			- compositionality可能会导致将部分安全的程序标记为不安全
+			- 因为PINI和PSNI只关心输出，满足这两个性质的最终环境的low equivalence可能并不成立
+			- 不成立的一大原因是没有规定变**量映射可以随控制流改变的语义
+			- 一个改进就是允许在执行过程中改变变量映射
+			- 允许初始变量映射和最终变量映射不同，这叫做**flow sensitivity**
+			- 引入变量映射的“包含关系（include）”
+	- ## Information flow and concurrency
+		- 一系列工作总结
+	- ## Information flow and interactive/reactive programs
+		- 一系列工作总结
+	- ## Erasure
+		- 信息擦除和信息流有一定的关系
+		- 例如在线零售商应该在交易完成之后擦除客户信息
+		- 互动语言中的数据擦除策略可以使用flow-sensitive noninterference来编码
+		- 一系列工作总结
+	- ## Declassification
+		- 某些信息并不需要一直保持高机密性
+		- 有的来自于高机密信息的信息并不一定是机密信息，比如来自于每个人工资的平均工资信息
+		- ### declassification的四个维度：
+			- **what** ：指定能够被解密的信息非常重要，必须要保证被解密信息的上限
+			- **who**：到底是**谁**能控制信息的解密，这关系到信息的完整性。攻击者若取得解密权限，很多信息泄露便会被隐藏起来
+			- **where**：**代码中**的解密位置(code locality)和可能流出信息的系统**安全层级(level locality)**
+			- **when**：在时间上何时信息能够泄露，三种类别：
+				- Time-complexity based：信息只能最早在某一个特定时间之后才能放出，一般和信息大大小有关
+				- probabilistic：泄露信息的概率很小（？）
+				- relative：和另一个程序或事件有关。例如：软件的激活码可以在购买完成之后解密
+			-
+		- 接下来是对各个维度做出解释和发展的各种文献综述
+- # Integrity
+	- 相较于对confidentiality的良好定义，对于integrity的认识和定义稍显不足，
+	- ## 针对confidentiality
+		- 信息流领域的integrity通常意味着可信的输出和不可信的输入无关
+			- 相对于confidentiality中的公共输出和秘密输入无关
+	- ## 针对Generalized Invariants and Program Correctness
+		- 在访问控制领域，integrity关心的是不合适或未授权的数据修改
+			- 焦点在于当修改权限没有被按照一定的策略给予时，如何组织数据修改
+		- 在fault-tolerant 相关的领域，integrity 关心的是如何保存实际数据
+		- 在数据库领域，integrity 指保持重要的不变量，比如数据的一致性和数据库键的唯一性
+	- ## Dimensions of confidentiality-dual integrity
+		- 很多情况下我们希望升级数据的integrity，这种操作叫做**endorsement**
+		- confidentiality-dual的integrity可以用有关endorsement的四个维度来探究
+		- **what**：信息的哪些部分被endorse
+		- **when**：什么时候信息能够被endorse。
+			- 例如，在经过验证数字钱敏之后决定相信low integrity的数据
+		- **where**：分为policy locality和code locality
+			- policy locality：不被信任的数据要经过特定的路径才能被信任
+			- code locality：endorsement只应出现在程序中相关的地方（可能意味着负责endorsement的代码不能太分散？）
+		- **who**：
+			- 对于解密来说，robust declassification要求low integrity的数据不能够影响解密哪些数据的决定
+			- 对于integrity，可以定一个robust endorsement，意味着low integrity的数据不能够影响endorsement的决定
+- # Information-flow enforcement
+	- **dynamic techniques**本来是信息流领域的先行者，但是没有正确性的证明
+	- 静态方法后来居上
+	- 一些文献
+	- ## Static vs. dynamic enforcement
+		- 静态方法可以降低运行时开销
+		- 动态方法有“随意性”优势
+	- ## Static analysis
+		- 一些文献综述
+	- ## Dynamic and hybrid analysis
+		- 一些文献综述
+	- ## Libraries
+		- 一些文献综述
