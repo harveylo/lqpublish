@@ -7,6 +7,8 @@
 	- ## [[decltype关键字]]
 	- ## [[using关键字]]
 	- ## [[restrict关键字]]
+- # 特殊语法
+	- ## [[=delete]]
 - # STL函数
 	- ## [[std::move]]
 	- ## [[std::declval]]
