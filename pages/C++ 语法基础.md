@@ -12,3 +12,5 @@
 - # STL函数
 	- ## [[std::move]]
 	- ## [[std::declval]]
+	- ## [[std::bind, std::ref, std::cref]]
+	-
