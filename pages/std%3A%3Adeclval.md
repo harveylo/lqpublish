@@ -9,7 +9,7 @@
 	  };
 	  ```
 	- 上述代码希望``ValueType``是传入的``Iter``的解引用类型，但是问题在于，如果``Iter``没有无参构造函数，则此代码无法执行，**通用性不强**
-	- 所以应该使用``std:declval``来构造一个类型实例
+	- +所以应该使用``std:declval``来构造一个类型实例
 	- ```
 	  template <typename Iter>
 	  class MyIteratorTraits {
