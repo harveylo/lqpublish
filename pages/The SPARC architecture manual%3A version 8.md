@@ -1,0 +1,12 @@
+- # Memory Transaction
+	- ## D.3.1 Memory Transactions
+		- 一个memory transaction属于以下种类之一
+			- **Store**
+				- 由一个处理器发起的对于某个特定内存地址值得替换请求
+				- 地址和对应的值在发起就成对确定
+				- 当新值对系统中所有处理器都可见时，store操作完成
+			- **Load**
+				- 1
+- # Specification of Relaxed Memory Order
+	-
+-
