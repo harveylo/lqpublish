@@ -1,82 +1,47 @@
-- # Memory Transaction
-	- ## D.3.1 Memory Transactions
-		- 一个memory transaction属于以下种类之一
-			- **Store**
-				- 由一个处理器发起的对于某个特定内存地址值的替换请求
-				- 地址和对应的值在发起就成对确定
-				- 当新值对系统中所有处理器都可见时，store操作完成
-			- **Load**
-				- 由一个处理器发起的对于某个特定内存地址取值的请求
-				- 地址和指令在请求发起时绑定
-				- **[[$red]]==当返回的值无法被另一个处理器发出的store修改时==**，load操作完成
-			- **Atomic**
-				- 一个load/store对，且其他任何对内存状态做出修改的transaction可以出现在其之间
-				- SPARC-V9定义了三种原子操作指令：LDSTUB,SWAP,CAS
-			- **Flush**
-				- 由一个处理器发起的强制将数据空间(data space)和指令空间(instruction space)保持一致(consistent)的请求
-				- flush transaction被看作store操作
-		- 一个memory transaction使用一个大写字母表示，如$X_na$表示一个由处理器$n$发出的针对内存地址$n$的transaction $X$
-		- 处理器下标和内存下标可以省略
-		- 谓词$S(X)$为真当且仅当X是一个store操作，$L(X)$为真当且仅当X是一个load操作
-	- ## D3.2 Program Order
-		- **程序顺序**定义了每**一个处理器**逻辑上执行指令顺序的全序关系
-		- 使用$<_p$表示，如谓词$X_n <_p Y_n$为真当且仅当$X_n$所代表的指令在$Y_n$所代表的指令之前执行
-		- 程序顺序表示了某**一个处理器**上所有memory transaction的唯一全序关系
-		- **内存屏障(Memory Barrier)**(MEMBAR)指令基于$<_p$定义
-			- 谓词$M(X,Y)$为真，当且仅当$X<_p y$且在X和Y之间在程序顺序上存在一个MEMBAR指令
-		- 一个MEMBAR是**Ordering**或**Sequencing**的
-			- Ordering MEMBAR指令会添加memory transaction顺序上的限制
-			- Sequencing MEMBAR指令会增添额外的限制，这些限制用于memory transaction会产生内存模型语义以外副作用的场合
-	- ## D3.3 Dependence Order
-		- **依赖顺序**是一个刻画访问相同处理及寄存器或内存地址的不同指令之间约束的偏序关系
-		- 假设处理器实现都使用寄存器动态重命名避免了由寄存器重用导致的假依赖
-		- Memory Transaction $X$和$Y$之间存在依赖顺序记为$<_d$，**当且仅当**$X<_p Y$且满足以下至少一种情况
-			- Y的执行取决于X，且$$S(Y)$$为真
-				- 此规则刻画了所有的**控制依赖**(Control Dependence)
-			- Y会读取X写的寄存器
-				- 此规则刻画了所有由读写寄存器导致的真依赖（**RAW**）
-			- X和Y访问同一个内存地址且$S(X),L(Y)$均为true
-				- 此规则限制了在同一个地址上按程序顺序出现的SL对，但不限制load-store和store-store
-		- 注意，以来顺序是偏序关系，因此是**传递**的
-		- 一个实际的处理器实现应该使用
-	- ## D3.4 Memory Order
-		- 内存最终执行的memory transaction序列叫做**内存顺序**
-		- 是一个在memory transaction上的**全序关系**
-		- 内存顺序并不是 **先验(a priori)**的，只能是一些列特定的作用在memory transaction上的**限制**
-		- $X<_m Y$表示X在内存顺序上必须在Y之前，任何满足此限制的内存顺序，在此限制看来都是合法的
-		- 不同的程序执行实例很有可能产生不同的内存顺序
-- # Specification of Relaxed Memory Order(RMO)
-	- ## D4.1 Value Atomicity
-		- 只要是**小于等于八字节**的数据量，memory transaction对于内存值得读取和设置都是原子得
-	- ## D4.2 Store Atomicity
-		- 所有可能的执行都要和一个内存顺序保持一致(consisdent)，包括所有store操作
-	- ## D4.3 Atomic Memory Transaction
-		- 原子Memory Transaction SWAP, LDSTUB, and CAS 像单个内存操作一样执行
-		- 没有任何其他memory transaction 可以分割一个atomic memory transaction 内部的load和store操作
-	- ## D4.4 Memory Order Constraints
-		- 一个内存顺序是合法的，当且仅当满足以下三个条件
-			- $X<_d Y\& L(X)\Rightarrow X<_m Y$
-				- 此条件阐明，当前置transaction是一个load时，RMO模型会维持依赖
-				- 前置的store可能会被延期执行，因此其顺序并不会全局执行
-			- $M(X,Y) \Rightarrow X<_mY$
-				- 此条件阐明，MEMBAR指令会影响memory transaction的排序
-			- $X_a<_pY_a \& S(Y) \Rightarrow X<_mY$
-				- 此条件阐明，对同一个地址的store需要按程序顺序排序
-				- 此条件对处理器的self-consistency是必要的
-	- ## D4.5 Value of Memory Transaction
-		- load操作$Y_a$的值可能是以下二者之一
-			- 在内存顺序上作用在该内存地址最近的一次store操作所赋予的值
-			- 同一个CPU(发起这个load操作的CPU)最近执行的一次store操作
-		- 形式化描述为：
-			- $\mathrm{Value}(L_a)=\mathrm{Value}(\mathrm{Max}<_m\{S\ |\ S_a<_m L_a\ \ mathrm{or}\ S_a<_p L_a\})$
-			- 其中$\mathrm{Max}<_m{\ldots}$会选出给定元素集合中最近发生的元素
-			- $Value()$会返回相应memory transaction 的值
-	- ## D4.6 Termination of Memory Transactions
-		- 任何memory transaction 最终都会被执行
-		- 形式化表述为：在内存顺序上，每一个待执行的store完成以前只能由有限个 load
-	- ## D4.7 Flush Memory Transaction
-		- 在内存顺序上，Flush指令被作为store操作对待
-		- flush指令对其在程序顺序上的所有后续指令都会引入一个**控制依赖**
-- # D5 Specification of Partial Store Order
-	- PSO就是在RMO的基础上增加了额外的要求，既：
-		- **所有带有load语义的memory transaction后都有一个隐含的MEMBAR #LoadLoad | #LoadStore **
+- # 第六章：内存模型
+	- ## 基本定义
+		- 内存是被load/store指令访问的**地址(Location)**集合
+		- 这些地址包括传统内存，亦包括IO寄存器和可以通过**地址空间标识符(Adress Space Identifier, ASI)**访问的寄存器
+		- ### Real Memory
+			- 也称**主(Main)内存**
+			- 所有满足以下两点之一的都是主内存：
+				- ASI field 哦是8,9,0xA或0xB
+				- ASI field 和 MMU中一条对应的entry隐含表示了对一个主内存的引用
+			- 主内存不应该被其他任何ASI访问
+			- 所有对主存的操作都不能在除了访问地址以外的任何地方产生效果
+		- ### [[$red]]==补充：ASI==
+			- ASI是一种指令格式中中的一个8位长度的域
+			- ![image.png](../assets/image_1681717906330_0.png)
+			- ![image.png](../assets/image_1681717865367_0.png){:height 165, :width 332}
+		- ### Input/Output Locations
+			- IO寄存器不属于主内存，因此在这些位置上进行的load-store操作可能会产生**可见的副作用**
+			- 对于IO地址的操作也**不由内存模型定义**
+		- ### 内存概述
+			- 内存是编址的地址，半字(half-word)访问向2字节对齐，字访问向4字节对齐，双字访问向8字节对齐
+			- 能够被内存硬件原子化读写的最大数据长度是**8字节**
+			- 内存被建模为一个有**N个端口**(N代表处理器的数量)的设备
+			- 一个处理器通过端口发起操作，操作的发出顺序叫做**issuing order**
+			- 每一个端口都有一个store buffer用于保存store，FLUSH，atomic load-store指令
+			- 内存本身只有一个端口，但有一个可以随时切换连接端口的开关，开关何时切换是**不确定的**
+			- 且开关的切换定义了操作的**内存顺序(Memory Order)**，下图展示了一般内存模型
+			- ![image.png](../assets/image_1681719742175_0.png){:height 289, :width 654}
+			- **处理器模型**
+				- ![image.png](../assets/image_1681720152405_0.png)
+				- 注意区分instruction load和instruction fetch
+	- ## Total Store Ordering
+		- TSO保证所有处理器的store，FLUSH和atomic load-store指令都被内存以**内存顺序**线性执行
+		- 以上所有指令的内存顺序都和其处理器issue它们的顺序保持相同
+		- 下图展示了TSO的约束
+		- ![image.png](../assets/image_1681720833020_0.png)
+		  id:: 643d05fe-f151-49ab-82a9-08e7685c4afa
+		- 被CPUissue的**Store相关指令**(Store,FLUSH,atomic load-store)放置在专门的**Store Buffer**中
+			- 此buffer是**[[$red]]==FIFO==**的
+		- Load指令会先检查处理器的store buffer，如果有对对应地址的store，将读取最近store的值
+		- 因为此机制(forwarding)的存在，不是所有的load都会进到内存中被处理，因此总的来说load不出现在内存中
+	- ## Partial Store Ordering
+		- PSO保证所有处理器的store相关指令都被内存以内存顺序线性执行
+		- **但是**，PSO并不保证store相关指令的内存顺序和issue order保持一致
+		- 只有在两条被STBAR分割或store的地址相同的指令会在issue order和memory order上保持一致
+		- ![image.png](../assets/image_1681722185888_0.png)
+		- 上图Store buffer中的**S**表示STBAR
+		-
