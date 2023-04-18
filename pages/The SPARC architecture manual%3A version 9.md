@@ -1,4 +1,43 @@
-- # Memory Transaction
+- # Memory Model
+	- ## The SPARC-V9 Memroy Model
+		- ### SPARC-V9 Program Execution Model
+			- SPARC-V9处理器模型包含三个单元：
+				- ![image.png](../assets/image_1681804027453_0.png)
+				- **发射(issue)**单元
+					- 此单元负责从内存中读取指令，并按照**程序顺序(Program Order)**发射
+				- **重排序(reorder)**单元
+					- 收集发射的指令并重排序后交由执行单元执行
+					- 重排序不能破坏任何内存和寄存器的**数据流限制条件**(data-flow constraints)，这些条件包括：
+						- **对寄存器**：不能出现对某个寄存器的RAW，WAW，WAR冒险，WAR可以通过重命名消除而不影响重排序
+						- **对内存**：不能出现对某个内存地址的WAR，RAW冒险
+				- **执行(execution)**单元
+			- 指令重排序可以提高性能，但是必须要保证重排序后的执行顺序符合**处理器自一致性(Processor self-consistency)**
+				- 处理器自一致性要求在不考虑和其他处理器共享内存下的执行结果必须**和程序顺序的执行结果保持一致**
+		- ### The Processor/Memory Interface Model
+			- ![image.png](../assets/image_1681805577610_0.png)
+			- 每一个处理器和内存都有两条独立的数据通路相连，分别负责传输指令和数据
+			- 指令的执行顺序受到**本地依赖(Local dependency)**的制约
+			- 内存依据**内存顺序**(Memory Order)执行transaction，内存单元可能会对提交(submit)的transaction乱序执行，因此如果**执行单元**([[$red]]==?是指单个processor还是所有处理器的集合？==)希望transaction保持顺序执行，则不能一次提交一条以上的transaction
+			- 内存接受transaction，执行，然后确认transaction的完成
+			- 所有被发起的内存操作**可能以任何顺序被执行**，只有在同一内存地址上的操作会保持per-processor的偏序关系
+			- 在单个内存地址上的操作顺序是一个保持了处理器transaction偏序关系的**全序关系**
+		- ### MEMBAR instruction
+			- 内存屏障指令分为两种，一种是**顺序屏障(Ordering MEMBAR)**，另一种是**序列屏障(sequencing MEMBAR)**
+			- **顺序屏障**
+				- ![image.png](../assets/image_1681809700915_0.png)
+				- 顺序屏障仅提供一个排序上的约束，并不保证transaction的完成情况
+			- **序列屏障**
+				- 顺序屏障让程序员可以显式控制内存操作的完成顺序，有三种：
+				- **Lookaside Barrier**
+					- 保证此指令之后的load的值是来自内存而不是write buffer
+					- 保证此指令之前的所有store指令都要完成
+				- **Memory Issue Barrier**
+					- 保证此指令程序顺序之前的所有操作都在此指令之后的操作发起之前完成
+				- **Synchronization Barrier**
+					- 保证此指令之前的所有内存操作都在此指令之后的操作之前完成且所有的fault和error都对后者可见
+				- ![image.png](../assets/image_1681812400572_0.png)
+				-
+- # D3 Memory Transaction
 	- ## D.3.1 Memory Transactions
 		- 一个memory transaction属于以下种类之一
 			- **Store**

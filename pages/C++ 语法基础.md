@@ -8,6 +8,7 @@
 	- ## [[using关键字]]
 	- ## [[restrict关键字]]
 	- ## [[friend关键字]]
+	- ## [[thread_local关键字]]
 - # 特殊语法
 	- ## [[=delete]]
 - # STL函数
