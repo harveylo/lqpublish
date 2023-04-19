@@ -1,0 +1,6 @@
+- # Unix历史
+	- 脱胎于贝尔实验室一个失败的多用户操作系统项目**Multics**
+	- 1973年，Unix操作系统被使用C语言重写
+	- 第一个在贝尔实验室外被广泛使用的Unix版本是第六版，即V6
+	- UCB推出的Unix变体叫BSD(Berkeley Software Distributions)
+	-
