@@ -1,5 +1,5 @@
 - TCP建立连接的流程，本质上是在参与通信的两端初始化状态机的过程
-- ![](https://lh6.googleusercontent.com/-L9GyKGal2kX0x1uhEr_WcIPJNjaXt56MwI4dppR9LKS0SKciZ4ehop6uYdAM7RFm9PYoPcK445rVYeqzjAWSOaHNXd6wvgoWbVUVQnwLZe-M2iav6FZVIfTlE15ULPrWuEYi4Mw){:height 363, :width 580}
+- ![pasted image 0.png](../assets/pasted_image_0_1682437907820_0.png){:height 332, :width 532}
 - 客户端(连接的主动开启者)首先向服务器发送同步消息(synchronized message)，也称**SYN消息**
 	- SYN位置1
 	- 序列号域有效

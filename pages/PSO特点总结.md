@@ -1,3 +1,3 @@
 - 允许针对**不同地址的store之间的重排序**
 - load**[[$red]]==不能重排序==**，且load和store之间也不能重排序
-- Load和store不能
+- Load和store不能重排序
