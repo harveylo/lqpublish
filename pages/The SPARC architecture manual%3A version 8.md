@@ -1,6 +1,5 @@
 - # 第六章：内存模型
 	- ## 基本定义
-	  collapsed:: true
 		- 内存是被load/store指令访问的**地址(Location)**集合
 		- 这些地址包括传统内存，亦包括IO寄存器和可以通过**地址空间标识符(Adress Space Identifier, ASI)**访问的寄存器
 		- ### Real Memory
