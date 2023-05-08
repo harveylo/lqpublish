@@ -1,0 +1,105 @@
+- 一般来说，一个服务器程序通常需要考虑一些细碎但是基本上都有模板可循的规范，例如：
+	- Linux服务器程序一般**以后台进程形式运行**
+		- 没有控制终端，以守护进程(daemon)方式运行
+		- 守护进程的父进程一般是init进程（PID位1）
+	- Linux服务器程序通常**有一套日志系统**，能输出日志到文件
+		- 某些高级服务器还能将日志输出到专门的UDP服务器
+		- 大部分后台进程都在``/var/log``目录下拥有自己的日志目录
+	- Linux服务器程序一般以某个专门的**非root身份**运行
+		- 例如，mysqld，httpd，sysloged等后台进程，都各自运行在自己创建的账户mysql，apache，syslog下
+	- Linux服务器程序通常是**可配置的**
+		- 服务器程序通常能处理很多命令行选项
+		- 若配置比较复杂，还可以用配置文件来管理
+		- 绝大多数服务器程序都有配置文件，并存放在``/etc``目录下
+	- Linux服务器通常会在启动时**生成一个PID文件并存入``/var/run``**目录中，用以记录该后台进程的PID
+	- Linux服务器通常需要考虑系统资源和限制，以**预测自身能承受的最大负荷**
+- # Linux日志系统
+	- ![image.png](../assets/image_1683548812682_0.png)
+	- Linux提供一个守护进程用于处理系统日志**syslogd**
+		- 目前大多数使用其升级版**rsyslogd**
+	- **rsyslogd守护进程**既能接收用户进程输出的日志，又能接收内核日志
+	- **用户进程**通过调用**syslog**函数，将日志输出到一个UNIX本地域(IPC)socket类型(AF_UNIX)的文件/dev/log中
+		- rsyslogd会监听此文件以获取用户进程输出
+	- **内核日志**在老系统上通过守护进程rklogd来管理，但是rsyslogd已经利用额外的模块实现了相同的功能
+		- 内核日志通过``printk``等函数打印到内核的**ring buffer**中(一个kfifo结构体，可能)
+			- 此函数可以在**内核启动早期**调用
+			- ring buffer中的内容直接映射到/proc/kmsg文件中，rsyslogd通过读取该文件获得内核日志
+	- **rsyslogd保存(输出)目录**
+		- **默认情况下**
+			- 调试信息：``/var/log/debug``
+			- 普通信息：``/var/message``
+			- 内核消息：``/var/log/kern.log``
+		- **自行配置**
+			- rsyslogd主配置文件位于：``/etc/rsyslog.conf``
+			- 可配置选项：
+				- 内核日志输入路径
+				- 是否接受UDP日志及其监听端口(默认514，见``/etc/services``)
+				- 是否接收TCP日志及其监听端口
+				- 日志文件权限
+				- 包含的子配置文件(例如``/etc/rsyslog.d/*.conf``)
+					- 子配置文件一般指定各类日志的输出目录
+	- ## syslog函数
+		- 用户进程通过**``syslogd``**函数与守护进程rsyslogd通信
+			- **头文件**：``<syslog.h>``
+			- **参数**：``int priority, const char* message, ...``
+				- ``priority``，用于指定输出日志的***设施(faciclity)***值和***层级(level)***
+					- facility值用于指定是什么样的程序在输出日志，传递时**直接or到某个level值中**有如下可能值：
+					  collapsed:: true
+						- LOG_AUTH       security/authorization messages
+						- LOG_AUTHPRIV   security/authorization messages (private)
+						- LOG_CRON       clock daemon (cron and at)
+						- LOG_DAEMON     system daemons without separate facility value
+						- LOG_FTP        ftp daemon
+						- LOG_KERN       kernel messages (these can't be generated from user processes)
+						- LOG_LOCAL0 through LOG_LOCAL7
+						               reserved for local use
+						- LOG_LPR        line printer subsystem
+						- LOG_MAIL       mail subsystem
+						- LOG_NEWS       USENET news subsystem
+						- LOG_SYSLOG     messages generated internally by syslogd(8)
+						- LOG_USER (default)
+						               generic user-level messages
+						- LOG_UUCP       UUCP subsystem
+					- level值用于标识信息的重要性，由高到低分别为：
+					  collapsed:: true
+						- LOG_EMERG      system is unusable
+						- LOG_ALERT      action must be taken immediately
+						- LOG_CRIT       critical conditions
+						- LOG_ERR        error conditions
+						- LOG_WARNING    warning conditions
+						- LOG_NOTICE     normal, but significant, condition
+						- LOG_INFO       informational message
+						- LOG_DEBUG      debug-level message
+					- **如果没有设施值or到priority此参数中**，则使用上一次调用的openlog函数设置的默认值
+						- 如果调用此函数之前没有调用openlog函数，则使用默认的``LOG_USER``
+			- **返回值**：无(void)
+			- 使用可变参数来进行结构化输出
+		- **``openlog``**函数可以改变syslog的默认输入输出行为，进一步结构化日志内容
+			- **参数**：``const char* ident, int option, int facility``
+				- ``ident`` 所指向的字符串会被附加到每一条信息之前，如果设置为NULL，则会使用程序名
+					- **[[$red]]==注意==**：POSIX.1-2008并没有规定当indet为0时的行为
+				- ``option``用于对后续调用的syslog函数的行为做出规定，可or上多个可选项
+				  collapsed:: true
+					- LOG_CONS       Write directly to the system console if there is an error while sending to the system logger.
+					- LOG_NDELAY     Open the connection immediately (normally, the connection is opened when the first message is logged).  This may be useful, for example, if a  sub‐
+					                      sequent chroot(2) would make the pathname used internally by the logging facility unreachable.
+					- LOG_NOWAIT     Don't  wait  for child processes that may have been created while logging the message.  (The GNU C library does not create a child process, so this
+					                      option has no effect on Linux.)
+					- LOG_ODELAY     The converse of LOG_NDELAY; opening of the connection is delayed until syslog() is called.  (This is the default, and need not be specified.)
+					- LOG_PERROR     (Not in POSIX.1-2001 or POSIX.1-2008.)  Also log the message to stderr.
+					- LOG_PID        Include the caller's PID with each message.
+				- ``facility``即后续调用syslog时的默认facility值
+			- **返回值**：无(void)
+			- 此函数用于**打开与一个系统logger的连接**
+		- ``setlogmask``函数用于通过优先级过滤输出信息
+			- **参数**：``int mask``
+				- 在使用时，通过将不同的优先级对应的掩码or起来传入，一般需配合宏``LOG_MASK``使用 ，如：
+					- ``LOG_MASK(LOG_ERR) | LOG_MASK(LOG_DEBUG)``
+				- 某些实现可能还会提供``LOG_UPTO``宏，一次性得到所有优先级高于且包括p的所有优先级掩码
+			- **返回值**：返回之前的掩码，不会失败
+		- 程序结束时使用``closelog``函数关闭日志功能
+			- **参数**：无
+			- **返回值**：无
+- # 用户信息
+	-
+	-
