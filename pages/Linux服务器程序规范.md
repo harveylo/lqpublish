@@ -169,4 +169,89 @@
 			- ``ps-o pid,ppid,pgid,sid,comm``
 			- 配合管道输出到``less``实现滚动式阅读和搜索
 - # 系统资源限制
-	-
+	- Linux上运行的程序可能会受到如下资源限制
+		- 物理设备限制(CPU数量，内存大小等)
+		- 系统策略限制(CPU时间等)
+		- 具体实现限制(文件名最大长度等)
+	- 可使用如下**函数读取和设置系统设置**
+		- ```
+		  #include＜sys/resource.h＞
+		  int getrlimit(int resource,struct rlimit*rlim);
+		  int setrlimit(int resource,const struct rlimit*rlim);
+		  ```
+		- resource可选的资源和编号如下：
+			- ![image.png](../assets/image_1683789604794_0.png)
+		- 以上两个函数**成功时返回0，失败返回-1**
+	- rlimit结构体的结构如下：
+		- ```
+		  struct rlimit{
+		  rlim_t rlim_cur;
+		  rlim_t rlim_max;
+		  };
+		  ```
+		- ``rlim_t``是一个整数类型的typedef别名，描述资源级别。
+		- `rlim_cur`成员指定资源的**软限制**
+			- 软限制一般是建议性的，最好不要超越。
+			- 如果超越软限制，**系统可能向进程发送信号以终止其运行**
+			- 例如：
+				- 若进程CPU时间超过 软限制，系统将向进程发送``SIGXCPU``信号
+				- 若文件大小超过软限制，系统将发送``SIGXFSZ``信号
+		- ``rlim_max``成员指定资源的**硬限制**，如字面意思，一般是**软限制的上限**
+			- 普通程序可以减小硬限制，但**只有root身份运行的程序才能增加硬限制**
+	- 使用``ulimit``命令可以修改当前shell环境下的资源限制(软硬限制均可)
+		- 这种修改对后续通过此shell启动的所有程序都有效
+	- 也可以通过修改系统配置文件永久改变系统软硬限制
+- # 改变工作目录和根目录
+	- 服务器程序可能需要 区分工作目录和根目录
+		- 一般来说，Web服务器的**逻辑根目录**并非文件系统的根目录``/``，而是站点的根目录
+			- 对于linux Web服务器来说，该目录一般是``/var/www/``
+	- 获取和改变当前工作目录的函数分别是
+		- ```
+		  #include＜unistd.h＞
+		  char*getcwd(char*buf,size_t size);
+		  int chdir(const char*path);
+		  ```
+		- 对于``gwrcwd``函数来说，如果当前工作目录的长度(加上结尾的`\0`)超过``size``，则会返回``NULL``
+			- 如果``buf``为NULL而``size``不为0，函数可能会在内部使用`malloc`动态分配内存，并将当前路径存入其中，这种情况下，程序员需要手动free
+			- 此函数成功时返回字符串指针，失败返回``NULL``并设置``errno``
+		- ``chdir``函数成功返回0，失败返回-1
+	- 使用函数``chroot``改变进程根目录
+		- 一般来说，**一个进程的根目录就是系统根目录**
+		- ``int chroot(const char* path)``
+		- 成功返回0，失败返回-1
+		- **并不改变当前工作路径**
+		- 切换进程根目录之后，程序可能将无法类似``/dev``之类系统目录的文件和目录，因为这些目录可能并非出于新的根目录之下
+			- 但是调用此函数之后，之前打开的文件描述符仍然有效，可以提前打开需要的文件，再改变根目录
+		- **[[$red]]==只有特权进程才能改变根目录==**
+- # 服务器程序后台化
+	- 守护进程的编写遵循一定的步骤，如下：
+		- ```
+		  bool daemonize(){
+		      pid_t pid = fork();
+		  
+		      if(pid<0) return false; //创建子进程失败，退出并返回false
+		      else if(pid>0) exit(0);//创建成功，关闭父进程，使得子进程自然在后台运行
+		      umask(0x777); //设置创建文件时的默认权限
+		      pid_t sid = setsid(); //创建新的会话，本进程自动成为会话进程组的首领
+		      if(sid<0) return false;
+		      if(chdir("/")<0) return false;//切换工作目录到根目录
+		      close(STDIN_FILENO);//关闭标准输入设备，标准输出设备，标准错误输出设备
+		      //STDIN时stdio.h中定义的标准输出流，应该对应的是一个FILE结构体，而STDIN_FILENO时POSIX标准库定义的STDIN真正对应的文件描述符
+		      close(STDOUT_FILENO);
+		      close(STDERR_FILENO);
+		      //还应当关闭其他已经打开的文件描述符，代码省略
+		      //然后将标准输入，标准输出和标准错误输出都定向到/dev/null文件
+		      open("/dev/null",O_RDONLY);
+		      open("/dev/null",O_RDWR);
+		      open("/dev/null",O_RDWR);
+		      return true;
+		  }
+		  ```
+	- 实际上，Linux提供了完成相同功能的库函数``daemon``
+		- ```
+		  #include＜unistd.h＞
+		  int daemon(int nochdir,int noclose);
+		  ```
+		- ``nochdir``用于指定是否改变工作目录，如果为`NULL`则工作目录将被设置为``/``，否则继续使用当前工作目录
+		- ``noclose``用于表示是否重定向标准输入，输出，错误输出到`/dev/null`，为0表示重定向，否则继续使用原来的设备
+		- 成功时返回0，失败时返回-1
