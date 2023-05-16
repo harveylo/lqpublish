@@ -1,5 +1,5 @@
 - TCP通信需要建立连接(意味着需要维护一个状态机)
-- TCP连接的建立：[[三次挥手(Three-way handshake)]]
+- TCP连接的建立：[[三次握手(Three-way handshake)]]
 - TCP连接的断开：[[四次挥手(Four-way handshake)]]
 - # TCP的性质和对应行为
 	- **字节流**

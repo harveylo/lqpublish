@@ -23,7 +23,7 @@
 	- 调试的[[$red]]==难点==一般在与：
 		- fault不一定马上触发error
 		- 触发的error也不一定马上转变为可观测的failure
-		- error为逐渐积累，逐渐改变程序行为，当观测到failure时，可能已经离failure十分遥远了
+		- error为逐渐积累，逐渐改变程序行为，当观测到failure时，可能已经离fault十分遥远了
 	- **测试**就是为了尽可能把fault转变成error，但是效果受到测试覆盖率的影响
 	- **尽早观测到error的存在**
 		- 使用``-Wall, Werror``，在编译时寻找未定义行为
