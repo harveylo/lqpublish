@@ -77,7 +77,7 @@
 	- ## 可执行文件
 		- 能够直接被加载进内存并运行的文件
 		- 相较于可重定位文件，多了一个段头表
-		-
+		- ![ELF 文件格式](https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost4@main/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%86%85%E6%A0%B8/Elf.png){:height 567, :width 514}
 - # 符号和符号表
 	- 每个可重定位模块m都有一个符号表，包含m定义和引用的符号信息
 	- ## 符号
