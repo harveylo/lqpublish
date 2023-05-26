@@ -1,0 +1,6 @@
+- W3C于2018年推出**第一版WebAssembly草案**，包含
+	- 核心标准
+	- JavaScript API
+	- Web API
+- 除了在浏览器上，目前wasm已经可以在包括NodeJS等命令行环境下运行
+-
