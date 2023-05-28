@@ -1,0 +1,6 @@
+- # console对象
+	- 原生js并没有console对象，此对象由浏览器或node.js提供
+	- 在不同的浏览器环境中，console对象可能**有不同的扩展函数**
+	- console对象提供很多可用于debug的函数
+- # 函数和闭包
+	-

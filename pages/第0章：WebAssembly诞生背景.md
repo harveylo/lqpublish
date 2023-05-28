@@ -1,0 +1,4 @@
+- # asm.js的尝试
+	- **Emscripten**项目最先创建时是为了将C/C++代码编译为js
+	- 在此过程中产生了javascript的子集**asm.js**
+	-
