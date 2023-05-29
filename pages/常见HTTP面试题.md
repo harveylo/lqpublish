@@ -1,0 +1,120 @@
+- # HTTP基本概念
+	- ## 什么是HTTP
+		- 全称为**Hyper Text Transfer Protocol**，即**超文本传输协议**，从名称上来解读
+			- **协议**
+				- 首先其是一个**网络协议**
+				- 网络协议就是一种规范，按此规范形式便可以做到标准话通信
+			- **传输**
+				- 只要遵守协议标准就能做到传输
+			- **超文本**
+				- 不知能传输“文本”，还能传输图片，音频，视频等数据
+	- ## HTTP常见状态码
+		- ![ 五大类 HTTP 状态码 ](https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP/6-%E4%BA%94%E5%A4%A7%E7%B1%BBHTTP%E7%8A%B6%E6%80%81%E7%A0%81.png){:height 292, :width 578}
+		- 分为**五类**
+		- **1XX**，用于提示信息，实际使用较少
+		- **2XX**，成功处理客户端请求
+			- `200 OK`，最常见成功状态码，表示一切正常，非``HEAD``请求，body会带有返回数据
+			- ``204 No Content``，页较稳常见，响应中没有body数据
+			- ``206 Partial Content``，应用于HTTP分块下载和断点续传，表示响应返回的body数据只是一部分
+		- **3XX**，表示客户端请求的资源发生了变动，客户需要使用新的URL重新发送请求获取资源，即**[[$red]]==重定向==**
+			- ``301 Moved Permanently``，永久重定向，请求的资源已不存在，需要改用新的URL重新访问
+			- ``302 Found``，临时重定向，请求资源尚在，但暂时需要用另外的URL来访问
+			- 以上两种状态码头中都带有``Location``指明后续要跳转的URL，浏览器会自动重定向到新的URL
+			- ``304 Not Modified``，表示资源未修改，告知客户端继续使用缓存资源，不具有跳转含义
+		- **4XX**，表示客户端发送的报文有误，**服务器无法处理**
+			- ``400 Bad Request``，表示客户端请求的报文有误，一个比较笼统的错误码
+			- ``403 Forbidden``，表示服务器禁止访问资源，客户端的请求报文格式上并无错误
+			- ``404 Not Found``，表示请求的资源在服务器上不存在或未找到，无法提供给客户端
+		- **5XX**，表示可无端请求报文正确，但是**服务器处理时内部发生了错误**
+			- ``500 Internal Server Error``，服务器内部错误，一个比较笼统的错误码
+			- ``501 Not Implemented``，表示客户端请求的功能还不支持
+			- ``502 Bad Gateway``，表示服务器自身工作正常，但访问后端服务器发生了错误
+			- ``503 Service Unavailable``，表示服务器当前忙，**暂时无法响应客户端**
+	- ## HTTP头部结构
+		- ### 请求头
+			- 又客户端发起的请求头部
+			- ![](https://www.runoob.com/wp-content/uploads/2013/11/2012072810301161.png)
+		- ### 回应头
+			- ![](https://www.runoob.com/wp-content/uploads/2013/11/httpmessage.jpg)
+			-
+	- ## HTTP 常见字段
+		- http中，每一个字段通过``:``区分字段和值，字段之间通过回车符和换行符来分割
+		- **Host字段**
+			- 用于指定服务器的域名，可以区分发往同一台服务器上的不同网站
+			- **实例：**``www.A.com``
+		- **Content-Length**字段
+			- 服务器在返回数据时，使用此字段表明本次回应的数据长度，**单位为字节**
+			- HTTP中，
+				- **回车符 ，换行符为[[$red]]==header的边界==**，**Content-Length为[[$red]]==HTTP-body的边界==**
+		- **Connection**字段
+			- 若客户端要求服务器使用**[[$red]]==HTTP长连接机制==**，则此字段有效
+			- HTTP长连接的特点是**只要任意一端没有明确提出断开连接，则保持TCP连接状态**
+			- HTTP/1.1版本默认**所有链接都是长连接**，但为了兼容老版本，需将此字段值设为``Keep-Alive``
+			- 使用HTTP长连接的好处在于，除非某一端提出断开连接，否则后续所有的请求和应答都使用同一个TCP链接，减少了重新建立连接的开销
+			- HTTP/1.1之后都是默认使用长连接，若要关闭长连接，需要将此字段设置为``close``
+		- **Content-Type**字段
+			- 服务器回应时，通过此字段告知数据格式
+			- **实例：**``Content-Type: text/html; Charset=utf-8``
+				- 表示发送的是网页，编码为utf-8
+		- **Accept**字段
+			- 客户端用于声明自己可以接受的数据格式
+			- **实例：**``Accept: */*``
+				- 表示接收任何数据格式
+		- **Content-Encoding**字段
+			- 服务器表明返回数据压缩的方法、
+			- 客户端可以用相应的**Accept-Encoding**字段表明接受的压缩方法
+			- ![](https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP/11-content-encoding%E5%AD%97%E6%AE%B5.png){:height 209, :width 450}
+- # GET与POST
+	- ## 区别
+		- **GET**根据RFC规范是从服务器**获取指定资源**，可以为静态文本，页面，图片视频等
+			- get请求的参数位置一般置于URL中，**URL**仅支持ASCII字符
+			- 浏览器一般会对URL长度作限制，但是HTTP协议本身没有对URL长度做限制
+			- ![GET 请求](https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP/12-Get%E8%AF%B7%E6%B1%82.png){:height 282, :width 389}
+		- **POST**根据RFC规范是根据请求payload(报文的body)**对指定资源做出处理**
+			- ![POST 请求](https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP/13-Post%E8%AF%B7%E6%B1%82.png){:height 205, :width 387}
+	- ## GET和POST的安全性和幂等性
+		- **安全：**在HTTP中，所谓安全是指请求方法**不会破坏服务器上的资源 **
+		- **幂等**：所谓幂等，指多次执行相同的操作，**结果都是相同的**
+		- **GET**方法是**安全且幂等**的，其对数据是只读操作，且每次结果都是相同的
+			- 对GET请求返回的数据可以做**数据缓存**，此缓存可以由浏览器(避免重复请求的发送)来做，也可以由代理(例如nginx)来做，且浏览器可以将GET请求的返回数据保存为书签
+		- **POST**方法是新增或提交数据，因此**不安全**，且多次提交可能会创建多个资源，因此页**不幂等**
+			- 浏览器不会也不能缓存POST请求或保存为书签
+		- 但是在实际开发中，开发者**不一定按照RFC规范定义的语义来实现GET和POST方法**，例如：
+			- 可以用GET方法实现新增或删除数据的请求
+			- 可以用POST的方法实现查询数据的请求
+- # HTTP缓存技术
+	- ## HTTP缓存技术的实现方式
+		- 对于重复的HTTP请求，可以将**请求-响应**的数据都**缓存在本地**，下次访问可以直接读取本地数据
+		- HTTP右不少头部字段用于实现缓存
+		- HTTP有两种**实现缓存的方式**，分别是**强制缓存**和**协商缓存**
+		- ### 强制缓存
+			- 只要浏览器**判断缓存没有过期**，则直接使用浏览器的本地缓存
+			- **决定是否使用缓存的主动权在浏览器手中**
+			- 下图中的返回结果标识来自于本地缓存
+				- ![](https://cdn.xiaolincoding.com//mysql/other/1cb6bc37597e4af8adfef412bfc57a42.png)
+			- 若响应头部(Response Header)中有如下两个字段，则表示启用强制缓存
+				- **Cache-Control**，标识缓存过期的相对时间
+				- **Expires**，标识缓存过期的绝对时间
+				- 如果HTTP响应头部同时包含这两个字段，则**前者的优先级高于后者**
+			- Cache-Control能提供更多的选项，设置更加精细，一般更常用页更建议使用此字段实现墙置缓存，具体实现流程为：
+				- 浏览器第一次请求访问服务器的某个资源，服务器在返回此资源的同时，在Response Header中加上Cache-Control字段，**设置过期时间**
+				- 当浏览器再次访问此资源时，首先通过Cache-Control设置的时间大小计算是否过期，若未过期，使用缓存，否则再次发送请求
+				- 再次收到请求的服务器会在回应中设置新的Cache-Control
+		- ### 协商缓存
+			- 通过``304``相应告知浏览器使用本地缓存的方式叫做**协商缓存**
+			- ![](https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost4@main/%E7%BD%91%E7%BB%9C/http1.1%E4%BC%98%E5%8C%96/%E7%BC%93%E5%AD%98etag.png){:height 528, :width 469}
+			- 基于**两种头部**来实现
+			- 通过请求头部中的``If-Modified-Since``字段与响应头部中的``Last-Modified``字段
+				- 响应头部中``Last-Modified``标识此次相应总行资源的**最后修改时间**
+				- 请求头部中的``If-Modified-Since``表示：
+					- 若资源过期，发现响应头中具有``Last-Modified``声明，则再次发起请求时带上此时间，服务器收到请求后，将请求头中的``Last-Modified``时间和服务器上的资源最后修改时间做对比
+						- 若服务器资源修改时间比请求头中的大，则说明修改过，通过回应发送新的资源
+						- 若小或相等，则无修改，发送``304``响应告知使用缓存
+			- 通过请求头部中的``If-None-Match``字段与响应头中的``Etag``字段
+				- 响应头中的``Etag``为相应资源的**唯一标识**，修改资源会导致``Etag``发生变化
+				- 当资源过期时，请求头部添加``If-None-Match``字段，值设置为``Etag``的值。服务器收到请求后比对资源，若资源没有变化则返回``304``，否则重新发送资源
+			- 如果响应头中同时包含``Etag``和``Last-Modified``，则浏览器在向服务器重新发送请求时 ，**``Etag``的优先级更高**
+			- ![](https://cdn.xiaolincoding.com/gh/xiaolincoder/network/http/http%E7%BC%93%E5%AD%98.png){:height 445, :width 534}
+- # HTTP特性
+	-
+	-
