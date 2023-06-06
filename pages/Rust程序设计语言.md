@@ -1,2 +1,3 @@
 - **英文版地址：**[The Rust Programming Language](https://doc.rust-lang.org/book/)
 - # [[Chapter 1: Get Started]]
+- # [[Chapter 2: Programming a Guessing Game]]
