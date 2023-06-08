@@ -34,8 +34,54 @@
 		- 如果要做计算，则使用`{}`做占位符，计算式跟在格式化字符串后，如
 			- `println!("x = {x} and y + 2 = {}", y + 2);`
 - # 第二版本
+	- ```rust
+	  use rand::Rng;
+	  use std::cmp::Ordering;
+	  use std::io;
+	  
+	  fn main() {
+	      println!("Guess the number!");
+	      let secret_number = rand::thread_rng().gen_range(1..=100);
+	      loop {
+	          println!("Please input your guess.");
+	          let mut guess = String::new();
+	          io::stdin()
+	              .read_line(&mut guess)
+	              .expect("Failed to read line");
+	          let guess: u32 = match guess.trim().parse(){
+	              Ok(num) => num,
+	              Err(_) => continue
+	          };
+	          println!("Your guess: {guess}");
+	          match guess.cmp(&secret_number) {
+	              Ordering::Less => println!("Too small!"),
+	              Ordering::Greater => println!("Too big!"),
+	              Ordering::Equal => {
+	                  println!("You win!");
+	                  break;
+	              }
+	          };
+	      }
+	  }
+	  ```
 	- ## 依赖控制
 		- cargo可以理解一个crate的**语义版本(Sematic Version)**
 		- ``rand="0.8.5"``实际上是``rand=^0.8.5``的略写，意味着**至少0.8.5，低于0.9.0**
 			- 因为**0.9.0**之前的版本都保证不会改变API
 			- 这样可以使得在保证兼容性的情况下，获取最新的crate
+		- **cargo**在建造时会算出所有的依赖，然后生成一个``Cargo.lock``文件，确保每次build的正确性
+			- 在手动更改配置文件中的依赖版本之前，cargo都会使用``Cargo.lockl``文件中的依赖来建造
+			- 使用``cargo update``可以在不影响api使用的情况下更新crate，例如**从0.8.5到0.8.6**，但不会到0.9.0
+			- 要升级到0.9.0需要显式在``Cargo.toml``中更改依赖版本
+	- ``1..=100``定义了一个闭区间范围，一般形式为``<start>..=<end>``
+	- 使用``cargo doc --open``可以构建所有依赖的文档
+	- 引入 ``Ordering``，此类型是另外一个枚举类型，包括``Less, Greater, Equal``
+	- 任何可比较的值都有``cmp``函数
+	- 使用``match``语句，根据不同的结果进行不同的处理
+		- ``match``语句包含不同的``arm``，match会根据给出的``arm``做匹配
+	- 默认情况下，rust使用的整数类型为``i32``
+	- rust允许重新定义同名变量，重新定义的变量会覆盖之前的变量
+	- ``trim``函数会去掉字符串开头和末尾的所有空白字符
+	-
+	-
+	-
