@@ -215,4 +215,41 @@
 			    // 危险！
 			  ```
 			- 以上代码无法编译
-		-
+- # Slice 类型
+	- **字符串字面量就是slice类型**
+	- slice即引用集合中**一段连续的元素序列**，而不引用整个集合，不具有所有权
+	- 使用``[start..end]``的方式创建slice，例如：
+		- ```rust
+		  let s = String::from("hello world");
+		  let hello = &s[0..5];
+		  let world = &s[6..11];
+		  ```
+		- 注意，并不包括``end``
+		- 一个slice的内部结构包含一个指向集合内部起始位置的指针和长度
+		- ![image.png](../assets/image_1686289080904_0.png){:height 256, :width 213}
+	- 如果从索引0处开始，**可以省略起始位置**；如果直到集合末尾，**可以省略结束位置**
+	- 使用``slice``可以避免在使用slice之前原内存空间被清空导致引用失效
+	- ```rust
+	  fn first_word(s: &str) -> &str {}
+	  fn main() {
+	      let my_string = String::from("hello world");
+	  
+	      // `first_word` 适用于 `String`（的 slice），部分或全部
+	      let word = first_word(&my_string[0..6]);
+	      let word = first_word(&my_string[..]);
+	      // `first_word` 也适用于 `String` 的引用，
+	      // 这等价于整个 `String` 的 slice
+	      let word = first_word(&my_string);
+	  
+	      let my_string_literal = "hello world";
+	  
+	      // `first_word` 适用于字符串字面值，部分或全部
+	      let word = first_word(&my_string_literal[0..6]);
+	      let word = first_word(&my_string_literal[..]);
+	  
+	      // 因为字符串字面值已经 **是** 字符串 slice 了，
+	      // 这也是适用的，无需 slice 语法！
+	      let word = first_word(my_string_literal);
+	  }
+	  ```
+	- 非字符串也能有slice类型
