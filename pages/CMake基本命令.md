@@ -121,7 +121,6 @@
 	  ```
 	- 在if控制语句中，对变量的取值不需要加``${}``，直接使用变量名即可
 - # ADD_SUBDIRECTORY
-  collapsed:: true
 	- [Manual Page](https://cmake.org/cmake/help/latest/command/add_subdirectory.html)
 	- ``add_subdirectory(source_dir [binary_dir] [EXCLUDE_FROM_ALL] [SYSTEM])``
 	- ``source_dir``指明``CMakeLists.txt``源文件和代码文件所在的目录
@@ -299,7 +298,6 @@
 				- 可执行文件，除了macos上被标记为``MACOS_BUNDLE``的可执行文件，应该使用``BUNDLE``
 				- DLL库，.dll文件，注意和.lib的DLL import库分开
 - # ADD_LIBRARY
-  collapsed:: true
   id:: 63fb1780-70ba-4128-9ff4-9ca146352792
 	- [Manual Page](https://cmake.org/cmake/help/latest/command/add_library.html)
 	- ## 普通库
@@ -337,7 +335,6 @@
 	- 此命令会将变量``CMAKE_MINIMUM_REQUIRED_VERSION``设置为``<min>``的值
 	- 可选参数``FATAL_ERROR``会被2.6以上的版本忽略，但是2.4以下版本如果不指定该参数，则未达到此最低要求版本只会给出一个警告
 - # INCLUDE_DIRECTORIES
-  collapsed:: true
 	- 增添头文件目录，以便编译器搜寻头文件时使用
 	- ``include_directories([AFTER|BEFORE] [SYSTEM] dir1 [dir2 ...])``
 	- 将目录添加到目录和目标的``IINCLUDE_DIRECTORIES``属性中
@@ -404,7 +401,6 @@
 			- 如果一个库在自己的头文件和源文件中都include了一个其他库的头文件，则属于``PUBLIC``
 		- 如果不给出依赖类型，那么链接依赖会**默认传递**，即若另一个目标需要链接这个目标，这该目标的所有链接的库都会出现在另一个目标的链接列表里
 - # FILE
-  collapsed:: true
 	- ```
 	  Reading
 	    file(READ <filename> <out-var> [...])
@@ -458,7 +454,7 @@
 		       [<globbing-expressions>...])
 		  ```
 			- 生成和``globbing-expression``匹配的文件列表，并将值储存在``variable``中
-				- ``globbing-expression``类似与正则表达式，不过简单得多
+				- ``globbing-expression``类似于正则表达式，不过简单得多
 				- google一下glob
 			- ``RELATIVE <path>``，如果给出， ``globbing-expression``则会作为相对于``<path>``的相对路径返回
 			- **在3.6以后**：结果会以字典序返回
