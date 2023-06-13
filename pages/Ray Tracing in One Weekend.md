@@ -1,3 +1,7 @@
+- # C++ 项目结构问题
+	- ## 两个头文件互相包含
+		- 一般不应该出现这种情况，如果出现，说明项目结构设计有问题
+		- 如果出现，在某一个头文件中不再包含另外一个头文件，而是将需要的类，函数和变量再手动声明一次
 - # 输出一张图像(image)
 	- ## PPM图像格式
 		- ppm(ppm pixmap format)图象格式应该是最简单明了的图像格式，其格式如下：
@@ -224,7 +228,81 @@
 		- 本书选择后者，且在本书中，一个材质类需要做两件事
 			- 产生一条**发散的光线(Scattered Ray)**，或者吸收发射出的光线
 			- 如果产生了一条被发散的光线，确定此光线会被**减弱(attenuate)**多少
-	- ## 一个用于描述光线-物体相交的数据结构
+	- ## 分散函数(``scatter()``)
+		- ``Material``是个纯虚基类，其有一个纯虚函数``scatter``
+		- 此函数用于计算出一条散射的光线
+		- 此函数一般需要一个``attenuation``，对于Lambertian材质来说，就是``albedo``
+			- **个人认为就是一个color的mask，会对散射光线的颜色做一个filter**
+			- 也可以让此函数仅有``p``的概率反射一条光线(即有``1-p``的概率**吸收一条光线**)，但是相应的，``attenuation``需要设置为``albedo/p``
+				- 因为，如果仅有``p``的概率反射光线，那么最终所有颜色的mask都仅有``p``(剩下``1-p``的光线会直接返回全黑(0,0,0)，但分母不变(采样率还是那个常数))
+				- 所以最终颜色会变暗，要修正，就需要将``attenuation``除以``p``
+			- 所以两种方式最终的效果应该是一样的，如何选择仅取决于个人偏好
+	- ## 镜像反射(Mirrored Light Reflection)
+		- ![](https://raytracing.github.io/images/fig-1.11-reflection.jpg){:height 236, :width 311}
 		-
-		-
+		- 一个向量$\mathbf{V}$的镜像放射可以通过以下步骤求得：
+			- $\mathbf{V\cdot N = \| V\| \| N\| \cos \theta}$
+				- 其中$\cos \theta$即$\mathbf{V,N}$间的夹角
+			- 又因为$\mathbf{N}$是单位向量，其长度为1，因此
+				- $\mathbf{V\cdot N = \| V\|  \cos \theta = \| B\|}$
+			- 又因为$\mathbf{B,N}$方向相同，因此且$\mathbf{N}$为单位向量，因此
+				- $\mathbf{(V\cdot N) \times N=B}$
+			- 所以有：
+				- $\mathbf{V-2\times(V\cdot N) \times N=B}$
+	- ## 模糊反射(Fuzzy Reflection)
+		- 反射光线的末尾生成一个球体，在求体内随机选择一个新的终点重置反射光线的方向
+		- ![](https://raytracing.github.io/images/fig-1.12-reflect-fuzzy.jpg)
+		- 此球体的半径越大，fuzzy效果越明显
 	-
+- # 介质(Dielectric)
+	- 透明的材质，例如水，玻璃，钻石都是**介质**
+	- 当一束光射向介质，会产生**一条反射光和一条折射(Refraction)光**
+		- 随机选择折射还是反射，且每次迭代只scatter一次
+	- ## 折射(Refraction)
+		- 当光线穿过**不同的介质**时会产生折射现象
+		- ### 斯涅尔定律(Snell's Law)
+			- $\eta \cdot \sin \theta = \eta' \cdot \sin \theta '$
+			- ![](https://raytracing.github.io/images/fig-1.13-refraction.jpg){:height 290, :width 365}
+			- $\eta,\eta'$分别是两种介质的**折射率**，一般来说
+				- **空气**的折射率为**1**
+				- **玻璃**的折射率为**1.3-1.7**
+				- **钻石**的折射率为**2.4**
+		- 为了计算出**被折射**的光线，需要：
+			- 计算出射角：$\sin \theta' = \frac{\eta}{\eta'}\cdot \sin \theta$
+			- 将出射光线$\mathbf{R'}$分割为垂直于法线的向量和平行于法线的向量
+				- $\mathbf{R'=R'_\bot+R'_\|}$
+			- 分别求出$\mathbf{R'_\bot,R'_\|}$
+				- $\mathbf{R'_\bot} = \frac{\eta}{\eta}(\mathbf{R}+\cos \theta \mathbf{n})$
+					- 若出射光线为单位向量，可改写为：$\mathbf{R'_\bot} = \frac{\eta}{\eta}(\mathbf{R+ (-R\cdot n)} \mathbf{n})$
+				- $\mathbf{R'_\|}=-\sqrt{1- \| \mathbf{R'_\bot \|^2}} \mathbf{n}$
+	- ## 内部全反射(Total Internal Reflection)
+		- Snell's law的一个问题在于，如果一束光从折射率大的物体射入折射率小的物体则无法给出有效解
+			- $\sin\theta'=\frac{\eta}{\eta'}\cdot \sin\theta \Rightarrow \sin\theta'=\frac{1.5}{1.0}\cdot \sin\theta \Rightarrow 1.5\times \sin\theta >1$
+			- 若$\sin\theta$足够大，则$\theta'$无解
+		- 不能折射(无解)的情况称为**内部全反射**
+	- ## Schlick近似(Approximation)
+		- 真实玻璃的反射率往往和角度有关，要准确描述这种性质需要很复杂的公式，但是可以使用Schlick近似来**获取一个准确的多项式近似效果**
+	- ## 建模一个空的玻璃球
+		- 半径的正负并不影响光线和球体碰撞的求解运算，但是会导致最后求出的碰撞点的法线反向
+		- 因此可以用负半径来建模空的玻璃球
+			- 最外层建模一个正半径玻璃球
+			- 内部加一个负半径的同心球
+- # 可移动的相机
+	- ## 相机视角几何(Camera Viewing Geometry)
+		- ![](https://raytracing.github.io/images/fig-1.14-cam-view-geom.jpg){:height 228, :width 223}
+		- 实际上只要保持h相对于z的比值，viewport在任何-z举例，最终效果都是一致的
+		- 因此可以选择viewport的举例时钟固定在z=-1(相对于相机)，则
+			- $h=\tan(\frac{\theta}{2})$
+			- $\theta$即为**垂直FOV**(vertical field-of-view)
+	- ## 放置并且旋转相机
+		- 将相机所放置的位置称为**``lookfrom``**
+		- 相机看向的**点**称为**``lookat``**
+		- 还需要一种方法来定义**roll**，也称**sideways tilt**，即相机在lookat-lookform轴上的旋转角度
+			- 定义一个``up``向量，此向量**与看向的方向正交**，一般取名为**vup**(view up)向量
+		- ![](https://raytracing.github.io/images/fig-1.15-cam-view-dir.jpg){:height 180, :width 348}
+		- 使用叉乘可以获取一组正交的向量来描述相机的朝向
+		- ![](https://raytracing.github.io/images/fig-1.16-cam-view-up.jpg)
+			- ``v, vup, w``全在同一个平面
+			- 相当于，通过`vup`和lookat-lookfrom轴叉乘来确定u向量，这个u向量一定在和lookat-lookfrom轴垂直的平面内，因此可以通过修改`vup`来修改相机的roll
+			- 选取``(0,1,0)``作为``vup``可以保证相机视角是水平的(也即最终输出画面是水平的)
+		-
