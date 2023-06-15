@@ -67,4 +67,4 @@
 		- ``std::thread``是线程库中提供的线程类
 		- 每一个线程都必须有一个**初始函数**(initial function)，相当于新线程的entry point
 			- 对于一个进程的初始线程来说，初始函数就是main函数
-		- ``std::thread.joint``函数让调用者等待一个线程返回后再继续执行
+		- ``std::thread.join``函数让调用者等待一个线程返回后再继续执行

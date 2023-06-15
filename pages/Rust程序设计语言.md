@@ -3,4 +3,4 @@
 - # [[Chapter 2: Programming a Guessing Game]]
 - # [[Chapter 3: Common Programming Concepts]]
 - # [[Chapter 4: Understanding Ownership]]
-- # [[Using Structs to Structure Related Data]]
+- # [[Chapter 5: Using Structs to Structure Related Data]]

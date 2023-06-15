@@ -19,7 +19,7 @@
 			  255 255 0 255 255 255 0 0 0
 			  ```
 			- 以上内容对应的图像为
-				- ![undefined](https://upload.wikimedia.org/wikipedia/commons/5/57/Tiny6pixel.png)
+				- ![image.png](../assets/image_1686718325764_0.png)
 			- 如果是二进制而非ASCII编码的PPM，开头的魔数应该是ASCII码对应的**``P6``**
 	- ## 输出第一张图像
 		- ```c++
@@ -94,14 +94,14 @@
 			- $\mathbf{A}$ 是一个光线源
 			- $\mathbf{b}$ 是光线方向
 			- $t$ 是光线参数，为一个实数
-			- ![](https://raytracing.github.io/images/fig-1.02-lerp.jpg){:height 118, :width 359}
+			- ![image.png](../assets/image_1686718422160_0.png){:height 130, :width 390}
 	- ## 将光线添加到场景中
 		- ### [[思考：viewport如何控制视野大小以及其与输出图片大小的关系]]
 		- 一个光线追踪器负责将光线**发送过每一个像素**，并且计算从光线的角度看到的颜色，通过三步完成
 			- 计算**从人眼到像素**的光线
 			- 判明有哪些物体和光线**相交**(intersect)
 			- 计算相交点的**颜色**
-		- ![](https://raytracing.github.io/images/fig-1.03-cam-geom.jpg)
+		- ![image.png](../assets/image_1686718445187_0.png)
 		- ``ray_color``函数根据光线的y分量进行**线性融合(Linear Blend)**，也称**lerp**，其一般形式为
 			- $\text{blendedValue}=(1−t)⋅\text{startValue}+t⋅\text{endValue}$
 - # 添加一个球体
@@ -114,11 +114,10 @@
 	- 进一步展开为：
 		- $t^2\mathbf{b\cdot b}+2t\mathbf{b}\cdot\mathbf{(A-C)+(A-C)\cdot(A-C)}-r^2 = 0$
 	- 求解$t$即可，可能有三种情况
-		- ![](https://raytracing.github.io/images/fig-1.04-ray-sphere.jpg){:height 171, :width 242}
-		-
+		- ![image.png](../assets/image_1686718535531_0.png){:height 224, :width 328}
 - # 表面法向量(Surface Normals)和多物体
 	- 对于一个球体来说一个朝外的法向量的方向是表面的一个点减去中心点
-	- ![](https://raytracing.github.io/images/fig-1.05-sphere-normal.jpg)
+	- ![image.png](../assets/image_1686718552325_0.png){:height 184, :width 302}
 	- ## 简化光线-球体接触计算代码
 		- ```c++
 		  double hit_sphere(const point3& center, double radius, const ray& r) {
@@ -144,6 +143,7 @@
 		- 此类会有一个``hit``函数，此函数接受一个光线作为参数，计算$t$
 		- 大多数光线追踪器在计算$t$时都会有一个有效区间$t_{min}, t_{max}$只有当$t$在区间内才算是击中
 	- ## 正面(Front Face)和背面(Back Face)
+		- ![image.png](../assets/image_1686718579669_0.png){:height 246, :width 323}
 		- 若法线方向总是从内到外(击中点-中心)，那么通过将光线和法线的方向进行比较即可获知光线是从内部还是从外部击中了物体
 			- 如果光线和(外部)法线的方向一致，说明是从内部击中了物体
 			- 如果光线和(外部)法线的方向相反，说明是从外部击中了物体
@@ -166,7 +166,7 @@
 			  ```
 	- ## 使用多次采样(多条光线)生成单个像素
 		- 绘制单个像素时，发射多条光线，该像素最终的值是多条光线颜色的平均
-		- ![](https://raytracing.github.io/images/fig-1.07-pixel-samples.jpg)
+		- ![image.png](../assets/image_1686718601490_0.png){:height 278, :width 405}
 		- 修改``write_color``函数
 			- 把多次采样的颜色累加起来，然后除以采样次数
 - # 漫射材质(Diffuse Material)
@@ -177,7 +177,7 @@
 			- 但是会将环境颜色和自己的颜色混合到一起
 		- 射到漫射材质上的光会呈现出**随机的反射行为**
 			- 甚至有可能直接被吸收而不是被反射，表面越黑，**越有可能被吸收**
-			- ![](https://raytracing.github.io/images/fig-1.08-light-bounce.jpg){:height 257, :width 467}
+			- ![image.png](../assets/image_1686718617951_0.png){:height 213, :width 396}
 	- 任何随机化反射方向的算法都会让表面看起来是漫射表面（**哑光**）
 		- 不过实际上这只是一种对理想Lambertian reflectance的一种**[[$red]]==lazy hack==**
 		- 并不真的准确，需要更多的工作来真的完成一个理想Lambertian reflectance
@@ -188,7 +188,7 @@
 			- 选择和光线在同一侧的球体
 			- 在球体中随机选择一个点$\mathbf{S}$
 			- $\mathbf{S-P}$就是新的反射方向
-			- ![](https://raytracing.github.io/images/fig-1.09-rand-vec.jpg){:height 280, :width 233}
+			- ![image.png](../assets/image_1686718632779_0.png){:height 331, :width 280}
 		- 使用**拒绝(Rejection)采样**来选取球体中的一个随机点
 			- 生成一个在2单位立方体中的随机点(x,y,z的长度都是-1到1)，如果不在单位球体中则重新采样
 	- [[$red]]==**一条光线最终反射的颜色要么是世界(天空)的颜色，要么是0**==
@@ -238,8 +238,7 @@
 				- 所以最终颜色会变暗，要修正，就需要将``attenuation``除以``p``
 			- 所以两种方式最终的效果应该是一样的，如何选择仅取决于个人偏好
 	- ## 镜像反射(Mirrored Light Reflection)
-		- ![](https://raytracing.github.io/images/fig-1.11-reflection.jpg){:height 236, :width 311}
-		-
+		- ![image.png](../assets/image_1686718702245_0.png){:height 221, :width 302}
 		- 一个向量$\mathbf{V}$的镜像放射可以通过以下步骤求得：
 			- $\mathbf{V\cdot N = \| V\| \| N\| \cos \theta}$
 				- 其中$\cos \theta$即$\mathbf{V,N}$间的夹角
@@ -251,7 +250,7 @@
 				- $\mathbf{V-2\times(V\cdot N) \times N=B}$
 	- ## 模糊反射(Fuzzy Reflection)
 		- 反射光线的末尾生成一个球体，在求体内随机选择一个新的终点重置反射光线的方向
-		- ![](https://raytracing.github.io/images/fig-1.12-reflect-fuzzy.jpg)
+		- ![image.png](../assets/image_1686718718314_0.png){:height 204, :width 338}
 		- 此球体的半径越大，fuzzy效果越明显
 	-
 - # 介质(Dielectric)
@@ -262,7 +261,7 @@
 		- 当光线穿过**不同的介质**时会产生折射现象
 		- ### 斯涅尔定律(Snell's Law)
 			- $\eta \cdot \sin \theta = \eta' \cdot \sin \theta '$
-			- ![](https://raytracing.github.io/images/fig-1.13-refraction.jpg){:height 290, :width 365}
+			- ![image.png](../assets/image_1686718734665_0.png){:height 243, :width 308}
 			- $\eta,\eta'$分别是两种介质的**折射率**，一般来说
 				- **空气**的折射率为**1**
 				- **玻璃**的折射率为**1.3-1.7**
@@ -289,7 +288,7 @@
 			- 内部加一个负半径的同心球
 - # 可移动的相机
 	- ## 相机视角几何(Camera Viewing Geometry)
-		- ![](https://raytracing.github.io/images/fig-1.14-cam-view-geom.jpg){:height 228, :width 223}
+		- ![image.png](../assets/image_1686718756323_0.png){:height 196, :width 183}
 		- 实际上只要保持h相对于z的比值，viewport在任何-z举例，最终效果都是一致的
 		- 因此可以选择viewport的举例时钟固定在z=-1(相对于相机)，则
 			- $h=\tan(\frac{\theta}{2})$
@@ -299,10 +298,24 @@
 		- 相机看向的**点**称为**``lookat``**
 		- 还需要一种方法来定义**roll**，也称**sideways tilt**，即相机在lookat-lookform轴上的旋转角度
 			- 定义一个``up``向量，此向量**与看向的方向正交**，一般取名为**vup**(view up)向量
-		- ![](https://raytracing.github.io/images/fig-1.15-cam-view-dir.jpg){:height 180, :width 348}
+			- ![image.png](../assets/image_1686718778847_0.png){:height 181, :width 350}
 		- 使用叉乘可以获取一组正交的向量来描述相机的朝向
-		- ![](https://raytracing.github.io/images/fig-1.16-cam-view-up.jpg)
+		- ![image.png](../assets/image_1686718792915_0.png)
 			- ``v, vup, w``全在同一个平面
 			- 相当于，通过`vup`和lookat-lookfrom轴叉乘来确定u向量，这个u向量一定在和lookat-lookfrom轴垂直的平面内，因此可以通过修改`vup`来修改相机的roll
 			- 选取``(0,1,0)``作为``vup``可以保证相机视角是水平的(也即最终输出画面是水平的)
+- # 未聚焦模糊(Defocus Blur)
+	- 也称**景深(Depth of View)**
+	- ## 薄镜片近似(Thin lens Approximation)
+		- 一个真正的相机有很复杂的组合镜片，对于模拟来说，需要模拟出**感光元件(sensor)**，**透镜(lens)**，**光圈(aperture)**
+		- ![image.png](../assets/image_1686721757928_0.png){:height 232, :width 299}
+		- 在模拟时不用完全把相机的内部组件全部模拟出来，从透镜处发射光线是一个可行的trick
+		- ![image.png](../assets/image_1686721878774_0.png){:height 208, :width 447}
+	- ## 生成采样光线
+		- 之前的光线直接从``lookfrom``源点发射，现在为了模拟光圈，光线从以``lookfrom``为中心，位于相机平面的一个**圆(disk)**中发出
+			- 圆越大，光圈越大，景深越明显
+		- ### [[$red]]==思考：为什么可以用从圆盘中随机选中光线发射点可以模拟景深？==
+			- 因为最终发射光线时，光线的目的地一定在viewport上，因此每次采样**不管从圆中的哪个点射出，如果viewport上有能够让其击中的点，那么多次采样之后该点是不会被平均颜色的**，也就是仍然是清楚的
+			- 但是不在viewport上的可被碰撞点则不一定每次都能被hit，因此最终该像素会被和周围的颜色一起平均，也就是最终呈现出的**模糊效果**
+		-
 		-
