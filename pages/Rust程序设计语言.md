@@ -4,3 +4,5 @@
 - # [[Chapter 3: Common Programming Concepts]]
 - # [[Chapter 4: Understanding Ownership]]
 - # [[Chapter 5: Using Structs to Structure Related Data]]
+- # [[Chapter 6: Enums and Pattern Matching]]
+-
