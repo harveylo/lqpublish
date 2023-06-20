@@ -35,8 +35,8 @@
 			  if (hits purple)
 			      hit0 = hits blue enclosed objects
 			      hit1 = hits red enclosed objects
-			      if (hit0 or hit1)
-			          return true and info of closer hit
+			  if (hit0 or hit1)
+			       return true and info of closer hit
 			  return false
 			  ```
 	- ## 轴对齐绑定盒(Axis-Aligned Bounding Boxes, AABBs)
@@ -60,4 +60,38 @@
 		- 对于三维情况，原理仍然相同，解三个维度上的解，查看三个解有无重叠，有重叠则说明hit
 	- 在浮点数的运算中，如果除以0会得到无穷，且无穷有正负
 		- 需要特殊处理的是当光线的远点处于某个平面之上，此时的计算结果为**`NaN`**
-	-
+		- 也可以不处理``NaN``情况，因为``NaN``和任何值的任何比较都是false，也就是意味着处在边界上的点被认为未命中
+	- ## 分割BVH体积
+		- **大多数高效数据结构(包括BVH)，最复杂的部分就是创建**
+		- 选择一种在复杂性和性能上折中的方法来构建BVH，分为三步
+			- 随机选择一个轴
+			- 排序所有的元素(primitive)
+			- 将一半的元素分别放入两个子树中
+		- 当递归到**只有[[$red]]==两个==元素**时，分别将两个元素放入两个子树并结束递归
+		- 当递归到**只有[[$red]]==一个==元素**时，在两个子树中都复制此元素
+			- 以此免去空指针检查
+	- ## SAH(Surface Area Heuristic)
+		- 另一种分割构建BVH的方法，会最小化分割出的子树空间的**表面积**，性能表现更好
+- # 实体纹理(Solid Texture)
+	- 在图形学中，“纹理”是指一种可以**过程化(Procedural)改变[[$red]]==表面颜色==**的函数
+	- 这个过程(procedure)可能是综合的代码，也有可能是一张图像的查找函数，也可以是两者结合
+	- ## 计算球体纹理坐标(Texture Coordinates)
+		- 由于纹理是一个过程化的函数，因此计算出表面某个点的颜色需要知晓此点在表面的坐标
+		- 对于球体来说，一个坐标可以由**[[$red]]==经纬度==**构成，一个经(longitude)纬(lattitude)度包含：
+			- $(\theta,\phi)$
+			- 其中，$\theta$是从y轴负方向向上的角度，即从-y向上
+			- $\phi$是绕y轴旋转的角度，从-x到+z，再到+x，再到-z，再回到-x
+		- 需要将$(\theta, \phi)$映射到纹理坐标系$(u,v)$，u和v的范围为$[0,1]$
+			- $(u=0, v=0)$表示纹理的左下角
+			- 因此可以通过以下方式得到u，v
+				- $u = \frac{\phi}{2\pi}$
+				- $v =\frac{\theta}{\pi}$
+		- 计算某个球心在原点的单位球体上某点的$(\theta,\phi)$，使用以下方式求得：
+			- $y = -\cos\theta$
+			- $x = -\cos(\phi)\sin(\theta)$
+			- $z = \sin(\phi)\sin(\theta)$
+		- 通过解反三角函数得到$\theta$和$\phi$的解
+			- $\phi = \text{atan2}(z,-x)+\pi$
+			- $\theta = \text{acos}(-y)$
+		-
+		-
