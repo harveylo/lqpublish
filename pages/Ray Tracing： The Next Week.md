@@ -93,5 +93,16 @@
 		- 通过解反三角函数得到$\theta$和$\phi$的解
 			- $\phi = \text{atan2}(z,-x)+\pi$
 			- $\theta = \text{acos}(-y)$
-		-
+- # Perlin 噪声(Noise)
+	- 由**Ken Perlin**发明
+	- 不返回白噪声，而是类似于**模糊化的白噪声**
+	- 白噪声看起来类似于：
+		- ![image.png](../assets/image_1687340600967_0.png){:height 198, :width 320}
+	- 模糊化的白噪声类似于：
+		- ![image.png](../assets/image_1687340618581_0.png){:height 230, :width 318}
+	- Perlin噪声有两个特点：
+		- **可重复(Repeatable)**：给定一个三维点作为输入，产生的结果总是相同的，附近的点产生相似结果
+		- **简单高效**
+	- 本书的Perlin函数产生算法基于**Andrew Kensler**的算法
+	- ## 使用随机数块(block)
 		-
