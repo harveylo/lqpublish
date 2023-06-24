@@ -146,4 +146,9 @@
 				- 由四条直线$x=x_0,x=x_1,y=y_0,y=y_1$围成
 		- ### 判断光线是否击中一个长方形
 			- **首先判断是否击中长方形所在平面**
-				-
+				- $P_z(t) = A_z + tb_z = k \Rightarrow t = \frac{k-A_z}{b_z}$
+			- **然后判断击中平面的点是否在长方形中**
+				- $x = A_x+tb_x \Rightarrow x_0\le x \le x_1$
+				- $y = A_y+tb_y \Rightarrow y_0\le y \le y_1$
+	- **[[$red]]==注意==**：长方形的bounidng box不能直接是它本身，因为这样会导致长方形的bounding box没有体积，在分割场景时可能会出现问题([[$red]]==**为什么？**==)
+	-
