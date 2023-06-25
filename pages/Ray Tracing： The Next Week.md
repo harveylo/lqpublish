@@ -151,4 +151,27 @@
 				- $x = A_x+tb_x \Rightarrow x_0\le x \le x_1$
 				- $y = A_y+tb_y \Rightarrow y_0\le y \le y_1$
 	- **[[$red]]==注意==**：长方形的bounidng box不能直接是它本身，因为这样会导致长方形的bounding box没有体积，在分割场景时可能会出现问题([[$red]]==**为什么？**==)
+	- ## 将物体变为发光物体
+		- 将物体变为发光物体只需要将其材质赋予为DiffuseLight材质即可
+		- 为了照亮周围物体，其颜色一般要为大于(1,1,1)的白色，因为如果颜色的值过小，经过几次attenuation之后将下降非常快
+		- 因此**光照的强度可以通过颜色值的大小来改变**
+	- ## 创建Cornell Box
+		- 1984年第一次出现，用于展示光照效果
+- # 实例
+	- 首先实现轴对称盒子
+	- 旋转轴对称盒子需要使用**实例(instance)**概念
+	- 实例是一种经过旋转和平移的几何**图元(premitive)**
+	- ## 平移(Translate)实例
+		- 原理很简单，将光线的原点减去平移量，和原对象碰撞检测，如hit，则将碰撞点加上平移量
+		- ![image.png](../assets/image_1687705763077_0.png){:height 469, :width 467}
+		-
+	- ## 旋转实例
+		- ![image.png](../assets/image_1687706527651_0.png){:height 240, :width 318}
+		- 旋转后的(x',y')可通过如下求得
+			- $x' = \cos(\theta)\cdot x - \sin(\theta)\cdot y$
+			- $y' = \sin(\theta)\cdot x + \cos(\theta)\cdot y$
+		- 同理，照另外两个轴旋转求解公式为：
+			- ![image.png](../assets/image_1687706789109_0.png){:height 60, :width 169}
+			- ![image.png](../assets/image_1687706799094_0.png){:height 56, :width 158}
+		- 如果要顺时针旋转，传入负数的角度即可
 	-
