@@ -174,4 +174,17 @@
 			- ![image.png](../assets/image_1687706789109_0.png){:height 60, :width 169}
 			- ![image.png](../assets/image_1687706799094_0.png){:height 56, :width 158}
 		- 如果要顺时针旋转，传入负数的角度即可
-	-
+- # 体积(Volume)
+	- 烟，雾在图形学中也被叫做**体积(volume)**或**参与介质(participating media)**
+	- 另一个值得被添加的特性是**次表面散射(subsurface scattering, SSS)**
+	- 体积相较于表面是**完全不同**的东西，导致编码的困难
+		- 一个技巧是，将体积体表示为一个随机表面
+		- 一团烟雾在实际上可以使用一个概率上不确定位置的平面来代替
+	- ## 常密度介质(Constant Density Mediums)
+		- 一个拥有常量密度的体积，射入其中的光线可能在内部散射，也可能直接穿透
+		- ![image.png](../assets/image_1687759795095_0.png){:height 201, :width 317}、
+		- 光线在其中穿行的距离大小决定了其直接穿透的概率
+		- 密度越大，光线越有可能在内部发生散射，发生散射的概率和密度($C$)，距离($\Delta L$)的关系为：
+			- $\text{probability}=C\cdot \Delta L$
+		- 通过随机运算可以得出一束光线关于某个体积的散射点，如果散射点在体积外，则认为不发生hit
+		-
