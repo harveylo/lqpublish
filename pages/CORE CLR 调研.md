@@ -1,8 +1,14 @@
+- # 关键连接
+	- 文档：[.NET Core Documentation](https://docs.microsoft.com/en-us/dotnet/articles/welcome)
+	- 学习：[.NET learn](https://learn.microsoft.com/zh-cn/dotnet/)
+	- 获取最新.NET Core SDK：[.NET Core SDK](https://www.microsoft.com/net/core)
+	-
 - # 关键词：
 	- ## MONO
 		- 也是.NET生态环境的一部分
 		- 在.NET Core出现以前，是.NET(Framework)的唯一跨平台实现版本
 		- 随着.NET Core的出现，MONO已经成为明日黄花(应该)，最近的更新停留在2020年
+		- 实际上根据[The future of .NET Standard](https://devblogs.microsoft.com/dotnet/the-future-of-net-standard/)，mono也已经被整合到.NET Core中
 	- ## CORE CLR, CLR
 		- CLR(Common Language Runtime)，是.NET framework(原来的.NET)所使用的**虚拟机**
 		- CoreCLR即.NET Core所使用的虚拟机
