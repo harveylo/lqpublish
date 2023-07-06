@@ -1,0 +1,4 @@
+- 路径有两种**形式**
+	- **绝对路径(absolute path)**，从当前crate根部开始，以crate名或者字面量``crate``开头
+	- **相对路径(relative path)**，从当前模块开始，以``self``, ``super``或当前模块的标识符开头
+-
