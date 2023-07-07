@@ -17,8 +17,8 @@ title:: BCL Research for .NET 6
 	- ## 应该自己build BCL还是直接获取二进制文件(binaries)?
 		- BCL可以直接使用NuGet获取，其包含在``Microsoft.NETCore.APP.Runtime.<platform>-<architecture>``包下
 		- [此处](https://www.nuget.org/packages?packagetype=&sortby=relevance&q=Microsoft.NETCore.App.Runtime&prerel=True)列出了所有的BCL
-		- 这些所有的包中，既包含二进制文件(CoreCLR或Mono的)，也包含相应的BCL汇编代码(assemblies)
-		- ``System.Private.Corelib.dll``汇编代码和运行时实现相关，其他汇编文件与平台和架构相关，通过P/Invoke调用直接调用系统API
+		- 这些所有的包中，既包含二进制文件(CoreCLR或Mono的)，也包含相应的BCL程序集(assemblies)
+		- ``System.Private.Corelib.dll``程序集和运行时实现相关，其他程序集与平台和架构相关，通过P/Invoke调用直接调用系统API
 		- 这个问题的答案取决于**如何build 运行时代码**
 			- 如果自己build运行时(CoreCLR或Mono)，则BCL也应该自己build并使用
 			- 如果直接从上游获取编译好的未修改的成品运行时，则应该直接从NuGet获取未修改的BCL

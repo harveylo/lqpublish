@@ -2,8 +2,8 @@ title:: AOT Runtime Research for .NET 6
 
 - 在**.NET7**中，AOT已经部分支持
 	- 在.NET7中进行AOT部署：[Native AOT deployment](https://learn.microsoft.com/en-us/dotnet/core/deploying/native-aot/?tabs=net7)
-- 实际上，**所有的静态编译都是AOT**，但是目前AOT更多的用作一种性能优化技术，因此一般指降运行在VM上的中间代码编译为本地机器码的行为。
-	- 也就是说，一般没人会把java源代码编译到字节码，或者C系列语言编译到CLI成为AOT，虽然这种行为确实是AOT
+- 实际上，**所有的静态编译都是AOT**，但是目前AOT更多的用作一种性能优化技术，因此一般指将运行在VM上的中间代码编译为本地机器码的行为。
+	- 也就是说，一般没人会把java源代码编译到字节码，或者C系列语言编译到CLI称为AOT，虽然这种行为确实是AOT
 - # 可选AOT方案
 	- ## [Native AOT](https://github.com/dotnet/runtimelab/tree/feature/NativeAOT)
 		- **原生(native)**AOT(Ahead of Time)是微软目前正在研究的实验性质
@@ -32,7 +32,7 @@ title:: AOT Runtime Research for .NET 6
 			- 6.验证托管(managed)debugger的行为
 		- 最大的问题出现在**第二步**和**第三步**
 			- 尤其是第二步，修改并实现新的icll API
-		- 所有的**托管到本地(managed to native)调用**都在``System.Private.Corelib``汇编代码中，有两种实现
+		- 所有的**托管到本地(managed to native)调用**都在``System.Private.Corelib``程序集(assemblies)中，有两种实现
 			- CoreCLR：195个qcall，472个fcall
 			- Mono：315个icall
 		- ### 优点
@@ -43,7 +43,7 @@ title:: AOT Runtime Research for .NET 6
 - # 总结
 	- IL2CPP应该是最好的AOT运行时解决方案，有之前的成功经验
 	- Mono AOT没有任何优势
-	- Native AOT长期优势，但是还处在实验阶段
+	- Native AOT有长期优势，但是还处在实验阶段
 - # 产品影响
 	- IL2CPP目前使用Mono soft debugger protocol，不能提供像CoreCLR一样优秀的debug体验
 	- 如果要使用CoreCLR作为JIT解决方案，就应该考虑在IL2CPP中实现ICoreDebug API使得IL2CPP可以在CoreCLR下工作。工作难度大，但是能给用户提供更加统一的体验

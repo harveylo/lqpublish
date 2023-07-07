@@ -4,7 +4,6 @@
 	- 文档：[.NET Core Documentation](https://docs.microsoft.com/en-us/dotnet/articles/welcome)
 	- 学习：[.NET learn](https://learn.microsoft.com/zh-cn/dotnet/)
 	- 获取最新.NET Core SDK：[.NET Core SDK](https://www.microsoft.com/net/core)
-	-
 - # 关键词：
 	- ## MONO
 		- 也是.NET生态环境的一部分
@@ -32,6 +31,8 @@
 		- 即运行在.NET虚拟机上的中间语言
 	- ## IL2CPP
 		- 似乎并不是一个引擎开发本身的概念，而是使用引擎开发时的build选项
+		- 将CIL编译为C++代码，再将C++代码编译为机器码之后即可在本地高效运行
+		- 也是一种AOT技术
 	- ## BURST
 - # FACTS
 	- ## .NET技术进化路径：.NET -> .NET Core
