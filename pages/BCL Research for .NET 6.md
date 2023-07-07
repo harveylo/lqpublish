@@ -1,0 +1,37 @@
+title:: BCL Research for .NET 6
+
+- # 背景
+	- Unity历史上使用Mono的BCL实现
+	- 此实现IL2CPP和Mono都能使用，不过被编译成了两份，一份用于JIT，一份用于AOT
+	- 在最新一次更新之前，所有的平台都使用同样的BCL实现
+		- 但是以后可能JIT，AOT使用的BCL实现会不一样，甚至每个平台的BCL都不同(至少win/mac/linux是如此)
+- # 可选的BCL
+	- ## 来自mono/mono repo的BCL
+		- [Repository](https://github.com/mono/mono/tree/main/mcs/class)
+		- 由于Mono已经于2020停止更新，库已经和.NET 6 API不同步
+			- 例如.NET 6 API提供的``Environment.ProcessPath``不在Mono的BCL中
+	- ## 来自dotnet/runtime的BCL
+		- [Repository](https://github.com/dotnet/runtime/tree/main/src/libraries)
+		- 是目前被Mono和CoreCLR使用的代码
+- # 问题
+	- ## 应该自己build BCL还是直接获取二进制文件(binaries)?
+		- BCL可以直接使用NuGet获取，其包含在``Microsoft.NETCore.APP.Runtime.<platform>-<architecture>``包下
+		- [此处](https://www.nuget.org/packages?packagetype=&sortby=relevance&q=Microsoft.NETCore.App.Runtime&prerel=True)列出了所有的BCL
+		- 这些所有的包中，既包含二进制文件(CoreCLR或Mono的)，也包含相应的BCL汇编代码(assemblies)
+		- ``System.Private.Corelib.dll``汇编代码和运行时实现相关，其他汇编文件与平台和架构相关，通过P/Invoke调用直接调用系统API
+		- 这个问题的答案取决于**如何build 运行时代码**
+			- 如果自己build运行时(CoreCLR或Mono)，则BCL也应该自己build并使用
+			- 如果直接从上游获取编译好的未修改的成品运行时，则应该直接从NuGet获取未修改的BCL
+		- **[[$red]]==大概率会选择自行build运行时，因此应该也自行build BCL==**
+	- ## BCL的选择会如何影响UnityLinker?
+		- 需要和上游UnityLinker同步以配合``dotnet/runtime``BCL使用
+		- 随着对BCL的改变的引入，需要和上游linker保持更加及时的同步
+		- linker的实现似乎和BCL实现紧密耦合
+	- ## BCL选择如何影响IL2CPP
+		- **需要确定IL2CPP是否要提供其自己的``System.Private.Corelib``**还是使用Mono或者CoreCLR的实现
+		- 如果选择了一个现存的BCL实现，那么IL2CPP需要被修改以使得被托管到本地调用可以正常工作
+- # 总结
+	- 为了支持.NET 6 API surface，必须使用来自``dotnet/runtime``的BCL实现
+	- mono实现已经不再更新
+- # 产品影响
+	- 使用``dotnet/runtime``的BCL实现可以让用户在Unity中的开发体验和其他.NET生态系统中的开发体验一致，让用户更好地将Unity作为一种开发工具来使用
