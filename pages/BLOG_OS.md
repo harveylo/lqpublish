@@ -1,3 +1,5 @@
 - # [[BLOG_OS：最小内核]]
 - # [[VGA字符模式]]
 - # [[BLOG_OS：内核测试]]
+- # [[BLOG_OS-CPU异常处理]]
+- # [[BLOG_OS-Double Fault]]

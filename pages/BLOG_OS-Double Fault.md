@@ -1,0 +1,6 @@
+- # Double Fault的成因
+	- 并不是任何时候只要两个fault接连出现就会触发double fault，**AMD64手册**定义了哪些嵌套异常会触发double fault
+	- ![image.png](../assets/image_1688891049780_0.png)
+	- 按照上表，只有**处理**对应的**一层异常**的时候，出现了相应的**二层异常**才会抛出double fault
+	- 否则，在处理某个异常时出现其他的异常，则直接调用二层异常的处理函数即可
+	- 不注册异常处理函数触发double fault的
