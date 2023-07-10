@@ -1,0 +1,55 @@
+title:: Research for .NET 6 Support in Unity
+
+- 此文档列举了一些来迁移到.NET 6之前需要回答的问题
+- # 域重加载
+	- **[[$red]]==.NET 6中不存在域重加载==**
+	- ``dotnet/runtime``仓库下的Mono移除了域重加载代码，``mono/mono``仓库下的Mono包含域重加载代码
+	- ## 假设
+		- 必须在.NET JIT中包含域重加载以支持Unity Editor中的Player
+	- ## 可选项
+		- 使用CoreCLR的程序集加载上下文(Assembly Load Context)实现
+		- 使用``mono/mono``仓库下的Mono，配合.NET 6的类库
+		- fork一个``dotnet/mono``并在其中重新实现域重加载
+	- ## 结果
+		- 期望通过CoreCLR实现在Editor中进去Player后的进程内代码重加载
+		- 打算和微软商讨以在.NET 7中实现此feature
+		- 结果文档： [[Domain Reload Research for .NET 6]]
+- # BCL代码
+	- 从何处获取适用于.NET 6的BCL代码？
+	- 是否需要针对JIT和AOT准备不同的BCL代码？(目前就是这样做的)
+	- 是否需要修改BCL代码以支持.NET 6不支持的平台？
+	- ## 假设
+		- 期望在维护BCL代码上花费最少的时间
+	- ## 可选项
+		- ``mono/mono``仓库中柏寒一些.NET 5(可能还有.NET 6)的BCL代码
+			- 可以尝试使用某种方法在这些代码的基础上build一个兼容.NET Core生态的版本
+		- ``dotnet/runtime``仓库下有兼容CoreCLR和Mono的BCL，可以直接使用
+		- 如果NuGet中有BCL的二进制文件，则可以直接使用NuGet提供的BCL而不需维护
+	- ## 结果
+		- 决定使用``dotnet/runtime``下的BCL代码
+		- 结果文档： [[BCL Research for .NET 6]]
+- # JIT运行时
+	- 是否应该使用Mono作为Editor和Player的JIT运行时？
+		- 此问题可能和域重加载问题有关
+	- ## 假设
+		- Mono在需要JIT的平台上(desktop)不是一个长期的解决方案。微软专注于CoreCLR，不过Mono可能可以作为一个有用的短期解决方案
+	- ## 可选项
+		- 迁移到CoreCLR
+			- 细节参看[[CoreCLR Migration - Technical details and challenges]]
+		- 使用``mono/mono``下的Mono
+		- 使用``dotnet/runtime``下的Mono
+	- ## 结果
+		- 计划使用CoreCLR作为JIT运行时
+		- 结果文档： [[JIT Runtime Research for .NET 6]]
+- # AOT运行时
+	- 是否应该使用IL2CPP作为Player的AOT运行时？
+	- 微软使用Mono作为AOT运行时，但同时有一个CoreRT研究项目
+	- ## 假设
+		- 希望在AOT平台上给用户提供最好的build时间和运行时性能
+	- ## 可选项
+		- 给IL2CPP增添.NET 6类库支持
+		- 使用Mono作为AOT运行时 —— 将其导入其他我们需要支持的平台
+		- 使用CoreRT作为AOT运行时 —— 将其导入其他我们需要支持的平台
+	- ## 结果
+		- 计划使用IL2CPP作为AOT运行时
+		- 结果文档： [[AOT Runtime Research for .NET 6]]

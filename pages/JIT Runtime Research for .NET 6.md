@@ -1,0 +1,44 @@
+title:: JIT Runtime Research for .NET 6
+
+- # 背景
+	- Unity目前使用``mono/mono``仓库的一个fork作为editor和player的JIT运行时
+		- 此JIT运行时可以在Windows，macOS，Linux和Android(ARM v7)上运行
+	- Jonas fork了.NET Core 3的CoreCLR运行时并且修改了部分代码以兼容Unity
+		- [链接](https://github.com/Unity-Technologies/coreclr)
+		- **[[$red]]==此链接不可用，可能缺失相关权限==**
+	- 甚至还有相关的build，但是链接**[[$red]]==均不可用==**
+- # 可选JIT
+	- ## CoreCLR
+		- [仓库地址](https://github.com/dotnet/runtime/tree/main/src/coreclr)
+		- ### 优点
+			- 微软在所有我们需要JIT运行时的平台上都支持CoreCLR，并且持续改进
+			- 有一个可运行的CoreCLR Unity editor和player原型([[$red]]==**链接不可用**==)
+			- 有迹象表明微软愿意修改上游代码以支持在Unity中使用
+			- 比Mono提供更好的debug支持
+		- ### 缺点
+			- 使用CoreCLR GC，目前并不清楚此GC是否在Unity中有效或者能否在CoreCLR中集成Boehm GC
+			- 域重加载需要重新实现
+			- 嵌入式API需要重新实现
+	- ## Mono(dotnet/runtime repo)
+		- [仓库地址](https://github.com/dotnet/runtime/tree/main/src/mono)
+		- 微软似乎将mono作为Wasm，Android，IOS版本的.NET运行时，但是**并不支持**将其用作Windows，Linux或macOS的JIT运行时
+		- 且此版本的Mono也被移除了对于域重加载的支持
+		- ### 优点
+			- 支持Unity目前使用的Mono嵌入式API
+			- VM团队对Mono更熟悉
+			- 和现存的Boehm GC代码兼容
+			- 和Mono团队合作过，并且将修改push到了上游代码
+		- ### 缺点
+			- 在Unity需要JIT运行时的平台上缺少微软支持
+			- 域重加载需要重新实现
+			- 用户社区可能会觉得此运行时老旧且过时
+- # 总结
+	- 虽然继续使用Mono可能看起来所需的工作量更少，但是CoreCLR是微软正在且未来支持的**桌面端**JIT运行时(也正是Unity需要JIT运行时的平台)
+	- 如果Unity想提供类库生态(Class Library ecosystem)的重大改变，那么也需要改用CoreCLR
+	- 可以将Mono作为完全过渡到CoreCLR的中间步骤
+	- 目前仍不清楚如何将这些改变ship给用户，可能会优先ship 使用CoreCLR JIT的Player，再考虑Editor
+		- 这样的Player仍然是使用.NET 2.1标准，不过JIT运行时是CoreCLR
+- # 产品影响
+	- 使用CoreCLR作为JIT运行时能给用户提供**更好的debug体验**
+		- 例如：更稳定的debugger，C++/C\#混合模式debug，数据断点(breakpoint)
+	- CoreCLR应该会带来相较于Mono**更好的性能**，不管是短期还是长期

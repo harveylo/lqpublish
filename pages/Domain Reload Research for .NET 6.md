@@ -6,8 +6,26 @@ title:: Domain Reload Research for .NET 6
 	- Jonas为Unity在CoreCLR原型中实现了类似于**域重加载(Domain Reloads)**的技术。
 		- 此技术使用了**程序集加载上下文(Assembly Load Context)**
 		- 此原型存在于.NET Core 3
+	- 似乎是CoreCLR和现有的域重加载实现不兼容，因此需要考虑迁移到CoreCLR之后域重加载重新实现的问题
 - # 可选域重加载技术
 	- ## 使用CoreCLR的程序集加载上下文
+		- 已经有了一个在.NET Core 3下的具有域重加载的可运行原型
 	- ## 使用CoreCLR关闭并重启运行时
 		- 此选项没有被探索过，但是值得考虑
-	-
+	- ## 将Player另起一个进程
+		- 让editor进程内的player模式和一个进程外的player可执行程序通信
+		- 在Unity这一方需要很多工作去实现
+	- ## 使用在``dotnet/runtime``分支下的mono重新实现域重加载
+		- 只能在自己的分支中实现，且每次上游更新就需要一次维护
+- # 结论
+	- 大概率在程序集加载上下文基础上继续实现域重加载
+	- 由于要迁移到CoreCLR上，因此复用或者使用Mono相关代码重实现不太现实
+	- 微软允许对CoreCLR源码做一定的修改以支持类似于域重加载的工作
+		- 这使得追踪上游代码和Unity自己的``dotnet/runtime``分支的差异更加简单
+	- 但是，进程外Player更像是一个合理的长期解决方案(long term solution)
+		- 不过此方案与向现代.NET迁移工作无关，不是当前工作重心
+- # 警告
+	- 域重加载的性能对于Unity用户的体验至关重要
+	- 在对域重加载做出任何实现上的改变的早期就需要进行性能评估
+- # 产品影响
+	- 暂时没有，后续需要对进入/退出player模式的行为做评估

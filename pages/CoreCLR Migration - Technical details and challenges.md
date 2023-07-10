@@ -1,0 +1,10 @@
+- # 目标
+	- 使CoreCLR替代Mono作为桌面端脚本虚拟机的后端
+	- IL2CPP将继续作为AOT平台的后端选择
+- # 原因
+	- 微软目前维护两个版本的.NET JIT虚拟机，CoreCLR和Mono。但是Mono并不太可能获得和CoreCLR同等级的支持，CoreCLR更可能具有更好的性能表现和更快获得新的特性
+	- 期望CoreCLR能带来比Mono更好的性能
+	- 期望CoreCLR能带来比Mono更好的debug体验
+- # 发现总结(May 6th 2020)
+	- ## 如何迁移
+		- 基于一个2018年Hack Week的一个项目： [[Porting the Unity Engine to .NET CoreCLR]]
