@@ -68,4 +68,18 @@ title:: Porting the Unity Engine to .NET CoreCLR
 		- CoreCLR还具很多巨大的潜力，例如正在进行中的.NET AOT项目**CoreRT**
 - # 如何将CoreCLR集成到Unity中？
 	- 基本思想很简单：**使用CoreCLR完全实现和Mono相同的C API**
-	-
+	- ## 整体计划
+		- 打算只build一个standalone的player，且此player只需要播放包含一个旋转的方块的scene
+		- 这将极大减少需要重新实现的Mono API，工作大致包括：
+			- 使用Mono运行时的Hosting API编写一个简单的可加载一个类并调用其中静态方法的程序
+				- 作为一个简单的Mono Hosting的HelloWorld程序
+			- 同时，在CoreCLR上开发这个简单程序会使用到的相关API
+			- 一旦我们获得了在CoreCLR下可以跑起来的东西，我们就可以继续开发确实的API
+			- 使用**netcoreapp2.0**重新编译UnityEngine托管程序集
+	- ## 缩小范围
+		- 为了减少需要实现的函数，开发了一个很小的mono代理(Proxy)dll，让其重定向到真正的Mono运行时
+			- 此代理dll会把所有调用的函数log到一个文件中，以查看到底调用了哪些函数
+		- 最终的API实现情况如下：
+			- ![image.png](../assets/image_1689043581959_0.png)
+	- ## 将CoreCLR作为Mono API暴露出来
+		-

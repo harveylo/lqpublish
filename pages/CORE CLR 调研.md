@@ -37,6 +37,9 @@
 		- 通过LLVM作为后端，将C\#和IL语言的子集翻译为高效率的本地机器码
 		- 和Job系统高度集成，可以将轻松将游戏代码转化为可在多个和欣赏并行执行的任务
 		- 代价是只能使用C\#的子集
+	- ## CoreFX, CoreRT
+		- CoreFX是.NET的**核心基础类库(Core Basic Classes Library)**，提供了诸如System，Console等最基础的类
+		- CoreRT是微软的一个**实验性AOT运行时**
 - # FACTS
 	- ## .NET技术进化路径：.NET -> .NET Core
 		- 在2014年前：**.NET framework**
