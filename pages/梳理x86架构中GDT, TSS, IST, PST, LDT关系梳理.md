@@ -1,0 +1,18 @@
+- 在这些概念中，最大是GDT，其用于**内存分段**
+- GDT **包含** TSS **包含** IST和PST
+- # GDT
+	- 全局可见
+	- 存储与内存中
+	- 其基地址保存在寄存器GDTR中
+	- 存储了各个内存段的描述符，包括起始地址，大小，访问权限等
+	- 通过GDT可以实现权限管理
+- # LDT
+	- Local Descriptor Table，类似于GDT，但**不是全局可见**
+	- 每一个进程都能有自己的LDT，其地址存放于LDTR中，**每次进程切换时，操作系统都会替换此寄存器的值**
+- # TSS
+	- Task State Segment
+	- 一个在64位下作用已经被淡化的历史遗留结构
+	- 用于储存每个任务的状态
+	- 其起作用的字段包括IST和PST等
+	- 可能存储在内存中的任何位置，通过TR(Task Register)访问
+	- **TR**是一个16bit长度的寄存器，其是一个Segement Selector，指向GDT中的一个有效segment descriptor
