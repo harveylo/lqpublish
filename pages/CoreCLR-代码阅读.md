@@ -14,13 +14,10 @@
 	- 在``Editor\Mono\BuildPipeline\DesktopStandaloneBuildWindowExtension.cs``文件的``DesktopStandaloneBuildWindowExtension``类的函数``GetCannotBuildPlayerInCurrentSetupError``会在``m_HasCoreCLRPlayers``为false时返回错误字符串
 		- ![image.png](../assets/image_1689231607794_0.png)
 		- ``Unsupported``类定义在``Editor\Mono\Unsupported.bindings.cs``文件中，其中声明了``IsSourceBuild``函数
-		  collapsed:: true
 			- ![image.png](../assets/image_1689233617496_0.png)
 			- 此函数并不是``C#``写的，其定义在外部，实际是在文件``Editor\Src\EditorHelper.cpp``中定义
-			  collapsed:: true
 				- ![image.png](../assets/image_1689233966108_0.png)
 				- ``__FAKEABLE_FUNCTION__``是一个宏，定义在``Runtime\Testing\Fakeable.h``中
-				  collapsed:: true
 					- ![image.png](../assets/image_1689234834634_0.png)
 					- 实际上就是啥都不做，一个空定义，可能在测试中有用
 				- ``IsHumanControllingUs``函数定义在文件``Runtime\Utilities\Argv.cpp``
@@ -36,5 +33,12 @@
 				-
 		- ``DesktopStandaloneBuildWindowExtension``类被多个类继承
 			- ``PlatformDependent\WinPlayer\Extensions\Managed\WindowsStandaloneBuildWindowExtension.cs``中的``WindowsStandaloneBuildWindowExtension``类
-				-
+				- 其在``PlatformDependent\WinPlayer\Extensions\Managed\ExtensionModule.cs``中被实例化一次
+					- ![image.png](../assets/image_1689317718762_0.png)
+					- ![image.png](../assets/image_1689317850055_0.png)
+					- **能找到``GetPlayerbackEngineDirectory``函数，但是找不到``BuildPipeline``的定义**
+					- 函数``GetPlaybackEngineDirectory``在``Editor\Src\BuildPipeline\BuildTargetPlatformSpecific.cpp``中，只是简单地调用函数``GetPlaybackEngineExtensionDirectory``，此函数在同一个文件中
+					  id:: 64b0f231-0fc4-4843-b861-f8bc2d30e173
+						-
+						-
 	- 在``Editor\Mono\BuildPipeline\DesktopStandalonePostProcessor.cs``中

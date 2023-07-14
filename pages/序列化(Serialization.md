@@ -1,0 +1,12 @@
+- 在Unity中，序列化有很多使用场景：
+	- 粘贴复制
+	- 撤销(Undo)
+	- 在编辑器中进行检视(Inspection)
+	- 预制体生成(Prefab Instantiation)
+	- 依赖收集(Dependency Collection)
+	- 资产(asset)GC
+- 主要包含三种序列化
+	- Native Serialization
+	- Managed Serialization
+	- Blobfication
+	- ##
