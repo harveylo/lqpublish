@@ -47,4 +47,3 @@ title:: AOT Runtime Research for .NET 6
 - # 产品影响
 	- IL2CPP目前使用Mono soft debugger protocol，不能提供像CoreCLR一样优秀的debug体验
 	- 如果要使用CoreCLR作为JIT解决方案，就应该考虑在IL2CPP中实现ICoreDebug API使得IL2CPP可以在CoreCLR下工作。工作难度大，但是能给用户提供更加统一的体验
--

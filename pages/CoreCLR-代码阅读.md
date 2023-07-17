@@ -1,3 +1,8 @@
+- # 目标
+	- 探明为什么CoreCLR能作为可选项出现在菜单中
+		- 需要探明到底需要哪些文件
+		- 感觉是在``artifact``的某个文件夹中的``Variation``文件夹中要有支持``CoreCLR``的目录才行
+	-
 - # Player Setting
 	- 在player setting中看到有关于scripting backend的选项
 	- ![image.png](../assets/image_1689149471059_0.png)
@@ -14,23 +19,33 @@
 	- 在``Editor\Mono\BuildPipeline\DesktopStandaloneBuildWindowExtension.cs``文件的``DesktopStandaloneBuildWindowExtension``类的函数``GetCannotBuildPlayerInCurrentSetupError``会在``m_HasCoreCLRPlayers``为false时返回错误字符串
 		- ![image.png](../assets/image_1689231607794_0.png)
 		- ``Unsupported``类定义在``Editor\Mono\Unsupported.bindings.cs``文件中，其中声明了``IsSourceBuild``函数
+		  collapsed:: true
 			- ![image.png](../assets/image_1689233617496_0.png)
 			- 此函数并不是``C#``写的，其定义在外部，实际是在文件``Editor\Src\EditorHelper.cpp``中定义
 				- ![image.png](../assets/image_1689233966108_0.png)
-				- ``__FAKEABLE_FUNCTION__``是一个宏，定义在``Runtime\Testing\Fakeable.h``中
-					- ![image.png](../assets/image_1689234834634_0.png)
-					- 实际上就是啥都不做，一个空定义，可能在测试中有用
-				- ``IsHumanControllingUs``函数定义在文件``Runtime\Utilities\Argv.cpp``
-					- ![image.png](../assets/image_1689235666800_0.png)
-					- ``knownArgs``定义在同一个文件中
-						- ![image.png](../assets/image_1689235943168_0.png)
-						  ![image.png](../assets/image_1689236315582_0.png)
-						- 这个结构体是用来辅助处理命令行参数的，静态变量``knownArgs``在函数``SetupArgv``中被设置，此函数在各个平台的main函数(包括editor和player)中被调用**处理命令行参数**
-					- 也就是说，判断目前是否有人在操作的条件就是启动时**不是batch模式，不是自动模式也不是测试模式**
-				- ``core::string``是Unity自定义的字符串类型，定义在``Runtime\Core\Containers\String.h``
-				- 这个函数好像就是检查一下是否存在Runtime和Editor两个文件夹
+				- [[$blue]]==**重点：理解这个函数的关键在于其调用的**==``GetBaseUnityDeveloperFolder``函数的行为
+					- 此函数会直接调用``Runtime\Utilities\FileUtilities.cpp``中的``GetDeveloperWorkspaceRoot``
+						- ![image.png](../assets/image_1689585015987_0.png)
+					- 上一个函数又会调用``GetApplicationFolder``函数
+						- 这个函数经过多个包装类和继承的转发，**在Windows平台下**最终调用的应该是``PlatformDependent\Win\LocalFileSystemWindowsShared.cpp``中的``GetApplicationFolder``函数
+					- 上一个函数会调用同一个类中的``GetApplicationPath``函数
+					- 最终会一路调用到``C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\libloaderapi.h``中的``GetModuleFileNameW``函数
+						- 这个函数是Windows自带的库函数，此库和**模块(Module)加载**相关
+					- 最终：``GetApplicationPath``拿到当前可执行文件的路径，``GetApplicationFolder``删除最后一个路径元素(即可执行文件的名称)，返回处理后的路径(即可执行文件所在的文件夹的路径)
+					- ``GetDeveloperWorkspaceRoot``函数会在拿到可执行文件所在目录之后不停向父目录探索知道找到``.hg``或``build``目录
+				- 拿到疑似项目目录的路径之后再去检查是否存在``Runtime``和``Editor``这两个目录，如果都存在，则认为是目前正在运行的Unity是从源码build而来的，这也是此函数名``IsSourceBuild``的含义
+					- ``__FAKEABLE_FUNCTION__``是一个宏，定义在``Runtime\Testing\Fakeable.h``中
+						- ![image.png](../assets/image_1689234834634_0.png)
+						- 实际上就是啥都不做，一个空定义，可能在测试中有用
+					- ``IsHumanControllingUs``函数定义在文件``Runtime\Utilities\Argv.cpp``
+						- ![image.png](../assets/image_1689235666800_0.png)
+						- ``knownArgs``定义在同一个文件中
+							- ![image.png](../assets/image_1689235943168_0.png)
+							  ![image.png](../assets/image_1689236315582_0.png)
+							- 这个结构体是用来辅助处理命令行参数的，静态变量``knownArgs``在函数``SetupArgv``中被设置，此函数在各个平台的main函数(包括editor和player)中被调用**处理命令行参数**
+						- 也就是说，判断目前是否有人在操作的条件就是启动时**不是batch模式，不是自动模式也不是测试模式**
+					- ``core::string``是Unity自定义的字符串类型，定义在``Runtime\Core\Containers\String.h``
 					- 如果如要检查是否是人在操作，那么在检查不通过时直接返回false
-				-
 		- ``DesktopStandaloneBuildWindowExtension``类被多个类继承
 			- ``PlatformDependent\WinPlayer\Extensions\Managed\WindowsStandaloneBuildWindowExtension.cs``中的``WindowsStandaloneBuildWindowExtension``类
 				- 其在``PlatformDependent\WinPlayer\Extensions\Managed\ExtensionModule.cs``中被实例化一次
@@ -39,6 +54,5 @@
 					- **能找到``GetPlayerbackEngineDirectory``函数，但是找不到``BuildPipeline``的定义**
 					- 函数``GetPlaybackEngineDirectory``在``Editor\Src\BuildPipeline\BuildTargetPlatformSpecific.cpp``中，只是简单地调用函数``GetPlaybackEngineExtensionDirectory``，此函数在同一个文件中
 					  id:: 64b0f231-0fc4-4843-b861-f8bc2d30e173
-						-
-						-
+					-
 	- 在``Editor\Mono\BuildPipeline\DesktopStandalonePostProcessor.cs``中

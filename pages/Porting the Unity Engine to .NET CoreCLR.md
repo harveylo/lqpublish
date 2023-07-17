@@ -34,7 +34,6 @@ title:: Porting the Unity Engine to .NET CoreCLR
 		- **社区**
 		- **Convergence/Evolution**
 	- ## CoreCLR的性能表现
-	  collapsed:: true
 		- 在相同的工作负载下，CoreCLR往往能比Mono快**2到5倍**，在某些情况下甚至能达到**10倍**
 		- 对于IL2CPP来说，其已经提供了很明显的性能提升，但仍然比CoreCLR慢2倍左右
 			- 一个原因就是IL2CPP团队的主要精力都花在了多平台扩展和提供新的C\#编译器和语言特性上，导致他们没有足够的时间去仔细优化代码生成和运行时
@@ -80,6 +79,5 @@ title:: Porting the Unity Engine to .NET CoreCLR
 		- 为了减少需要实现的函数，开发了一个很小的mono代理(Proxy)dll，让其重定向到真正的Mono运行时
 			- 此代理dll会把所有调用的函数log到一个文件中，以查看到底调用了哪些函数
 		- 最终的API实现情况如下：
-			- ![image.png](../assets/image_1689043581959_0.png)
+			- ![image.png](../assets/image_1689043581959_0.png){:height 462, :width 645}
 	- ## 将CoreCLR作为Mono API暴露出来
-		-
