@@ -5,6 +5,11 @@
 		- 而只要当前的``BuildTargetGroup``是``Standalone``，调用``Editor\Mono\Modules\PlatformSupportModule.cs``中的``GetScriptingImplementations``只要``IsSourceBuild``判断通过就会有``CoreCLR``选项可用
 	- 探明为什么会显示**CoreCLR**未安装
 		- 在特定目录中的``WindowsStandaloneSupport/Variations"目录下缺失了Engine目录
+	- 探明UnityPlayer.dll是如何生成的，是否能够直接生成CoreCLR的UnityPlayer.dll
+- # 疑问
+	- ``BuildTargetPlatform``和``BuiltTargetPlatformGroup``是什么关系
+	- 有一些枚举类型之间似乎是一一对应关系,不过有的是在托管代码中,有的是在CLR内部，如何绑定起来
+		- 好像是用``BIND_MANAGED_TYPE_NAME``宏，如``BIND_MANAGED_TYPE_NAME(BuildTargetPlatform, UnityEditor_BuildTarget)``
 - # Player Setting
 	- 在player setting中看到有关于scripting backend的选项
 	- ![image.png](../assets/image_1689149471059_0.png)
@@ -49,12 +54,10 @@
 					- 如果如要检查是否是人在操作，那么在检查不通过时直接返回false
 		- ``DesktopStandaloneBuildWindowExtension``类被多个类继承
 			- ``PlatformDependent\WinPlayer\Extensions\Managed\WindowsStandaloneBuildWindowExtension.cs``中的``WindowsStandaloneBuildWindowExtension``类
-			  collapsed:: true
 				- 其在``PlatformDependent\WinPlayer\Extensions\Managed\ExtensionModule.cs``中被实例化一次
 					- ![image.png](../assets/image_1689317718762_0.png){:height 59, :width 544}
 					- ![image.png](../assets/image_1689317850055_0.png)
 					- **能找到``GetPlayerbackEngineDirectory``函数，但是找不到``BuildPipeline``的定义**
-					  collapsed:: true
 						- 但是能找到``BuildPipline``的namespace
 					- 调用这个函数时使用的参数分别是
 						- ``BuildTarget``是一个枚举类型，定义在``Editor\Mono\BuildTarget.cs``中
@@ -68,17 +71,14 @@
 					  id:: 64b0f231-0fc4-4843-b861-f8bc2d30e173
 						- 此函数有两个重载，其中一个接受三个参数，但是最后一个参数``assertUnsupportedPlatforms``在头文件定义中默认为``true``，因此可以不用给出
 					- ``GetPlaybackEngineDirectory``只是简单地调用函数``GetPlaybackEngineExtensionDirectory``，此函数在同一个文件中，返回值应该是目录``build\WindowsStandaloneSupport``
-					  collapsed:: true
 						- 调用时补足了``buildTargetGroup``参数为``BuildTargetPlatformGroup``类型的``kPlatformUnknown``，值为0
 							- ![image.png](../assets/image_1689649583115_0.png)
 						- 且最后一个参数``overridemode``默认为``kUseOverride``
 						- **[[$red]]==这个Resouce Build是什么意思？==，从行为来理解是在判断有没有某些命令行参数**，不知道这个resource的具体工程含义是什么
 							- ![image.png](../assets/image_1689649781455_0.png)
 						- ``playbackEngineName``经过函数查询，得到的结果应该是``"WindowsStandaloneSupport"``
-						  collapsed:: true
 							- 首先进入``GetBuildTargetName``函数，由于``buildTargetGroup``是``kPlatformUnknown``，进入``GetDirNameForBuildTarget``函数
 							- ``GetDirNameForBuildTarget``函数是``BuildTargetDiscovery``类的一个函数，因此在调用此函数前需要通过``BuildTargetDiscovery``获取一个实例(应该也是全局唯一的实例，这个类感觉应该是个单例)。此实例获取函数同时也会检查预加载的平台信息是否已经初始化，如果没有的话会调用此类的``PreloadKnownBuildTargets``函数，此函数会预加载一系列的平台信息，这些信息会通过``AddDiscoveredTargetInfo``函数存放到类的成员变量``m_BuildTargetMap``中，例如目前我们所关心的windows standalone player的建造信息就包含如下信息：
-							  collapsed:: true
 								- ![image.png](../assets/image_1689663193597_0.png)
 								- 注意到增添CoreCLR的时候做了一次``IsSourceBuild``判断，目前的源码中似乎只要是和CoreCLR的地方经常用到``IsSourceBuild``判断，因此猜测目前的CoreCLR选项只是一个placeholder，可能没有实际功能
 							- ``GetDirNameBuildTarget``函数首先通过枚举参数``platform``查询得到``string``类型的key，``kBuildStandaloneWinPlayer``对应的key是``"win"``
@@ -92,4 +92,20 @@
 					- ![image.png](../assets/image_1689665866216_0.png)
 					- ![image.png](../assets/image_1689665595251_0.png)
 	- ``Editor\Mono\BuildPipeline\DesktopStandalonePostProcessor.cs``被``WinPlayerPostProcessor``继承，并且在`PlatformDependent\WinPlayer\Extensions\Managed\ExtensionModule.cs` 的``CreateBuildPostprocessor``函数中完成实例化
-		-
+- # Build行为
+	- 规定了一些和编译有关的attribute
+	  collapsed:: true
+		- ![image.png](../assets/image_1689735709469_0.png)
+- # 尝试直接构建使用CoreCLR的Player
+	- ## 使用``build.pl``
+		- 使用``perl build.pl``指令通过互动的方式选择target和scriptingBackend构建
+		- 或者``perl build.pl --scriptingBackend=coreclr``
+		- 无法直接构建，报了一堆错，看报错信息好像是设计license问题和文件缺失
+	- ## 使用``jam``
+		- ``jam``支持很多版本的Player构建
+			- 使用``./jam --help WinPlayer``查看所有支持的版本
+			- ![image.png](../assets/image_1689761191221_0.png){:height 352, :width 269}
+		- ``./jam WinPlayerCoreCLR``
+		- 构建成功，``C:\engine\unity-reengineering\build\WindowsStandaloneSupport\Variations``下出现了代码中提到的文件夹
+		- ![image.png](../assets/image_1689761066859_0.png)
+-

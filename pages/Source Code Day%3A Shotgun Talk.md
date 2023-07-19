@@ -1,0 +1,6 @@
+- # BuildSystem Overview
+	- **Jam** based
+	- 嵌入了Mono运行时
+	- 把Jam配置(Configuration)转换为C#
+	- Build Server是``build.pl``
+	-
