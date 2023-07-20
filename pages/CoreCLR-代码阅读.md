@@ -6,6 +6,11 @@
 	- 探明为什么会显示**CoreCLR**未安装
 		- 在特定目录中的``WindowsStandaloneSupport/Variations"目录下缺失了Engine目录
 	- 探明UnityPlayer.dll是如何生成的，是否能够直接生成CoreCLR的UnityPlayer.dll
+		- 在建造系统中可以直接建造``CoreCLR``版本的Player
+		- 但是直接使用如此构建来的Player会出现**``Failed to load mono``**错误
+			- ![image.png](../assets/image_1689820015021_0.png)
+	- 尝试解决``Failed to load mono``错误
+		-
 - # 疑问
 	- ``BuildTargetPlatform``和``BuiltTargetPlatformGroup``是什么关系
 	- 有一些枚举类型之间似乎是一一对应关系,不过有的是在托管代码中,有的是在CLR内部，如何绑定起来
@@ -108,4 +113,34 @@
 		- ``./jam WinPlayerCoreCLR``
 		- 构建成功，``C:\engine\unity-reengineering\build\WindowsStandaloneSupport\Variations``下出现了代码中提到的文件夹
 		- ![image.png](../assets/image_1689761066859_0.png)
--
+		- 但是如此构建出来的player会出现错误
+			- ![image.png](../assets/image_1689820015021_0.png)
+		- 此错误应该出现在``PlatformDependent\WinPlayer\WinMain.cpp``的``LoadScriptingRuntime``函数
+			- ![image.png](../assets/image_1689841299767_0.png)
+		- 通过Debug输出，得到如下传入``LoadAndInitializeMono``函数的参数
+			- ![image.png](../assets/image_1689841628031_0.png)
+			- ![image.png](../assets/image_1689841643298_0.png)
+			- ![image.png](../assets/image_1689841403930_0.png)
+			- ![image.png](../assets/image_1689841428706_0.png)
+			- ![image.png](../assets/image_1689841444059_0.png)
+		- 感觉是根本没有把Mono运行时相关的东西拷过来，**尝试直接拷贝**
+			- 将mono build的Mono运行时拷贝过来之后，不再报加载mono错误，但是程序无法正常执行，没有任何反应直接退出了
+			- 而且在存在Mono运行时的目录下，Editor构建player会报错
+				- ![image.png](../assets/image_1689844755644_0.png)
+				- ![image.png](../assets/image_1689844780295_0.png)
+			- 这个报错信息是在``PlatformDependent\WinPlayer\Extensions\Managed\WinPlayerPostProcessor.cs``中的``PrepareForBuild``函数中报的
+				- ![image.png](../assets/image_1689848785415_0.png)
+				- 这个函数会检测build目录下是否存在一些列runtime的目录，如果存在即将其存于变量``originalScriptingBackend``中
+				- 如果``originalScriptingBackend``不为空且与当前选择的backend不一致则抛出错误
+		- ### 尝试搞清楚player在哪一步退出
+			- 根据断点结果，因该是挂在了``LoadAndInitializeMono``函数里
+	- ## 查看coreclr player build目录下的coreclr运行时
+		- ``CoreCLR``目录下有两个目录
+		- ![image.png](../assets/image_1689845556037_0.png)
+		- ``native``目录下有一个`dotnet.exe`可执行文件，但是似乎不可执行
+			- ![image.png](../assets/image_1689845655698_0.png)
+		- 将发行版本.NET目录下的``host/fxr``目录拷贝过来之后，有如下输出：
+			- ![image.png](../assets/image_1689845729017_0.png)
+			- ![image.png](../assets/image_1689845750822_0.png)
+	-
+		-
