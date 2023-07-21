@@ -4,13 +4,15 @@
 		- ![image.png](../assets/image_1689670826054_0.png)
 		- 而只要当前的``BuildTargetGroup``是``Standalone``，调用``Editor\Mono\Modules\PlatformSupportModule.cs``中的``GetScriptingImplementations``只要``IsSourceBuild``判断通过就会有``CoreCLR``选项可用
 	- 探明为什么会显示**CoreCLR**未安装
-		- 在特定目录中的``WindowsStandaloneSupport/Variations"目录下缺失了Engine目录
+		- 在特定目录中的``WindowsStandaloneSupport/Variations"目录下缺失了backend相关的目录
 	- 探明UnityPlayer.dll是如何生成的，是否能够直接生成CoreCLR的UnityPlayer.dll
 		- 在建造系统中可以直接建造``CoreCLR``版本的Player
 		- 但是直接使用如此构建来的Player会出现**``Failed to load mono``**错误
 			- ![image.png](../assets/image_1689820015021_0.png)
 	- 尝试解决``Failed to load mono``错误
-		-
+		- 直接将mono build的player的运行时移过来，则不会再产生此错误，但是仍然无法正常运行，会直接退出
+	- 阅读build脚本，探明CoreCLR的UnityPlayer.dll文件是如何被打包生成的
+	- 通过Debug，探明Player的行为
 - # 疑问
 	- ``BuildTargetPlatform``和``BuiltTargetPlatformGroup``是什么关系
 	- 有一些枚举类型之间似乎是一一对应关系,不过有的是在托管代码中,有的是在CLR内部，如何绑定起来
@@ -80,7 +82,7 @@
 							- ![image.png](../assets/image_1689649583115_0.png)
 						- 且最后一个参数``overridemode``默认为``kUseOverride``
 						- **[[$red]]==这个Resouce Build是什么意思？==，从行为来理解是在判断有没有某些命令行参数**，不知道这个resource的具体工程含义是什么
-							- ![image.png](../assets/image_1689649781455_0.png)
+							- ![image.png](../assets/image_1689649781455_0.png){:height 53, :width 362}
 						- ``playbackEngineName``经过函数查询，得到的结果应该是``"WindowsStandaloneSupport"``
 							- 首先进入``GetBuildTargetName``函数，由于``buildTargetGroup``是``kPlatformUnknown``，进入``GetDirNameForBuildTarget``函数
 							- ``GetDirNameForBuildTarget``函数是``BuildTargetDiscovery``类的一个函数，因此在调用此函数前需要通过``BuildTargetDiscovery``获取一个实例(应该也是全局唯一的实例，这个类感觉应该是个单例)。此实例获取函数同时也会检查预加载的平台信息是否已经初始化，如果没有的话会调用此类的``PreloadKnownBuildTargets``函数，此函数会预加载一系列的平台信息，这些信息会通过``AddDiscoveredTargetInfo``函数存放到类的成员变量``m_BuildTargetMap``中，例如目前我们所关心的windows standalone player的建造信息就包含如下信息：
@@ -99,7 +101,6 @@
 	- ``Editor\Mono\BuildPipeline\DesktopStandalonePostProcessor.cs``被``WinPlayerPostProcessor``继承，并且在`PlatformDependent\WinPlayer\Extensions\Managed\ExtensionModule.cs` 的``CreateBuildPostprocessor``函数中完成实例化
 - # Build行为
 	- 规定了一些和编译有关的attribute
-	  collapsed:: true
 		- ![image.png](../assets/image_1689735709469_0.png)
 - # 尝试直接构建使用CoreCLR的Player
 	- ## 使用``build.pl``
