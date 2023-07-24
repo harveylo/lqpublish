@@ -101,7 +101,9 @@
 	- ``Editor\Mono\BuildPipeline\DesktopStandalonePostProcessor.cs``被``WinPlayerPostProcessor``继承，并且在`PlatformDependent\WinPlayer\Extensions\Managed\ExtensionModule.cs` 的``CreateBuildPostprocessor``函数中完成实例化
 - # Build行为
 	- 规定了一些和编译有关的attribute
+	  collapsed:: true
 		- ![image.png](../assets/image_1689735709469_0.png)
+- # [[Build系统行为]]
 - # 尝试直接构建使用CoreCLR的Player
 	- ## 使用``build.pl``
 		- 使用``perl build.pl``指令通过互动的方式选择target和scriptingBackend构建
@@ -142,6 +144,12 @@
 				- 如果``originalScriptingBackend``不为空且与当前选择的backend不一致则抛出错误
 		- ### 尝试搞清楚player在哪一步退出
 			- 根据断点结果，因该是挂在了``Runtime\Mono\MonoManager.cpp``的第2444行
+			- ![image.png](../assets/image_1690180991966_0.png)
+			- 这个函数应该已经是dll库中的函数，无法在debugger中继续跳转跟踪
+			- editor和mono build的player都会经过这一语句，但是都正常运行，只有在coreclr build的player会出现这个问题
+			- [[$red]]==**有没有办法跟踪dll中的函数？**==
+			- 在``External\MonoBleedingEdge\builds\include\mono\mono\jit\jit.h``文件中有此函数的定义，不知道和实际函数实现和符号引入有什么关系
+				- ![image.png](../assets/image_1690181492377_0.png)
 	- ## 查看coreclr player build目录下的coreclr运行时
 		- ``CoreCLR``目录下有两个目录
 		- ![image.png](../assets/image_1689845556037_0.png)
