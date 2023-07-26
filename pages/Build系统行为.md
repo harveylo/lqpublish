@@ -24,3 +24,10 @@ title:: Build系统行为
 			- ![image.png](../assets/image_1690283449431_0.png)
 			- 制定了建造脚本，工作目录和bee可执行问价你的目录
 	- 首先判断命令行参数中是否有``--help``，如果有
+	- 根据这篇[文档](https://yousandi.feishu.cn/wiki/T7LuwNM8JiJKqWkDcUAcaI69n0e)，可以直接对建造系统进行debug
+	- Debug时一个比较奇怪的现象是如果从entry point开始逐步debug执行，在``Main.cs``的112行会触发exception
+		- ![image.png](../assets/image_1690366873194_0.png)
+		- 而在非debug运行时不会触发这个问题
+		- 目前怀疑是debug运行改变了程序的某些行为，发现一个解决方法是**直接跳过此语句**，在此语句之后的某个地方打断点，然后选择继续执行即可
+	- debug只到``Main.cs``的103行，之后的行为debugger里看不到
+		- 感觉buld system只是完成了前端工作，实际进行action的后端需要别的方法来追踪(可能)
