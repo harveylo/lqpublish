@@ -31,3 +31,9 @@ title:: Build系统行为
 		- 目前怀疑是debug运行改变了程序的某些行为，发现一个解决方法是**直接跳过此语句**，在此语句之后的某个地方打断点，然后选择继续执行即可
 	- debug只到``Main.cs``的103行，之后的行为debugger里看不到
 		- 感觉buld system只是完成了前端工作，实际进行action的后端需要别的方法来追踪(可能)
+	- ``CoreCLR``运行时似乎**是直接从stevedore上下载后解压的**
+		- ![image.png](../assets/image_1690447954828_0.png)
+		- 解压的目录是``build\WindowsStandaloneSupport\Variations\CoreCLRShared\x64\CoreCLR``
+		- 这个目录下的运行时很奇怪，确实很多关键目录和文件，以至于``dotnet``根本无法使用
+			- 例如缺失正常``dotnet``运行时目录下的``host``目录
+	-
