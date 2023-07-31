@@ -1,0 +1,2 @@
+- ``hostfxr.dll``在``C:\Program Files\dotnet\host\fxr\<version>``目录下
+-
