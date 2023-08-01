@@ -144,10 +144,10 @@
 		- ![image.png](../assets/image_1690797718163_0.png)
 	- ## 编译与运行
 		- 使用VS打开项目目录，配置cmake之后即可编译运行
-		- 起动项设置为当前目录下的``CMakeLists.txt``
-			- ![image.png](../assets/image_1690797819039_0.png)
 		- ``<CTRL-Q>``搜索cmake可以配置cmake
 			- ![image.png](../assets/image_1690797917110_0.png)
 			- ![image.png](../assets/image_1690797948520_0.png)
+		- 打开``.cpp``源文件并将起动项设置为当前文档
+			- ![image.png](../assets/image_1690797819039_0.png)
 		- ``<F5>``即可编译运行
 		- ![image.png](../assets/image_1690798678774_0.png)
