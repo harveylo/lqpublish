@@ -1,6 +1,7 @@
 title:: Domain Reload Research for .NET 6
 
 - [域重加载](https://docs.unity3d.com/cn/2023.2/Manual/DomainReloading.html)
+- **补充： [[.NET中的域(Domain)]] **
 - # 背景
 	- 微软的Jan  Kotas表达了帮助我们实现所需上游的兴趣
 	- Jonas为Unity在CoreCLR原型中实现了类似于**域重加载(Domain Reloads)**的技术。

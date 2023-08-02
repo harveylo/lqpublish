@@ -1,4 +1,4 @@
-- # 补充
+# 补充
 	- ## 布局(Layout)
 	  collapsed:: true
 		- 在不同语言编写的代码之间进行互调时，数据结构的**布局**相当重要
@@ -59,7 +59,7 @@
 	- 将``nethost.h``，``hostfxr.h``和``coreclr_delegates.h``拷贝到项目根目录的``include``中
 	- 将``nethost.lib``和``nethost.dll``拷贝到项目根目录下的``lib``中
 - # 构造从native调用需要用到的dll和配置文件
-	- 使用``dotnet new CoreCLRTest``命令新建一个dotnet项目
+	- 使用``dotnet new console -o CoreCLRTest -f net7.0``命令新建一个dotnet项目
 	- 更改项目目录下的``CoreCLRTest.csproj``配置文件为：
 		- ```xml
 		  <Project Sdk="Microsoft.NET.Sdk">

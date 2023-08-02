@@ -1,9 +1,10 @@
-- # [[CORE CLR文档阅读]]
+# [[CORE CLR文档阅读]]
 - # [[概念字典]]
 - # [[CoreCLR-代码阅读]]
 - # [[Unity-Training]]
 - # [[Embedding Mono]]
 - # [[CoreCLR Hosting]]
+- # [[CoreCLR封装]]
 - # 关键连接
 	- 文档：[.NET Core Documentation](https://docs.microsoft.com/en-us/dotnet/articles/welcome)
 	- 学习：[.NET learn](https://learn.microsoft.com/zh-cn/dotnet/)
