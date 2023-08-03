@@ -324,3 +324,48 @@
 	- 将源码文件置于``src``目录下
 	- 在Visual Studio直接编译运行即可看到如下运行结果
 		- ![image.png](../assets/image_1690888363603_0.png)
+- # 进一步探索
+	- 相较于mono，CoreCLR的host明显更复杂且不易懂
+	- 大体上来说在native代码中host CoreCLR**需要四步**：
+		- ### 第一步：加载``hostfxr.dll``，获取输出的hosting函数
+			- ``nethost.dll``库提供``get_hostfxr_path``函数，该函数用于定位``hostfxr.dll``库的路径
+			- ``hostfxr``库将用于hosting .NET 运行时的函数暴露出来，在本示例中主要用了三个此库中hosting相关的函数
+				- ``hostfxr_initialize_for_runtime_config``，此函数初始化host context，利用给定的运行时配置文件准备初始化.NET运行时
+				- ``hostfxr_get_runtime_delegate``，此函数获取运行时函数的delegate
+					- 此delegate可以用于加载托管程序集和其中静态方法的指针
+				- ``hostfxr_close``，此函数关闭host context
+		- ### 第二步：初始化并启动.NET 运行时
+			- 使用上一步中被暴露出来的两个函数``hostfxr_initialize_for_runtime_config``和``hostfxr_get_runtime_delegate``初始化运行时并获取delegate
+		- ### 第三步：加载托管程序集并获取托管方法指针
+			- 使用delegate获取托管方法指针
+		- ### 第四步：运行托管代码
+			- 获取的方法指针可以直接作为函数被调用。
+- 关于获取托管函数的signature
+	- 可以使用``typedef``函数指针类型的方式进行自定义托管函数signature
+	- 使用``load_assembly_and_get_function_pointer_fn``函数时，如果不使用delegate参数，那么只能获取默认函数签名的方法
+		- 默认签名是``typedef int (CORECLR_DELEGATE_CALLTYPE *component_entry_point_fn)(void *arg, int32_t arg_size_in_bytes);``
+	- 如果想改变就必须要使用delegate，使用了delegate来获取其他signature的方法
+		- 在托管代码中：
+			- ```C#
+			          public delegate void CustomEntryPointDelegate(LibArgs args);
+			          public static void CustomEntryPoint(LibArgs args)
+			          {
+			              Console.WriteLine($"Hello, World! From {nameof(CustomEntryPoint)} in {nameof(Test)}\nRunning under CoreCLR, but invoked by Mono API!");
+			              PrintLibArgs(args);
+			          }
+			  ```
+			- 需要定义一个signature和目标方法一致的delegate
+		- 在native代码中：
+			- ```c++
+			  	typedef void (CORECLR_DELEGATE_CALLTYPE* custom_entry_point_fn)(lib_args args);
+			  	custom_entry_point_fn custom = nullptr;
+			  	result = load_assembly_and_get_function_pointer(
+			  		assembly_path.c_str(),
+			  		dotnet_type,
+			  		STR("CustomEntryPoint") /*method_name*/,
+			  		STR("CoreCLRTest.Test+CustomEntryPointDelegate, CoreCLRTest"), // delegate_type_name, + is used for splitting class name and delegate name
+			  		nullptr,
+			  		(void**)&custom);
+			  
+			  ```
+			- 在调用``load_assembly_and_get_function_pointer_fn``函数时需要传入delegate参数
