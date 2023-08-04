@@ -1,0 +1,82 @@
+- [原文](https://github.com/dotnet/runtime/blob/main/docs/design/features/native-hosting.md)
+- 任何进程都有host .NET 运行时的能力
+- # 术语
+	- **native host**
+		- 使用.net host相关API的代码
+		- 可以是任何非.NET Core应用
+			- 对于.NET Core应用来说，完成相应功能的代码会简单很多
+				- 可能指的是加载并运行托管代码的能力
+	- **hosting components**
+		- ".NET Core Hosting Components"的简称
+		- 主要指``hostfxr``和``hostpolicy``
+		- 有时也直接被简称为"host"
+	- **host context**
+		- 由``hostfxr``创建的用于维护和代表作用在hosting components上的逻辑操作的状态
+- # 场景
+	- **Hosting managed components**
+		- native host试图加载托管程序集并调用其中的函数以完成一些功能
+		- 需要支持同时加载多个components
+		- [[.NET Core Components of Hosting]]
+	- **Hosting managed apps**
+		- native host试图在进程中运行一个托管应用
+		- 基本上可以看作.NET Core自带的host(``dotnet.exe``或`apphost`)的不同实现版本
+		- 主要是为了自定义运行时的启动和托管应用的执行方式
+	- **App using other .NET Core hosting service**
+		- 需要使用.NET Core hosting components提供的服务的应用(不论native还是.NET Core应用)
+		- 例如定位可用SDK的能力等
+- # 现有的support
+	- ## C-style ABI in ``corelcr``
+		- ``coreclr``暴露一些用于host .NET运行时和执行托管代码的C-Style的API
+		- [coreclrhost.h](https://github.com/dotnet/runtime/blob/main/src/coreclr/hosts/inc/coreclrhost.h)头文件中有这些API的定义
+		- 这些API要求native host去定位运行时并完全指定所有启动参数
+		- **[[$red]]==这些API和.NET SDK之间没有天生的互操作性(interoperability)==**
+	- ## COM-Style ABI in ``corelcr``
+		- **[[$red]]==DEPRECATED==**
+		- 不建议继续使用
+	- ## ``hostfxr``和``hostpolicy`` API
+		- .NET Core的hosting component已经将一些功能以C-style ABI的形式再``hostfxr``或``hostpolicy``库中暴露了出来
+		- 这些库函数能执行应用，确定可用SDK，确定native dependency location，解决component dependencey等
+		- 不同于``coreclr``中的API，这些API不要求调用者完全指定所有启动参数。相反这些API能够理解.NET SDK产生的制品(artifacts)，使其更容易去消费SDK产生的应用和库
+		- native host仍然需要定位``hostfxr``或``hostpolicy``库
+		- **这些API是为了一些特定的专用场景设计的，超过这些场景之外的使用基本不可能**
+- # 长期视角
+	- 描述hosting components在未来将如何演化
+	- 总体来说hosting component的目标就是加载和运行托管代码，此功能需要四步，而所有的hosting component的API也都会被按类似的结构组织(不一定完全是四部分)
+		- ### 定位和加载hosting component
+		  collapsed:: true
+			- 这一步的最终结果就是native host能拿到正确版本的``hostfxr``并能够调用其中的API
+			- 例如使用``nethost``库中的``get_hostfxr_path``函数定位``hostfxr``
+		- ### 定位托管代码和其所有依赖
+		  collapsed:: true
+			- 这一步最终结果就是要初始化host context，此host context可用来加载并执行托管代码
+			- 具体就是要获取一些类似于``hostfxr_initialize_for_...``形式的API，这些API可以完成上述事项，例如``hostfxr_initialize_for_runtime_config``
+			- 初始化完成之后即可修改运行时属性
+		- ### 将托管代码载入进程
+		  collapsed:: true
+			- 这一步提供的弹性主要在于允许native code选择：
+				- 将所有托管代码载入一个默认的load context中
+				- 将指定的自定义托管代码载入一个隔离的load context中
+			- 这一步主要完成：
+				- 确定需要载入的托管代码
+				- 确定载入地址
+				- 设置正确的输入一遍运行时可以执行正确的依赖解析
+			- 这一步很多时候和“**执行代码**”的步骤无法分割
+				- 目前也没有API用于单独完成这一步，基本都将此步折叠到了下一步中
+			- 这一步之后运行时的性质不再能被编辑(已经被载入)，但是可以检视
+		- ### 访问并执行托管代码
+		  collapsed:: true
+			- 这一步的结果要么是执行所需的托管代码，要么就是返回一个native code可以直接调用的托管代码代表(函数指针)
+			- 有如下选项：
+				- **执行一个应用**
+					- API接管线程并且并执行应用
+					- 典型API：``hostfxr_run_app``
+				- **获取一个指向托管方法的native函数指针**
+					- 典型API：``hostfxr_get_runtime_delegate``
+				- **获取一个native代码可调用的指向托管实例的接口(COM)**
+					- 典型API：``hostfxr_get_runtime_delegate``和``hdt_com_activation``
+				- **....**
+	- 以上步骤之间可以按需组合(每一步都提供了一定的弹性)，但是某些组合是不建议也不支持使用的，例如：
+		- 将component作为应用程序执行
+		- 将应用加载到隔离的load context
+		- 加载多份运行时到一个进程中
+-
