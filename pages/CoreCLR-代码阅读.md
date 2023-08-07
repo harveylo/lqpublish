@@ -1,4 +1,4 @@
-- # 目标
+# 目标
 	- 探明为什么CoreCLR能作为可选项出现在菜单中
 		- ``Editor\Mono\Inspector\PlayerSettingsEditor\PlayerSettingsEditor.cs``中的
 		- ![image.png](../assets/image_1689670826054_0.png)
@@ -105,6 +105,7 @@
 		- ![image.png](../assets/image_1689735709469_0.png)
 - # [[Build系统行为]]
 - # 尝试直接构建使用CoreCLR的Player
+  collapsed:: true
 	- ## 使用``build.pl``
 		- 使用``perl build.pl``指令通过互动的方式选择target和scriptingBackend构建
 		- 或者``perl build.pl --scriptingBackend=coreclr``
@@ -160,3 +161,13 @@
 			- ![image.png](../assets/image_1689845750822_0.png)
 	-
 		-
+- # 和native hosting相关的代码
+	- ## 调用托管方法
+		- 没有看到直接使用mono API 调用托管方法的代码，感觉可能是unity自己封装了调用函数
+		- 可能的封装函数：
+			- ``Runtime\Mono\MonoUtility.h`` 中的``mono_runtime_invoke_profiled``函数
+				- 此函数有注释：``/// Never call mono_runtime_invoke directly, otherwise the profiler will not be able to pick it up!``
+				- ![image.png](../assets/image_1691405058550_0.png)
+			- ``Runtime\ScriptingBackend\Mono\ScriptingApi_Mono.cpp``中的``scripting_method_invoke``函数
+				- 其所需的形参之一``method``的类``ScriptingMethodPtr``是对Mono API中提供的托管方法指针``MonoMethod*``的封装
+				-
