@@ -1,0 +1,2 @@
+- 也即**Microsoft** Component Object Model
+-

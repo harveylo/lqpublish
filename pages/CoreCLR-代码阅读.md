@@ -1,4 +1,5 @@
-# 目标
+# [[C/C++代码阅读杂记]]
+- # 目标
 	- 探明为什么CoreCLR能作为可选项出现在菜单中
 		- ``Editor\Mono\Inspector\PlayerSettingsEditor\PlayerSettingsEditor.cs``中的
 		- ![image.png](../assets/image_1689670826054_0.png)
@@ -105,7 +106,6 @@
 		- ![image.png](../assets/image_1689735709469_0.png)
 - # [[Build系统行为]]
 - # 尝试直接构建使用CoreCLR的Player
-  collapsed:: true
 	- ## 使用``build.pl``
 		- 使用``perl build.pl``指令通过互动的方式选择target和scriptingBackend构建
 		- 或者``perl build.pl --scriptingBackend=coreclr``
@@ -170,4 +170,48 @@
 				- ![image.png](../assets/image_1691405058550_0.png)
 			- ``Runtime\ScriptingBackend\Mono\ScriptingApi_Mono.cpp``中的``scripting_method_invoke``函数
 				- 其所需的形参之一``method``的类``ScriptingMethodPtr``是对Mono API中提供的托管方法指针``MonoMethod*``的封装
+- # 两方代码对比
+	- ## 项目结构
+		- ### 根目录
+			- 22目前的根目录结构
+				- ![image.png](../assets/image_1691480285018_0.png)
+			- 23的一级目录(根目录)结构和22的一致
+		- ### ``CoreCLR``
+			- [[$red]]==**总的来说，这个目录就是从**==``build\WindowsStandaloneSupport\Variations\CoreCLRShared\x64\CoreCLR``拷贝过来的，而``CoreCLRShared``下的这些目录又应该是stevedore在建造时下载
+				- 但是这个从stevedore下载包的逻辑我没有看懂
+				- 目前的猜测是：``PlatformDependent\WinPlayer\WinStandaloneSupport.cs``中的``SetupCopiesOfSupportFilesFor``函数负责CoreCLR相关文件的下载
+				- 但是其调用的``Tools\Bee\Bee.Core\Stevedore\StevedoreArtifact.cs``的``UnpackToUnusualLocation``函数我看不太懂
 				-
+			- 22的``CoreCLR``目录非常臃肿，感觉就是处于开发中的目录结构
+			- 23的``CoreCLR``目录相比22，有如下不同：
+			  collapsed:: true
+				- **在``native``**目录下
+					- **[[$blue]]==新增==**``runtime``文件夹
+					- 没有那一堆``api-ms-win-core-xxxxx.dll``
+					- **[[$blue]]==新增==**``clrgc.dll``和``clgc.pdb``
+					  id:: 64d1f57c-612a-47c1-bf40-564a46196867
+						- dll在``C:\Program Files\dotnet\shared\Microsoft.NETCore.App\<version>``目录下能找到
+						- pdb在dotnet安装目录下没有，推测可能需要从NuGet或stevedore上获取
+					- 没有``comhost.dll``
+					- 没有``dotnet.exe``
+					- 没有``coreclr_delegates.h``
+					- 没有``corerun.pdb``
+					- 没有``dbgshim.dll``和``dbgshim.pdb``
+					- 没有``hotfxr.h``
+					- 没有``ijwhost.dll``和``ijwhost.lib``
+					- 没有``libhostfxr.lib``
+					- 没有``libnethost.lib``
+					- 没有``Microsoft.DiaSymReader.Native.amd64.dll``
+						- 但是新增的``runtime``文件夹下有
+					- 没有``nethost.dll``，``nethost.h``和``nethost.lib``
+					- 没有``signlefilehost.exe``
+					- 没有``ucrtbase.dll``
+					- 除了runtime文件夹外，一共有30个文件
+					- 在``runtime``目录下，23新增了多个和平台相关的文件夹，例如``win``，``win-x64``，``win-arm64``等
+				- **在``lib``目录下**
+					- 22包含目录``net7.0``
+					- 23包含目录``net8.0``
+			- 在``Editor\Src\BuildPipeline\BuildPlayer.cpp``的``GetCoreCLRReferenceDirectories``函数中，
+				- ![image.png](../assets/image_1691486480929_0.png)
+				- 23直接将``managed_directory``硬性编码改为了``lib/net8.0``
+			-
