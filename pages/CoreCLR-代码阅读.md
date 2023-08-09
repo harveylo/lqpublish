@@ -112,7 +112,6 @@
 		- 无法直接构建，报了一堆错，看报错信息好像是设计license问题和文件缺失
 	- ## 使用``jam``
 		- ``jam``支持很多版本的Player构建
-		  collapsed:: true
 			- 使用``./jam --help WinPlayer``查看所有支持的版本
 			- ![image.png](../assets/image_1689761191221_0.png){:height 352, :width 269}
 		- ``./jam WinPlayerCoreCLR``
@@ -176,15 +175,22 @@
 			- 22目前的根目录结构
 				- ![image.png](../assets/image_1691480285018_0.png)
 			- 23的一级目录(根目录)结构和22的一致
+			- 23中的``UnityPlayer.dll``和``build\WindowsStandaloneSupport\Variations\win64_player_development_coreclr``目录下的``UnityPlayer.dll``完全一致(大小在字节单位下都是完全相同的)
+				- 意味着这个`.dll`文件应该是在bee建造时完成编译的
+			- 22中的``UnityPlayer.dll``和`build\WindowsStandaloneSupport\Variations\win64_player_development_coreclr`中的不一致
+				- 实际上22的项目目录下只有``TuanjiePlayer.dll``，且这个文件和``UnityPlayer.dll``大小不一致
+				- 意味着22的Editor在建造player时可能做了一些额外操作
 		- ### ``CoreCLR``
+			- 看了下22的``native``下的``corelcr.dll``的输出符号，其中好像已经包含了很多的mono库函数，说不定global已经实现了用coreclr包装mono api
+				- 并没有，比如``mono_unity_heap_validation_from_statics`` api就没有实现，不能直接用
+				- 如果强行修改``funcsOK``的值继续运行，则会在``Runtime\Scripting\ScriptingProfiler.cpp``的719行挂掉
+					- ![image.png](../assets/image_1691577593847_0.png)
 			- [[$red]]==**总的来说，这个目录就是从**==``build\WindowsStandaloneSupport\Variations\CoreCLRShared\x64\CoreCLR``拷贝过来的，而``CoreCLRShared``下的这些目录又应该是stevedore在建造时下载
 				- 但是这个从stevedore下载包的逻辑我没有看懂
 				- 目前的猜测是：``PlatformDependent\WinPlayer\WinStandaloneSupport.cs``中的``SetupCopiesOfSupportFilesFor``函数负责CoreCLR相关文件的下载
 				- 但是其调用的``Tools\Bee\Bee.Core\Stevedore\StevedoreArtifact.cs``的``UnpackToUnusualLocation``函数我看不太懂
-				-
 			- 22的``CoreCLR``目录非常臃肿，感觉就是处于开发中的目录结构
 			- 23的``CoreCLR``目录相比22，有如下不同：
-			  collapsed:: true
 				- **在``native``**目录下
 					- **[[$blue]]==新增==**``runtime``文件夹
 					- 没有那一堆``api-ms-win-core-xxxxx.dll``
@@ -214,4 +220,10 @@
 			- 在``Editor\Src\BuildPipeline\BuildPlayer.cpp``的``GetCoreCLRReferenceDirectories``函数中，
 				- ![image.png](../assets/image_1691486480929_0.png)
 				- 23直接将``managed_directory``硬性编码改为了``lib/net8.0``
-			-
+			- #### ``lib``目录
+				- 如上所述，``lib``目录下的7.0被改为了8.0
+				- 对比发行版的.net8库(``C:\Program Files\dotnet\shared\Microsoft.NETCore.App\8.0.0-preview.6.23329.7``)发现23的``lib\net8.0``的文件和发行版的库文件高度一致，不过多了很多debug文件(``.pdb``,`.xml`)文件，基本上每`个.dll`文件就会对应一个`.pdb`和`.xml`文件
+				- 只有``unity-embed-host.dll``这个文件是发行版中没有的，**[[$blue]]==其关键可能也在于此==**
+				  id:: 64d32b30-3e59-4e1f-9466-154e0b6e3b95
+	- ## 代码
+		- ###

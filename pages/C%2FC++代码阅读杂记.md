@@ -20,8 +20,42 @@
 			- ``typedef``
 			- ``__declspec()``
 				- 微软限定
+	- ## MVSC的装饰名(Decorated Name)
+		- mvsc在编译时会把函数，数据，对象名都改为装饰名，这一过程即装饰(decorate)
+		- 被mvsc编译的代码，在内部互相引用都是使用装饰名
+		- 不同版本的msvc编译得到的装饰名可能不尽相同，因此在项目中使用统一的toolchain相当重要
+		- 在链接不同语言写成的代码时，获取正确的装饰名十分重要
+			- 在使用msvc链接汇编语言代码时，汇编语言中的名字必须符合msvc的装饰名规范和调用规范
+		- ### C++装饰名格式
+			- 一个C++**函数**装饰名包含以下信息
+				- 函数名
+				- 如果是一个成员函数，装饰名将包含类名称
+				- 如果是某个命名空间下的函数，装饰名将包含命名空间名称
+				- 参数类型
+				- 调用规范(Calling Convention)
+				- 返回类型
+				- 一个可选的target-specific元素
+					- 例如在arm64EC对象中，``$$h``会被插入到装饰名中
+		- ### C装饰名格式
+			- C函数的装饰名由其调用规范决定
+			- 在64位环境下仅有使用``__vectorcall``调用规范的函数会被装饰
+			- C++文件中使用``exter "C"``修饰的函数也遵循C装饰名规则
+			- | Calling convention | Decoration |
+			  | ---- ---| ---- | ---- |
+			  | **`__cdecl`** | Leading underscore (**`_`**) |
+			  | **`__stdcall`** | Leading underscore (**`_`**) and a trailing at sign (**`@`**) followed by the number of bytes in the parameter list in decimal |
+			  | **`__fastcall`** | Leading and trailing at signs (**`@`**) followed by a decimal number representing the number of bytes in the parameter list |
+			  | **`__vectorcall`** | Two trailing at signs (**`@@`**) followed by a decimal number of bytes in the parameter list |
+		- ### 查看装饰名
+			- 在Visual Studio中的powershell中使用``dumpbin /exports <file-name>``可以查看二进制文件中的符号的装饰名
+		-
+	-
+- # Best Practice
+	- 定义函数式宏时，若涉及到计算，则**参数和展开形势本身都必须加上括号**
+		- 例如：``#define add(a,b) ((a)+(b))``
+		- 主要是为了避免运算符优先级的问题
 	-
 - # Must not
 	- 一定**[[$red]]==不要写==``if(result == true)``**这种代码
 		- 这种代码不仅仅是逻辑臃肿，且在C和C++中，很多函数会返回非0值来表示true，这种表达方式很有可能会导致不可预见的逻辑错误
-		-
+	-
