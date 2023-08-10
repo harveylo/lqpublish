@@ -171,6 +171,7 @@
 				- 其所需的形参之一``method``的类``ScriptingMethodPtr``是对Mono API中提供的托管方法指针``MonoMethod*``的封装
 - # 两方代码对比
 	- ## 项目结构
+	  collapsed:: true
 		- ### 根目录
 			- 22目前的根目录结构
 				- ![image.png](../assets/image_1691480285018_0.png)
@@ -226,4 +227,7 @@
 				- 只有``unity-embed-host.dll``这个文件是发行版中没有的，**[[$blue]]==其关键可能也在于此==**
 				  id:: 64d32b30-3e59-4e1f-9466-154e0b6e3b95
 	- ## 代码
-		- ###
+		- 从palyer的native代码看来，CoreCLR和Mono的不同主要就集中在控制加载``.dll``的行为
+		- 在``Runtime\Mono\MonoManager.cpp``中的``SetupMonoPaths``函数会根据选择mono还是coreclr存储不同的库文件路径
+			- ``Runtime\Mono\MonoManager.cpp``在23中已经被改名``MonoBootstrap.cpp``
+			-
