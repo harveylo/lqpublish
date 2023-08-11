@@ -23,7 +23,7 @@
 	- ![image.png](../assets/image_1689149471059_0.png)
 	- 通过搜索定位到处理此界面业务逻辑的文件``Editor\Mono\Inspector\PlayerSettingsEditor\PlayerSettingsEditor.cs``中
 	- 其中关于Scripting Backend的处理代码：
-	- ![image.png](../assets/image_1689150119406_0.png)
+	- ![image.png](../assets/image_1689150119406_0.png){:height 226, :width 671}
 	- 检查``ScriptingImplementation``类型，发现其定义出现在文件``Editor\Mono\PlayerSettings.bindings.cs``
 		- ![image.png](../assets/image_1689155716885_0.png)
 - # 设置``ScriptingImplementation``为`CoreCLR`之后的行为
@@ -171,7 +171,6 @@
 				- 其所需的形参之一``method``的类``ScriptingMethodPtr``是对Mono API中提供的托管方法指针``MonoMethod*``的封装
 - # 两方代码对比
 	- ## 项目结构
-	  collapsed:: true
 		- ### 根目录
 			- 22目前的根目录结构
 				- ![image.png](../assets/image_1691480285018_0.png)
@@ -185,7 +184,7 @@
 			- 看了下22的``native``下的``corelcr.dll``的输出符号，其中好像已经包含了很多的mono库函数，说不定global已经实现了用coreclr包装mono api
 				- 并没有，比如``mono_unity_heap_validation_from_statics`` api就没有实现，不能直接用
 				- 如果强行修改``funcsOK``的值继续运行，则会在``Runtime\Scripting\ScriptingProfiler.cpp``的719行挂掉
-					- ![image.png](../assets/image_1691577593847_0.png)
+					- ![image.png](../assets/image_1691577593847_0.png){:height 57, :width 390}
 			- [[$red]]==**总的来说，这个目录就是从**==``build\WindowsStandaloneSupport\Variations\CoreCLRShared\x64\CoreCLR``拷贝过来的，而``CoreCLRShared``下的这些目录又应该是stevedore在建造时下载
 				- 但是这个从stevedore下载包的逻辑我没有看懂
 				- 目前的猜测是：``PlatformDependent\WinPlayer\WinStandaloneSupport.cs``中的``SetupCopiesOfSupportFilesFor``函数负责CoreCLR相关文件的下载
