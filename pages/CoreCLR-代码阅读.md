@@ -229,4 +229,6 @@
 		- 从palyer的native代码看来，CoreCLR和Mono的不同主要就集中在控制加载``.dll``的行为
 		- 在``Runtime\Mono\MonoManager.cpp``中的``SetupMonoPaths``函数会根据选择mono还是coreclr存储不同的库文件路径
 			- ``Runtime\Mono\MonoManager.cpp``在23中已经被改名``MonoBootstrap.cpp``
-			-
+		- [[$red]]==**重点**==：结合 [[Porting the Unity Engine to .NET CoreCLR]]来看，他们做到使用CoreCLR封装Mono API可能是通过直接配合CoreCLR源码进行的，即会直接用到源码中的接口和函数，而不是使用CoreCLR暴露出来的API进行封装
+		- 不清楚.NET 7.0 是否真的支持了 Application Domain，虽然有相关的cpp文件
+		-
