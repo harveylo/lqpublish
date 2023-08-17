@@ -1,5 +1,5 @@
-- # PROJECT
-  collapsed:: true
+# PROJECT
+collapsed:: true
 	- [Manual Page](https://cmake.org/cmake/help/latest/command/project.html#command:project)
 	- ```
 	  project(<PROJECT-NAME> [<language-name>...])
@@ -30,7 +30,6 @@
 	- 以上两个变量名如果在``project()``中更改了项目名称，变量名也会跟着变，如果想使用不会随项目名称改变的变量，请使用``PROJECT_BINARY_DIR``等变量
 		- 这些变量都是指向[[$red]]==**最近的**==``project()``指向的目录
 - # SET
-  collapsed:: true
 	- [Manual Page](https://cmake.org/cmake/help/latest/command/set.html)
 	- ## 设定一般变量
 		- ``set(<variable> <value>... [PARENT_SCOPE])``
