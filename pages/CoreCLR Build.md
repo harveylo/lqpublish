@@ -1,0 +1,38 @@
+- **打印帮助信息**
+	- ``.\build -?``
+	- `.\build /?`
+- **建造CoreCLR runtime**
+	- `.\build clr -c debug`
+- **生成VS工程文件**
+	- ``build -vs coreclr.sln``
+- # Requirements
+	- [github page](https://github.com/dotnet/runtime/blob/main/docs/workflow/requirements/windows-requirements.md#enable-long-paths)
+	- ## 启用长路径
+		- ### 在windows系统中
+			- [官方文档](https://learn.microsoft.com/zh-cn/windows/win32/fileio/maximum-file-path-limitation?tabs=registry#enable-long-paths-in-windows-10-version-1607-and-later)
+		- ### 在git中
+			- ``git config --system core.longpaths true``
+	- ## Visual Studio
+		- 2022 17.3 及之后版本
+		- 详细组件见github 页面
+	- ## Build Tools
+		- ### CMake
+			- 3.20及之后版本
+		- ### Ninja
+			- 正常情况下应该已经包含在VS中
+		- ### Python
+			- 3.7.4及之后版本
+			- 不建议使用python环境管理工具，尤其是pyenv-win
+	- ## GIT
+		- 2.22.0及之后版本
+	- ## Powershell
+		- 3.0或更高版本
+- # 出现``jitinterface_x64.dll``文件缺失的解决方案
+	- 在我机器上build的时候会出现此问题，怀疑是环境问题，经过查证也确实是环境问题
+	- 在``src\coreclr\build-runtime.cmds``中有一行命令：
+		- `(py -3 %_C% || py -2 %_C% || python3 %_C% || python2 %_C% || python %_C%) > "%TEMP%\pythonlocation.txt" 2> NUL`
+	- 发现在执行这一行命令之后建造脚本会直接终止
+	- 原因是因为我是用了``pyenv-win``在管理python环境，而此工具的原理是时使用python同名的`.bat`脚本代理对于python的命令行调用，而在bat脚本中，如果没有使用``call``调用另外一个bat脚本，则控制流会直接转义并不会返回，相当于执行了linux下的``exec``。最终导致了建造所需相关文件生成失败
+	- 卸载pyenv并安装普通的windows发行版之后建造没有再出现问题
+	- 如果在卸载pyenv之后还出现问题，建议先运行一次``.\build -clean``
+-

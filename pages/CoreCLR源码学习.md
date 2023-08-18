@@ -1,0 +1,19 @@
+- [[CoreCLR Build]]
+- # 建议学习路线
+	- ## 了解CLR需要提供哪些服务
+		- **CLR via C#**
+			- 了解CLR提供哪些服务，各种服务之间有什么联系
+			- 建立大体概念
+		- **Pro .NET Performance**
+		- **Writing High-Performance .NET Code**
+	- ## CIL
+		- **[ECMA-335](https://www.ecma-international.org/publications-and-standards/standards/ecma-335/)**
+		- **Inside Microsoft .NET II Assembler**
+		- **Expert .NET 2.0 IL Assembler**
+		- **[Shared Source CLI 2.0 Internals](http://pages.di.unipi.it/ferrari/CORSI/AP/NOTES/SSCLI2.pdf)**
+			- 一个开源CLI runtime
+	- ## [Book of the Runtime](https://github.com/dotnet/runtime/blob/main/docs/design/coreclr/botr/README.md)
+	- 另外需要补足一些GC和编译原理的基础知识
+		- The Garbage Collection Handbook
+- # 项目结构
+	- [Book of the Runtime](https://github.com/dotnet/runtime/blob/main/docs/design/coreclr/botr/README.md)
