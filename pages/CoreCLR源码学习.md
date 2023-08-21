@@ -17,3 +17,22 @@
 		- The Garbage Collection Handbook
 - # 项目结构
 	- [Book of the Runtime](https://github.com/dotnet/runtime/blob/main/docs/design/coreclr/botr/README.md)
+	- ## Github仓库
+		- 最开始，coreclr是在[dotnet/coreclr](https://github.com/dotnet/coreclr/tree/master)仓库下开发
+		- 后来(应该是在19年)整合到了[dotnet/runtime](https://github.com/dotnet/runtime)
+			- 这个新仓库的结构更复杂，整合了一些.NET相关的其他项目，例如mono
+			- 更详细的信息和FAQ可以参看[这个issue](https://github.com/dotnet/announcements/issues/119)
+	- ## 文档
+		- 作为一个复杂的超大项目，CoreCLR，或者中整个.NET runtime项目有着庞杂的文档，以至于文档也有自己的目录结构
+		- 文档的根目录在项目根目录的``docs``目录下
+		- **一些关键文档：**
+			- [Glossary](https://github.com/dotnet/runtime/blob/main/docs/project/glossary.md)
+				- 列举了若干术语和关键词
+	- ## 语言
+		- CoreCLR本身基本是完全使用C++写的，测试基本使用C#
+		- CoreCLR提供的``mscorlib``使用C\#编写
+	- ## mscorlib
+		- 看之前``dotnet/coreclr``那个仓库里是有mscorlib的源码的(其实在被merge之前的最新提交中也已经没有相关目录了)
+		- 不过对于迁移的关系不大，所以这个应该不是重点关心的对象
+	-
+-
