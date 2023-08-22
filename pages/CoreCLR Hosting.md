@@ -24,15 +24,15 @@
 			- bittable类型的定义和C++的标准布局类型的定义类似
 			- [参看](https://learn.microsoft.com/zh-cn/dotnet/framework/interop/blittable-and-non-blittable-types)
 	- ## 调用约定(Calling Convention)
-	  collapsed:: true
 		- 调用约定规定了参数如何传入，例如：
 			- 从第一个参数开始逐个入栈
 			- 从最后一个参数开始逐个入栈
 			- 不入栈，使用寄存器传参
 		- 同样也是用于和外部(使用不同语言编写的)库进行互动时需要的
 		- 在同一个语言项目内部，所有的函数都由同样的编译器编译，因此一般来说都遵守同样的调用约定，因此根本不需指明调用约定
+		- 本质是控制**[[$red]]==编译器如何生成和函数调用相关的汇编代码==**
+			- 例如入栈，出栈和call的顺序
 		- ### 在C++中
-		  collapsed:: true
 			- ``__cdecl``
 				- C和C++默认的调用约定
 				- | Element | Implementation |
@@ -43,6 +43,8 @@
 				  | Case-translation convention | No case translation performed. |
 			- ``__stdcall``
 				- 用于调用Win32 API
+					- 指向Win32 API的函数指针
+					- 会被Win32 API回调的函数，例如``WinMain``
 				- 被调用者负责清理stack
 				- 微软特有
 				- | Element | Implementation |

@@ -58,9 +58,24 @@
 		- 可读性尚可，但有难懂的地方
 	- ## SGI STL实现版本
 		- **GCC**采用的版本
+			- 但实际上GCC也是在SGI STL V3.3的基础上进行了扩写和改动，被命名为**libstdc++**或**GNU C++ Library**
+			- 在最新的GCC中，STL的结构有很大的改动，例如``stL_config.h``就已经消失
+				- 根据其文档来看，可能已经使用autoconf等机制替代了此配置文件
 		- 由Silicon Graphics Computer System公司开发
 		- 继承自HP STL，也附加其版权声明，但是此声明也允许包括商用在内的一切使用，因此也属于OPEN SOURCE软件
 		- 可读性高
 	- ## STLport实现版本
 		- 提供以SGI STL为蓝本的高度可移植性版本
--
+- # STL头文件目录结构
+	- 一般来说，C++编译器都会附带一份完整的头文件在其目录下
+	- linux下的gcc的STL头文件在`/usr/include/c++/<version>/`
+	- 本书说为了兼容所以会同时存在``vector.h``和`vector`头文件，但是在11版本gcc的头文件中，**[[$red]]==已经不再存在==``vector.h``**
+		- 如果在程序中``include <vector.h>``则会直接报错
+	- `clang`的include目录下没有自己的STL实现，但是有一些其他的扩展性质头文件
+		- 所以clang需要使用gcc的STL头文件
+	- SGI_STL的实现大多是通过``stl_xxx.h``来实现的，不带`h`后缀的头文件只是提供给用户使用的“接口”，一般是会直接引用这些实现的头文件
+- # SGI STL的编译配置(Configuration)
+	- 不同的编译器对C++的支持程度不同，为了能够具备广泛的可移植能力，SGI STL准备了一个环境配置文件**``stl_config.h``**，其中定义了许多常量
+	- 所有STL头文件都会直接或间接包含此配置文件，以条件编译(宏``#ifdef``)的形式调整参与编译的代码内容
+	- 这个配置头文件本质上是一堆`#ifdef`
+	-
