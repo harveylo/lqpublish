@@ -5,6 +5,8 @@
 	- `.\build clr -c debug`
 - **生成VS工程文件**
 	- ``build -vs coreclr.sln``
+	- 生成的工程文件在``artifacts\obj\coreclr\windows.<Arch>.<BuildType>\ide\CoreCLR.sln``
+	-
 - # Requirements
 	- [github page](https://github.com/dotnet/runtime/blob/main/docs/workflow/requirements/windows-requirements.md#enable-long-paths)
 	- ## 启用长路径

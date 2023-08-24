@@ -17,6 +17,10 @@
 		- The Garbage Collection Handbook
 - # 项目结构
 	- [Book of the Runtime](https://github.com/dotnet/runtime/blob/main/docs/design/coreclr/botr/README.md)
+	- 目前，最新的仓库目录结构主要包含**三大部分**
+		- 运行时(Runtime)
+		- 库(Library)
+		- 安装程序(Installer)
 	- ## Github仓库
 		- 最开始，coreclr是在[dotnet/coreclr](https://github.com/dotnet/coreclr/tree/master)仓库下开发
 		- 后来(应该是在19年)整合到了[dotnet/runtime](https://github.com/dotnet/runtime)
@@ -34,5 +38,7 @@
 	- ## mscorlib
 		- 看之前``dotnet/coreclr``那个仓库里是有mscorlib的源码的(其实在被merge之前的最新提交中也已经没有相关目录了)
 		- 不过对于迁移的关系不大，所以这个应该不是重点关心的对象
-	-
+	- ## CoreRT
+		- .NET Core的一个实验性AOT运行时
+		- 现在已经更名为[runtimelab](https://github.com/dotnet/runtimelab/tree/feature/NativeAOT)
 -
