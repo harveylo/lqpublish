@@ -1,0 +1,8 @@
+span[data-ref="#yellowf"] {
+    display: none;
+}
+
+
+span[data-ref="#yellowf"] {
+    background: #FF0000;
+}
