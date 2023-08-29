@@ -1,0 +1,13 @@
+- CMake的policy主要用于保证backward compatibility
+- 新版本的CMake会在新的policy引入之后警告backward compatible behavior
+- 其保证backward compatibility的运作机制为：
+	- 新版本的CMake如果改变了某些行为，那么就会引入新的policy
+		- 若这些policy被设为``NEW``，那么采用新的行为
+		- 若设为``OLD``则采用旧版本行为
+	- 在使用``cmake_minimum_required``命令指定最低版本时，所有该版本既之前引入的policy都会被置为``NEW``
+	- 除此之外所有没有显式指明为``NEW``还是``OLD``的policy会被设为``OLD``，并且产生一个warning
+- 除了下列两种情况之外，一个policy**[[$red]]==绝不能被设置为==``OLD``**
+	- 在编译一个stable活frozen的项目时用于silence warning
+	- temporarily as part of a larger migration path
+- 所有policy的``OLD``行为都是undesired的，而且会在未来的release中被移除
+-

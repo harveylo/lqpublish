@@ -1,4 +1,4 @@
-- # CMake是什么？
+# CMake是什么？
 	- CMake是一个高级编译配置工具，全程为**Cross Platform Make**，比``make``更高一级
 	- 可以根据简单的语句来**描述**所有平台的安装(编译)过程
 	- 最初是作为Makefile生成器，但现在已经能够输出各种各样的**makefile**或者**project**文件，类似于Unix下的**automake**
@@ -74,3 +74,4 @@
 	- 可以直接通过``-D<VARIABLENAME>=<VALUE>``的方式定义处理过程中要用到的变量的值(也可以定义cmake自带的变量的值)
 - # [[CMake基本命令]]
 - # [[CMake常用变量]]
+- # [[CMake Policy]]
