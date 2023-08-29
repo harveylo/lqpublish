@@ -10,4 +10,6 @@
 	- 在编译一个stable活frozen的项目时用于silence warning
 	- temporarily as part of a larger migration path
 - 所有policy的``OLD``行为都是undesired的，而且会在未来的release中被移除
--
+- # ``cmake_policy``
+	- 此指令用于显式指定相应policy的值
+	-
