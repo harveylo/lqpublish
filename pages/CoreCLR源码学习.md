@@ -41,4 +41,21 @@
 	- ## CoreRT
 		- .NET Core的一个实验性AOT运行时
 		- 现在已经更名为[runtimelab](https://github.com/dotnet/runtimelab/tree/feature/NativeAOT)
+- # CoreCLR目录结构
+	- 我们更关心CoreCLR相关的东西，目前的项目repo中，CoreCLR的源码主要是在`/src/coreclr`下
+	- 这部分内容是coreclr仓库迁移以前的主要内容，每个文件夹都是一个特定模块。
+	- 每个模块的职责可以参看[这篇文章](https://mattwarren.org/2017/03/23/Hitchhikers-Guide-to-the-CoreCLR-Source-Code/)，但是此文章成文于17年，有些内容已经outdated
+	- ## binder
+		- 负责在.NET程序内部载入程序集
+		- 控制程序集和application context的代码也在此处
+	- ## classlibnative
+		- 许多Core数据类型的native实现，例如
+			- ``arraynative.cpp``对应Arrays
+			- ``objectnative.cpp``对应System.Object
+		- 同时也包含一些暴露给``System.Environment``命名空间的函数在``system.cpp``中
+			- 例如：``System.ProcessorCount``对应`system.cpp`中的``Environment_GetProcessorCount``
+	- ## host
+		- 在迁移之前的repo中，目录名为``coreclr``
+		- 主要存放用于host coreclr运行时的工具，例如``corerun``
+		- ![image.png](../assets/image_1693460712794_0.png)
 - # [[CoreCLR Workflow]]
