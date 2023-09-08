@@ -1,4 +1,9 @@
-# 工具类
+# 问题收集：
+collapsed:: true
+	- **多个线程阻塞在同一个mutex(信号量，条件变量等)，若等待资源可用，这些线程谁先被唤醒**
+		- 取决于系统的线程调度策略
+		- 在linux下，会根据当前线程调度策略(``SCHED_RR``, ``SCHED_FIFO``)和线程之间的优先级决定
+- # 工具类
 	- ## ``conditional_variable``
 		- **条件变量**常和``unique_lock``一起使用以提升性能
 		- 条件变量必须和一个锁(``unique_lock``)一起使用
@@ -79,4 +84,5 @@
 			  ```
 	- ### 使用信号量的版本
 		- 待补全，不过只要理解了原理，使用信号量实现非常简单优雅
-		- 详情可以去看leetcode上的并发题：[]
+		- 详情可以去看leetcode上的并发题：[1188: 有限阻塞队列](https://leetcode.cn/problems/design-bounded-blocking-queue/)
+		-
