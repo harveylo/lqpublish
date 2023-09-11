@@ -1,4 +1,4 @@
-- # 64 bits Canonical Address
+# 64 bits Canonical Address
 	- **Low Canonical Address**：即用户地址空间，**[[$red]]==地址的高17位全为0==**
 	- **High Canonical Address**：即内核地址空间，[[$red]]==**地址的高17位全为1**==
 	- 通过判断高17位的情况可以快速判断地址的合法性：
@@ -171,7 +171,6 @@
 			- ``locked_vm``表示被锁定不能在内存吃紧时被换入换出的内存页数
 			- ``pinned_vm``表示既不能换入换出，甚至不能被移动的内存总页数
 	- ## 虚拟内存区域的管理
-	  collapsed:: true
 		- ``vm_area_struct``描述了**虚拟内存区域(VMA)**的情况
 			- 如代码段，堆，数据段等在内核看来都是虚拟内存区域
 		- ```
