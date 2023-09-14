@@ -148,7 +148,6 @@
 			- 在32位系统中，此变量的值为0xc0000000
 			- 在64位系统中，此变量的值位0x0007ffffffff000(用户最大虚拟内存地址(0x0000800000000000-页大小(4KB(0x1000))
 	- ## 进程虚拟内存空间的布局
-	  collapsed:: true
 		- ![image.png](https://cdn.xiaolincoding.com//mysql/other/2b2dbb2b6ea19871152a3bf6566df205.png)
 		- ```
 		  struct mm_struct {
@@ -226,4 +225,4 @@
 				- ``vm_pgoff``表示映射进虚拟内存中文件内容相较于文件头部的偏移量
 			- ``vm_private_data``用于存储VMA中的私有数据
 	- ## 针对虚拟内存区域的相关操作
-		-
+- # [[Linux 物理内存分配算法]]
