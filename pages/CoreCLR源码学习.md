@@ -57,5 +57,5 @@
 	- ## host
 		- 在迁移之前的repo中，目录名为``coreclr``
 		- 主要存放用于host coreclr运行时的工具，例如``corerun``
-		- ![image.png](../assets/image_1693460712794_0.png)
+		- ![image.png](../assets/image_1693460712794_0.png){:height 212, :width 321}
 - # [[CoreCLR Workflow]]
