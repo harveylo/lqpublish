@@ -1,7 +1,7 @@
 - 此实例描述如何将Mono运行时嵌入到应用程序中，并且从C代码中调用托管代码的函数以及从托管代码中调用C代码
 - 单纯的C/C++语言会导致开发人员需要面对很多硬件特性且缺乏现代语言特性(安全，动态特性)，而更高层级的JIT体验则受到性能的制约
 - 一种解决方法就是**混合两种语言的特点**，也叫做**Scripting**
-	- ![image.png](../assets/image_1690785861059_0.png)
+	- ![image.png](../assets/image_1690785861059_0.png){:height 247, :width 293}
 	- 即，将性能敏感的部分通过C/C++甚至汇编语言来实现，而高层的功能，例如GUI等交互功能交由scripting语言来实现。
 	- scripting语言由scripting engine带来高级特性支持，同时又可以直接调用高性能的C/C++实现的API
 - # How Embedding Works
