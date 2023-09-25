@@ -11,4 +11,4 @@
 		- 即ABC不会继承任何其他类
 - ## ADL
 	- **Argument-Dependent Lookup**
-	- 主条目
+	- 主条目：[[C++中的ADL]]
