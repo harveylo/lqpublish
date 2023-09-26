@@ -12,3 +12,11 @@
 - ## ADL
 	- **Argument-Dependent Lookup**
 	- 主条目：[[C++中的ADL]]
+- ## ADT
+	- **Abstract Data Type**
+	- 本质上来说，任何只能通过其自身提供的抽象接口来互动的类型都属于ADT
+	- 但是再C++中，ADT几乎被用于特指类似于STL中那些可通过参数模板自定义的**类模板**，例如``std::vector``
+- ## BMI, CMI
+	- 此概念随着C++20引入**模组(Module)**而被某些编译器提及
+	- [[C++模组]]
+	-
