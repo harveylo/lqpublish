@@ -13,6 +13,7 @@
 	- ## [[thread_local关键字]]
 	- ## [[explicit关键字]]
 	- ## [[constexpr关键字]]
+	- ## [[volatile关键字]]
 - # 特殊语法
 	- ## [[=delete]]
 - # STL函数

@@ -1,4 +1,4 @@
-- # 异常
+# 异常
 	- x86架构中，存在20种不同的CPU异常类型，以下列举**重要的几种**
 		- **Page Fault**
 			- 非法访问内存触发，例如当前指令试图访问未被映射的页、试图写入只读页等
@@ -12,7 +12,6 @@
 			- 调用了处理Double Fault的函数仍然无法成功处理double fault，则抛出此错误
 			- 此错误是致命级别的**三重异常**，大多数操作系统此时会选择重置数据并重启操作系统
 	- 完整**异常列表**如下：
-	  collapsed:: true
 		- | Name | Vector nr. | Type | Mnemonic | Error code? |
 		  | [Division Error](https://wiki.osdev.org/Exceptions#Division_Error) | 0 (0x0) | Fault | #DE | No |
 		  | [Debug](https://wiki.osdev.org/Exceptions#Debug) | 1 (0x1) | Fault/Trap | #DB | No |
@@ -48,7 +47,6 @@
 		- 捕捉CPU异常要求用户设置一个**中断描述表(Interrupt Descriptor Table, IDT)**
 		- 硬件会直接使用此表且不加任何验证，因此需要使用预定义的格式直接写入数据
 		- 符号表每一条目都有如下**16字节结构**
-		  collapsed:: true
 			- | Type | Name | Description |
 			  | ---- | ---- | ---- |
 			  | u16 | 函数指针 [0:15] | 异常handler函数地址的低16位 |
@@ -58,7 +56,6 @@
 			  | u32 | Function Pointer [32:63] |异常handler函数地址的剩余位 |
 			  | u32 | Reserved |
 		- Option**字段结构**如下
-		  collapsed:: true
 			- | Bits | Name | Description |
 			  | ---- | ---- | ---- |
 			  | 0-2 | Interrupt Stack Table Index | 0: 不要切换栈, 1-7: 当处理函数被调用时，切换到中断栈表的第n层。 |

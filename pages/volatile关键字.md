@@ -1,0 +1,7 @@
+- `volatile`关键字和`const`关键字在语法上有很多共通之处，两者也常被合在一起被称为某个变量的**[[$red]]==CV限定词(CV-qualifier)==**
+- volatile修饰成员函数 -> 此函数可以被volatile的对象调用
+- volatile修饰变量 -> 此变量可能会被语言之外的行为改变(硬件，多线程)，不会对变量做缓存(放入cache或寄存器)，每次都会从内存中获取此值
+- volatile修饰函数返回值 -> 返回值将拥有volatile 修饰，但是意义不大而且很怪
+	- 有一种说法是，volatile修饰函数返回值在gcc中表示此函数不会返回，致使编译器可以做一些返回值相关的优化
+	- 在GCC 2.5 版本之后有专门的``noreturn``属性用于完成此优化，例如``void fatal()__attribute__((noreturn))``
+- volatile修饰指针 -> 和const一样，在星号前后含义不同，在前表示指向的内存地址 volatile，在后表示存储地址值得变量本身是volatile的
