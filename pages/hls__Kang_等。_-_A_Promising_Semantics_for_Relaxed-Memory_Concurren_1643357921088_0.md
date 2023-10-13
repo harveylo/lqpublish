@@ -1,3 +1,5 @@
+file-path:: ../assets/Kang_等。_-_A_Promising_Semantics_for_Relaxed-Memory_Concurren_1643357921088_0.pdf
+
 - promises:a thread may promise to execute a write in the future, thus enablingother threads to read from that write out of order
   ls-type:: annotation
   hl-page:: 1
