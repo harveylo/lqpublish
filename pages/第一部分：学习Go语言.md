@@ -1,0 +1,44 @@
+- 谷歌于2009年正式对外发布go语言
+- Go语言自我标榜的优点包括：快速编译，高效执行，易于并发
+- go语言非常简洁，仅有25个关键字且遵循一套[编码规范](https://go.dev/ref/spec)
+- go的语法标准为**LALR**
+- Go没有类和继承的概念
+	- 通过**接口(Interface)**的概念实现多态
+- go语言对于并发提供了先天的支持
+- Go为了做到简洁，砍去了一些在其它语言中常见的特性
+	- 不支持函数重载和操作符重载
+	- 不支持隐式转换
+	- 放弃类和类型继承
+	- 不支持变体类型
+	- 不支持动态加载代码
+	- 不支持动态库连接
+	- 不支持泛型
+	- 使用`recover`和`panic`代替异常机制
+	- 不支持静态变量
+- # 官方工具
+	- **gofmt**：用于格式化源码文件
+	- **go doc**：用于阅和生成文档
+		- ``go doc <package_name>``查看包的文档
+		- `go doc <package_name>/<sub_package_name>`查看子包的文档
+		- `go doc <package_name> <function_name>`查看某个包中某个函数的文档
+	- **go install**：用于安装依赖
+	- **go fix**：用于从旧版本的go代码迁移到新的版本
+	- **go test**：一个轻量级单元测试框架
+	- **go build**：编译项目
+	- **go run**：编译并执行项目
+- # go和其他语言进行混编
+	- ## 和C混编
+		- cgo包提供了对外部函数接口的支持
+		- cgo会编译产生go中可用的代码
+		- 通过在`import "C`前注释需要引入的C包导入C库函数
+		- ```go
+		  // #include <stdio.h>
+		  // #include <stdlib.h>
+		  import "C"
+		  ```
+		- 被导入的C库函数在命名空间`C`下
+		- 稍详细一点的请看[包文档](https://pkg.go.dev/cmd/cgo)
+	- ## 和C++混编
+		- 使用SWIG(Simplified Wrapper and Interface Generator)可以做到在Go中调用C++代码
+		- [swig官网](https://www.swig.org/)
+		- [swig go文档](https://www.swig.org/Doc3.0/Go.html#Go_overview)
