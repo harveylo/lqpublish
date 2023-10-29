@@ -1,4 +1,10 @@
-# 包的概念
+- 关于go中的分号：
+	- go语言仍然通过分号来区分一条语句结束与否，但是**编译器会自动给那些疑似完整语句的行末添加分号**
+		- 这意味着，编译器会自动在**行末为特定token的行添加分号**
+		- 因此大括号的左括号不能另起一行，否则函数或者控制流会被凭空添加分号，导致编译错误
+	- 如果想在一行中写下多条语句，那么就需要在行内使用分号
+- # 包的概念
+  collapsed:: true
 	- 一个包由多个`.go`源文件组成
 	- 每个源文件只可从属于一个包
 		- 每个源文件必须在**非注释的第一行**使用`package <pkg_name>`指明此文件所属的包
@@ -49,6 +55,7 @@
 			- 某一个包中的标识符，如果**以大写字母开头**，则此包被import的时候这些标识符对于引入者来说是可见的，反之则不可见
 			- 可以利用这一点将包机制作为命名空间来使用，避免命名冲突
 - # 函数
+  collapsed:: true
 	- 使用关键字`func`定义函数
 	- 在go中，函数形参的类型定义在参数名之后，形如
 		- ``func funcName(a int, b int)``
@@ -80,6 +87,7 @@
 		  }
 		  ```
 - # 变量
+  collapsed:: true
 	- 使用`var`关键字来声明变量
 		- `var a,b,c int`
 	- 一次性声明多个不同类型的变量，需要使用括号
@@ -99,12 +107,12 @@
 		  	fmt.Println(i, j, c, python, java, k)
 		  }
 		  ```
-	- 在类型明确的情况下可以使用**短变量声明**，此声明不需要使用`var`关键字，直接以变量名和初始化值完成声明和初始化
+	- 在类型明确的情况下可以使用**短变量声明**，此声明不需要使用`var`关键字，直接以变量名和初始化值完成声明和初始化，其符号为 ``:=``
 		- 由于go明确要求在函数以外的每个语句都必须以关键字开始，短变量声明**不能在函数以外使用**
 		- ```go
 		  func main() {
 		  	var i, j int = 1, 2
-		  	k := 3
+		  	k := 3  //短变量声明
 		  	c, python, java := true, false, "no!"
 		  
 		  	fmt.Println(i, j, k, c, python, java)
@@ -145,3 +153,125 @@
 			  var y = x>> 98 //correct
 			  var z = x-1 //wrong
 			  ```
+	- ## 零值
+		- 在声明时没有赋初值的变量会默认被赋予**零值**
+		- 对于算术类型(整数，浮点)，零值为：**`0`**
+		- 对于布尔类型，零值为：**`false`**
+		- 对于字符串类型，零值为：**`""`**(空字符串)
+	- ## 类型转换
+		- Go中所有的类型转换都必须采用显式类型转换形式
+			- 形如`T(v)`，将变量`v`的类型转换为`T`
+		- ```go
+		  func main() {
+		  	var x, y int = 3, 4
+		  	var f float64 = math.Sqrt(float64(x*x + y*y))
+		  	var z uint = uint(f)
+		  	fmt.Println(x, y, z)
+		  }
+		  ```
+	- ## 类型推导
+		- 在某些情况下，声明变量时变量的类型能够直接被推导出来
+		- 假如变量A被另一个变量B的值初始化，那么变量A的类型就是变量B的类型
+			- ```go
+			  var i int
+			  j := i //j的类型也是int
+			  ```
+		- 加入在短声明时指定了一个字面量，那么变量的类型就是字面量的类型
+			- ```go
+			  i := 42 //int
+			  j := .12 //float64
+			  k := .12 + .5i //complex128
+			  ```
+	- ## 常量
+		- 以`const`关键字声明
+		- 可以是**字符**，**字符串**，**布尔值**或**数值**
+		- 不能使用`:=`短声明
+		- 数值常量的精度可以做到非常高，但是如果要向一个变量赋高精度常量的值，可能会因为精度过高而无法编译通过(变量精度不够不足以承载高精度常量)
+- # 注释
+  collapsed:: true
+	- go中有两种注释
+		- 行注释：``//``
+		- 块注释：`/* */`
+	- ## 注释和文档的关系
+		- ### 包文档
+			- 在**package 语句之前的注释**会被`godoc`用作包的文档
+			- ```go
+			  // Package superman implements methods for saving the world.
+			  //
+			  // Experience has shown that a small number of procedures can prove
+			  // helpful when attempting to save the world.
+			  package superman
+			  ```
+		- ### 符号(API，常量，变量)文档
+			- 紧跟在某个全局声明前的注释会被`godoc`采用做针对该符号的文档
+			- 要求这样的注释必须以此符号名称开头，否则不被采纳做文档
+			- ```go
+			  // enterOrbit causes Superman to fly into low Earth orbit, a position
+			  // that presents several possibilities for planet salvation.
+			  func enterOrbit() error {
+			     ...
+			  }
+			  ```
+- # 控制流
+	- ## 循环
+		- go**只有`for`循环**
+		- `for`循环的三部分由分号隔开
+			- 初始化语句，常为短变量声明，**可选**
+			- 条件表达式
+			- 后置语句，**可选**
+		- **没有小括号，但是循环体的大括号是必须的**
+		- ```go
+		  func main() {
+		  	sum := 0
+		  	for i := 0; i < 10; i++ {
+		  		sum += i
+		  	}
+		  	fmt.Println(sum)
+		  }
+		  ```
+	- 若初始化语句和后置语句都不需要，仅保留条件表达式，则不需要多余的分号，直接在`for`后放置条件表达式即可，此时的`for`循环和其它语言中的`while`循环没有区别
+		- ```go
+		  func main() {
+		  	sum := 1
+		  	for sum < 1000 {
+		  		sum += sum
+		  	}
+		  	fmt.Println(sum)
+		  }
+		  ```
+	- 若连条件表达式一并省略，仅余一个`for`关键字，便写出了一个无限循环，等于其它语言中的`while(true)`
+		- ```go
+		  func main() {
+		  	for {
+		  		fmt.Println("yes")
+		  	}
+		  }
+		  ```
+	- ## 条件语句
+		- ### `if`语句
+			- 使用关键字`if`，同样无需小括号，但必须使用大括号包裹分支代码
+			- `if`语句允许在条件表达式前执行**一条**额外的语句，该语句和条件表达式需要使用分号`;`隔开
+				- ```go
+				  func pow(x, n, lim float64) float64 {
+				  	if v := math.Pow(x, n); v < lim {
+				  		return v
+				  	}
+				  	return lim
+				  }
+				  ```
+			- `if`语句可以对应若干个`else`或`else if`语句，在每一次`else if`中都可以在额外语句中引入新的局部变量，后续所有的`else`或`else if`分支代码都可以使用这些被引入的额外变量
+				- ```go
+				  func pow(x, n, lim float64) float64 {
+				  	if v := math.Pow(x, n); v < lim {
+				  		return v
+				  	} else if xx := 32; v== lim{
+				  		fmt.Printf("%g >= %g\n", v, lim)
+				  	}else {
+				  		fmt.Println(v,xx)
+				  	}
+				  	// 这里开始就不能使用 v 了
+				  	return lim
+				  }
+				  ```
+		- ### ``switch``语句
+			-
