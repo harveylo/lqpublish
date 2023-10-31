@@ -55,7 +55,6 @@
 			- 某一个包中的标识符，如果**以大写字母开头**，则此包被import的时候这些标识符对于引入者来说是可见的，反之则不可见
 			- 可以利用这一点将包机制作为命名空间来使用，避免命名冲突
 - # 函数
-  collapsed:: true
 	- 使用关键字`func`定义函数
 	- 在go中，函数形参的类型定义在参数名之后，形如
 		- ``func funcName(a int, b int)``
@@ -86,6 +85,9 @@
 		  	fmt.Println(split(17))
 		  }
 		  ```
+	- ## GO函数的传参
+		- 在go中，默认情况下所有的传参都是**值传递**，即在传参时会传一份**拷贝**进去，因此对于实参的修改不会影响外部传参变量的值，甚至**包括数组也是如此**
+		- 但是对于使用`make`构造出来的`slice`，`map`，`channel`则不经相同，因为这些类型它们的变量本身并不存储数据，而是存储一个指向实际数据的地址，因此对于这些类型的传参实际上只是传递地址，则对于实参的修改会实际修改内存中的数据，包括`string`也是如此
 - # 变量
   collapsed:: true
 	- 使用`var`关键字来声明变量
@@ -274,4 +276,56 @@
 				  }
 				  ```
 		- ### ``switch``语句
-			-
+		  collapsed:: true
+			- 可以更加简洁地处理多分支逻辑
+			- 只运行**第一个匹配**的case语句，而不是运行从匹配成功到之后所有的case分支，因此不需要显式地使用`break`
+				- 相反地，如果需要在匹配成功后执行后续分支的语句，需要显式添加`fallthrough`语句
+				- 若匹配成功，不会直送后续任何case语句，包括case处给出的函数
+			- 在指定被判断变量前可以执行一条语句
+				- ```go
+				  func main() {
+				  	fmt.Print("Go runs on ")
+				  	switch os := runtime.GOOS; os {
+				  	case "darwin":
+				  		fmt.Println("OS X.")
+				  		fmt.Println("GO  GO")
+				  	case "linux":
+				  		fmt.Println("Linux.")
+				  		fallthrough
+				  	default:
+				  		// freebsd, openbsd,
+				  		// plan9, windows...
+				  		fmt.Printf("%s.\n", os)
+				  	}
+				  }
+				  ```
+			- 每一个case不需一定是常量，且不必为整数
+			- `switch`语句可以不指定条件，这种写法等于`switch true`，可以用于简化一长串的`if-else`语句
+				- ```go
+				  func main() {
+				  	t := time.Now()
+				  	switch {
+				  	case t.Hour() < 12:
+				  		fmt.Println("Good morning!")
+				  	case t.Hour() < 17:
+				  		fmt.Println("Good afternoon.")
+				  	default:
+				  		fmt.Println("Good evening.")
+				  	}
+				  }
+				  ```
+	- ## `defer`语句
+		- 用于将函数的调用推迟到外层函数返回之后执行
+		- 被`defer`修饰的语句会被依次压入一个栈中，当外层函数返回时，会以此弹出栈中语句并执行
+		- 被执行的函数所接收到的参数值是压入栈中时参数的值，而不是实际执行时的值
+		- ```go
+		  func main() {
+		  	fmt.Println("counting")
+		  
+		  	for i := 0; i < 10; i++ {
+		  		defer fmt.Println(i)
+		  	}
+		  
+		  	fmt.Println("done")
+		  }
+		  ```
