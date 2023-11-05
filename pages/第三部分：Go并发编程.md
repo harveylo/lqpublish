@@ -60,4 +60,54 @@
 			- `for data := range ch`
 		- [[$red]]==注意==：信道不同于文件，大多数情况下关闭一个信道是没必要的。
 			- 一般只会在接收方需要被明确告知是否还有更多的数据待处理时才需要发送方做出关闭信道的操作
-		-
+	- ## `select`语句
+		- `select`语句可以让一个携程等待多个信道上的操作
+		- `select`语句会阻塞直到列出的通信操作之一发生，然后执行对应case的语句
+			- 如果多个操作同时发生，随机选择一个case执行
+		- ```go
+		  func fibonacci(c, quit chan int) {
+		  	x, y := 0, 1
+		  	for {
+		  		select {
+		  		case c <- x:
+		  			x, y = y, x+y
+		  		case <-quit:
+		  			fmt.Println("quit")
+		  			return
+		  		}
+		  	}
+		  }
+		  
+		  func main() {
+		  	c := make(chan int)
+		  	quit := make(chan int)
+		  	go func() {
+		  		for i := 0; i < 10; i++ {
+		  			fmt.Println(<-c)
+		  		}
+		  		quit <- 0
+		  	}()
+		  	fibonacci(c, quit)
+		  }
+		  ```
+		- 注意上述例子中还使用了匿名函数
+		- ### `select`语句的默认case
+			- `select`语句中的`default`分支会在其他时间都没有发生时被执行，且**不会被block**
+			- 常用于尝试在不被block的情况下发送或接受数据
+			- ```go
+			  	tick := time.Tick(100 * time.Millisecond)
+			  	boom := time.After(500 * time.Millisecond)
+			  	for {
+			  		select {
+			  		case <-tick:
+			  			fmt.Println("tick.")
+			  		case <-boom:
+			  			fmt.Println("BOOM!")
+			  			return
+			  		default:
+			  			fmt.Println("    .")
+			  			time.Sleep(50 * time.Millisecond)
+			  		}
+			  	}
+			  ```
+			-
