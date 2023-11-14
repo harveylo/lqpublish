@@ -1,0 +1,14 @@
+- 在“开启或关闭windows功能”中，开启四项功能：
+	- hyper-v
+		- ![image.png](../assets/image_1699970155619_0.png)
+	- windows虚拟机监控程序平台
+		- ![image.png](../assets/image_1699970181314_0.png)
+	- 适用于Linux的windows子系统
+		- ![image.png](../assets/image_1699970208057_0.png)
+	- 虚拟机平台
+		- ![image.png](../assets/image_1699970220030_0.png)
+- 主板中开启intel虚拟化技术，这一步各家厂商不尽相同
+- 旧版系统可能需要先手动升级wsl版本到2，详情谷歌
+- 从微软商城中选择linux子系统发行版安装(ubuntu或其他发行版)
+- 运行：``wsl --install``
+- 重启电脑后在终端中输入`ubuntu`或`wsl`进入子系统
