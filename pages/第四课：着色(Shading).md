@@ -24,6 +24,7 @@
 		- 也因此，**shading**$\ne$**shadow**
 - # 一个简单的着色模型(Blinn-Phong Reflectance Model)
 	- ## 漫反射(Diffuse Reflection)
+		- 也称**Lambertian Term**
 		- ![image.png](../assets/image_1701177198754_0.png){:height 246, :width 357}
 		- 如果光纤会被均匀地反射到各个方向上(Scattered uniformly in all directions)，则这样的光照模式就叫做漫反射
 		- 对于观测者来说，从任何方向观测，漫反射的材质的颜色都是相同的
@@ -51,3 +52,50 @@
 		- ### 高光光照公式
 			- ![image.png](../assets/image_1701180485051_0.png){:height 184, :width 329}
 			- 和光源距离无关，因为此模型(Blinn-Phong模型)是一个经验模型，将光照密度项去掉了，仅关心能否看到光源
+			- $k_s$是**高光系数**，也称**镜面反射系数**，也可以理解为反射出的高光的颜色。一般都认为反射出的高光项的颜色是白的，取1
+			- 使用$\hat{R}$和$\hat{v}$之间的夹角判断高光强度的是另一个模型
+			- 注意夹角余弦项上有一个$p$指数，这是因为单纯$\cos$函数的递减太慢，在我们认为它们的方向其实离得很远(例如45度)，余弦值仍然相当可观，这会导致绘制出来的高光范围过大，因此引入一个指数常数，可以降低高光范围
+				- ![image.png](../assets/image_1701248057790_0.png){:height 172, :width 520}
+				- 一般来说，在blinn-phong模型中，$p$**的取值为[[$red]]==100到200==**
+				- ![image.png](../assets/image_1701248267005_0.png){:height 266, :width 354}
+	- ## 环境光项(Ambient Term)
+		- 回忆：shading是每个shading point都独立进行的，因此在现有框架下想完全模拟环境光是不现实的
+		- 一个简单的近似方法是，对每一个着色点，给其增加针对每一个光源的颜色常量
+		- ![image.png](../assets/image_1701249832669_0.png){:height 197, :width 331}
+		- 在这种假设下，**环境光就是用来提升亮度的**
+	- ## 完整光照公式
+		- $L = L_a+L_d+L_s=k_aI_a+k_d(I/r^2)\text{max}(0,\bold{n}\cdot\bold{l})+k_s(I/r^2)\text{max}(0,\bold{n}\cdot\bold{h})^p$
+- # 着色频率(Shading Frequency)
+	- 着色频率只在什么对象上应用着色操作
+		- ![image.png](../assets/image_1701250468008_0.png){:height 163, :width 464}
+		- 以上三种结果分别对应的是：在**几何面**上着色，在**三角形顶点**上着色然后三角形内部点的颜色通过插值确定，在每个**像素点**上着色
+	- 根据着色频率的不同，可以**对shading进行分类**
+		- ### Flat Shading
+			- ![image.png](../assets/image_1701250799714_0.png){:height 159, :width 195}
+			- 只对三角形面进行着色操作，对于每个三角面，只需要计算该面的法向量
+			- 对于平滑的平面来说不太适用
+		- ### Gouraud Shading
+			- ![image.png](../assets/image_1701255165848_0.png){:height 148, :width 200}
+			- Gouraud是个人名，也就是提出这种着色方式的人
+			- 计算每个三角形顶点的颜色然后插值计算三角形内部的颜色
+			- 对于每个顶点都要计算一次法向量
+		- ### Phong Shading
+			- 对每一个像素点进行着色计算
+			- 每一个像素点的法向量通过和三角形进行插值来计算
+			- **注意和Blinn-Phong反射模型做区分，一个是着色模型，一个着色频率分类**
+	- 在低面数的情况下，不同的着色频率的最终效果差异明显，但随着面数的增加，三种着色频率的差异会逐渐缩小
+		- ![image.png](../assets/image_1701255459110_0.png){:height 258, :width 338}
+	- ## 计算顶点的法向量
+		- 在理想情况下，如果直到这些三角形想表示的几何解构到底是什么，例如说一个球体，那么对应顶点的法向量就很好得到，直接对球心做减法然后归一化即可
+		- 实际操作中，**通过将顶点周围的三角形面的法向量相加，然后归一化**得到近似的顶点法向量
+		- ![image.png](../assets/image_1701256601168_0.png){:height 176, :width 186}
+		- $N_v = \frac{\sum_i{N_i}}{\| \sum_i{N_i}\|}$
+	- ## 计算像素点的法向量
+		- 通过插值来计算
+		- ![image.png](../assets/image_1701257607342_0.png){:height 217, :width 348}
+		- 计算方法叫做**[[$red]]==重心插值==(Barycentric Interpolation)**
+			- 会在后续课程中引入
+	- **记住：所有的法向量计算，最后一步都是[[$red]]==归一化==**
+- # 实时渲染管线
+	- **Graphics (Real-time Rendering) Pipeline**
+	-
