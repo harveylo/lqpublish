@@ -24,7 +24,6 @@
 		- 对于每一个着色点，其着色情况都只考虑其自身和一些全局条件，不会考虑其是否在阴影中等情况，因此shading is local！
 		- 也因此，**shading**$\ne$**shadow**
 - # 一个简单的着色模型(Blinn-Phong Reflectance Model)
-  collapsed:: true
 	- ## 漫反射(Diffuse Reflection)
 		- 也称**Lambertian Term**
 		- ![image.png](../assets/image_1701177198754_0.png){:height 246, :width 357}
@@ -68,8 +67,7 @@
 	- ## 完整光照公式
 		- $L = L_a+L_d+L_s=k_aI_a+k_d(I/r^2)\text{max}(0,\bold{n}\cdot\bold{l})+k_s(I/r^2)\text{max}(0,\bold{n}\cdot\bold{h})^p$
 - # 着色频率(Shading Frequency)
-  collapsed:: true
-	- 着色频率只在什么对象上应用着色操作
+	- 着色频率指在什么对象上应用着色操作
 		- ![image.png](../assets/image_1701250468008_0.png){:height 163, :width 464}
 		- 以上三种结果分别对应的是：在**几何面**上着色，在**三角形顶点**上着色然后三角形内部点的颜色通过插值确定，在每个**像素点**上着色
 	- 根据着色频率的不同，可以**对shading进行分类**
@@ -100,7 +98,6 @@
 			- 会在后续课程中引入
 	- **记住：所有的法向量计算，最后一步都是[[$red]]==归一化==**
 - # 实时渲染管线
-  collapsed:: true
 	- **Graphics (Real-time Rendering) Pipeline**
 	- 现代GPU基本上已经在硬件层面上实现了这一系列过程
 	- ![image.png](../assets/image_1701343399882_0.png){:height 264, :width 383}
@@ -137,7 +134,6 @@
 		- 这样的纹理也被叫做**tilable texture**
 		- ![image.png](../assets/image_1701348071594_0.png){:height 266, :width 338}
 - # 三角形插值
-  collapsed:: true
 	- 三角形顶点处的值往往容易求得(着色过程，深度测试，贴图坐标，法向量等)，但是三角形内部平滑过渡的值，往往需要通过插值获得
 	- ## 重心坐标(Barycentric Coordinates)
 		- 使用于三角形内部点的一种坐标系，可以用于对三角形进行插值

@@ -16,8 +16,3 @@
 	- ## [[volatile关键字]]
 - # 特殊语法
 	- ## [[=delete]]
-- # STL函数
-	- ## [[std::move]]
-	- ## [[std::declval]]
-	- ## [[std::bind, std::ref, std::cref]]
-	-
