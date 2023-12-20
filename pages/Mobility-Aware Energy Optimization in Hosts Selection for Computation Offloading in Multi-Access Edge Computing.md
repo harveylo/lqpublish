@@ -90,14 +90,14 @@
 					- $r^M_{p,j}$是迁移所需的数据传输，单位是bit
 					- $e^M{p,j}$是迁移过程中的能效，单位是焦耳每bit
 						- 当$p=P$时，$E^M_{p,j}=0$
-		- ### 优化目标
-			- **[[$red]]==最小化早高峰时段(Morning Peak Hour)应用程序计算卸载的总能耗==**
-			- $\text{min}\{\sum\limits_{p=1}^P\sum\limits_{j=1}^J y_j(E^O_{p,j}+E^M_{p,j})\}\quad (4)$，其中：
-				- $y_j$是一个校准系数，当MEC主机$j$被选中时，$y_j=1$否则$y_j=0$
-				- 这个公式的**解**是**在每个时间段中**选择的**MEC主机的集合**，这些主机被选择的顺序指示了用户应用程序的迁移路径
-			- 定义某个时间段内的**计算强度(Computational Intensity)**：$CI_p=\frac{\overline{r^C_p}}{\overline{r^N_p}}$
-				- 计算强度反映了此时间段内**平均计算资源需求**和**平均数据输入**的比率
-				- 此参数可以用于描述一个任务的性质，高$CI$意味着此任务是**计算密集性(Computation-intensive)**，反之则代表此任务是**带宽密集型(Bandwidth-intensive)**
+	- ## 优化目标
+		- **[[$red]]==最小化早高峰时段(Morning Peak Hour)应用程序计算卸载的总能耗==**
+		- $\text{min}\{\sum\limits_{p=1}^P\sum\limits_{j=1}^J y_j(E^O_{p,j}+E^M_{p,j})\}\quad (4)$，其中：
+			- $y_j$是一个校准系数，当MEC主机$j$被选中时，$y_j=1$否则$y_j=0$
+			- 这个公式的**解**是**在每个时间段中**选择的**MEC主机的集合**，这些主机被选择的顺序指示了用户应用程序的迁移路径
+		- 定义某个时间段内的**计算强度(Computational Intensity)**：$CI_p=\frac{\overline{r^C_p}}{\overline{r^N_p}}$
+			- 计算强度反映了此时间段内**平均计算资源需求**和**平均数据输入**的比率
+			- 此参数可以用于描述一个任务的性质，高$CI$意味着此任务是**计算密集性(Computation-intensive)**，反之则代表此任务是**带宽密集型(Bandwidth-intensive)**
 		- ### 可行(Feasible) MEC主机选择
 			- **算法1：**计算可用于用户应用程序卸载的所有可行主机的算法
 				- **[[$blue]]==输入==**：用户移动性(预测)，MEC网络信息
