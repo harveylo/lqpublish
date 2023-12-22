@@ -165,9 +165,10 @@
  :ref/default-open-blocks-level 2
 
  :ref/linked-references-collapsed-threshold 50
- :favorites ["文章草稿" "书籍阅读" "自学笔记" "模板" "课堂笔记" "论文阅读" "教材阅读"]
+ :favorites ["刷题记录" "文章草稿" "书籍阅读" "自学笔记" "模板" "课堂笔记" "论文阅读" "教材阅读"]
  :publishing/all-pages-public? true
  :editor/preferred-pasting-file? true
+ :graph/settings {:journal? false, :orphan-pages? false, :excluded-pages? true}
 
  ;; any number between 0 and 1 (the greater it is the faster the changes of the next-interval of card reviews) (default 0.5)
  ;; :srs/learning-fraction 0.5
