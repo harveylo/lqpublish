@@ -30,7 +30,7 @@
 	- ## 和C混编
 		- cgo包提供了对外部函数接口的支持
 		- cgo会编译产生go中可用的代码
-		- 通过在`import "C`前注释需要引入的C包导入C库函数
+		- 通过在`import "C"`前注释需要引入的C包导入C库函数
 		- ```go
 		  // #include <stdio.h>
 		  // #include <stdlib.h>
