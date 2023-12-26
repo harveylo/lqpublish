@@ -1,0 +1,10 @@
+- C++ 11之后便已经引入了attribute
+- attribute用于帮助程序员和编译器之间进行沟通
+- # nodiscard
+	- **C++17**引入
+	- ``[[nodiscard]]`` attribute用于标记函数被调用的方式不应该是一个**弃值表达式(discarded-value expression)**
+		- 即函数的值不能被忽略，例如：``f()``就是弃值表达式，`auto a = f()`就不是
+	- 如果被此attribute标记的的函数地范围值被以`static_cast<void>(f())`以外的方式直接丢弃，那么编译器会抛出一个warning
+	- **C++20**中支持了自定义warning消息，即``[[nodiscard("string")]]``，在``string``出自定义警告信息
+	-
+	-
