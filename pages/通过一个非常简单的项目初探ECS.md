@@ -1,0 +1,3 @@
+- 在游戏引擎领域，ECS指**Entity，Component，System**
+- https://github.com/harveylo/sdl-ecs-example
+-
