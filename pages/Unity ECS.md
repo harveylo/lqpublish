@@ -1,4 +1,7 @@
-# 概念
+# 参考阅读
+	- [Data-Oriented Design](https://dataorienteddesign.com/dodbook/)
+	- [Unity ECS Manual](https://docs.unity3d.com/Packages/com.unity.entities@1.2/manual/index.html)
+- # 概念
 	- ## ECS,
 		- **Entity, Components, System**
 		- ### Entity
@@ -81,4 +84,14 @@
 					- 使用`ChunkCount`函数
 				- 对比两种类型的ArcheType有什么不同
 					- 使用``CalculateDifference``函数
-				-
+- # Unity ECS Workflow
+	- ## 一些概念
+		- ### Authoring
+			- 指在Editor阶段对ECS System进行配置的过程
+			- 一般会设置一个MonoBehavior脚本，通过在Editor中对其public field字段进行设置的方式配置ECS system在实际运行中会使用到的数据
+				- ![image.png](../assets/image_1712632445190_0.png)
+			- 同时修改会导致ECS System在运行时的行为改变的数据也都叫Authoring，例如修改ECS会用到的Prefab，Scene和其他美术资源等。
+			- 这些实现配置好的数据就叫做**Authoring Data**，其在运行时会被转换为**Runtime Data**
+				- Authoring Data由于是事先配置好的，是工程文件的一部分，因此会被持久化
+				- Runtime Data运行时生成，结束运行即被销毁，不会被持久化，更不会转变为Authoring Data
+		-
