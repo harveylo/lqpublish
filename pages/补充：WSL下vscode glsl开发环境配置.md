@@ -1,0 +1,7 @@
+- 安装插件：Shader languages support for VS Code
+- 安装插件：GLSL Lint
+- 在wsl上安装：[glslang](https://github.com/KhronosGroup/glslang)
+- 如果需要配置including path：在glsl lint的设置中(建议配置在workspace setting中)
+	- 在glslang validator args一栏增加：`-I<INCLUDE_PATH>`
+	- 建议使用从当前项目目录开始的相对目录
+- 如果需要配置使用Vulkan：在glslang validator args中增加：``-V``(注意使用大写)
