@@ -1,4 +1,4 @@
-- # Printf and Logging
+# Printf and Logging
 	- 使用log较之使用printf的优势：
 		- 可以将log输出定向到任何地方，套接字，文件甚至是远程服务器而不是单单只能输出到标准输出
 		- log支持严重性分级，便于过滤输出
@@ -65,51 +65,51 @@
 						- 指示让gdb连接到系统一个正在运行的名为myprog，pid为1001的进程
 					- **core dump file**
 						- ``gdb myprog <coreID>``
-			- ### 命令行选项
-				- 某些前跟一个连字符的选项也可以跟两个连字符，但是有的选项只能跟两个连字符比如--silent
-				- #### 传递参数到被调试程序
-					- ``--args``
-					- 在该命令行选项之后的所有的参数只能是被调试程序和被调试程序的参数
-					- 也可以在进入gdb调试环境之后利用``set args``和``run``来传递参数
-				- #### 选择文件
-					- 通过命令行选项指定使用文件
-					- ```
-					  -symbols filename, -s filename
-					    单独加载一个符号表
-					  -exec filename, -e filename
-					    指定被调试的可执行文件
-					  -se filename
-					    指定包含了符号表的可执行文件，GDB的命令行参数中出现文件名，
-					    这个文件名默认就是-se的参数
-					  -core filename, -c filename, -c number, -pid number, -p number
-					    -core 和 -pid 是等效的。用于指定进程名或核心转储文件
-					  ```
-					- [[$red]]==**什么是符号表？**==
-						- 符号表是用于保存所有标识符（identifier）属性的一种数据结构
-						- 其储存了每一个标识符的数据类型，作用域和内存地址
-					- [[$red]]==**什么是核心转存？**==
-						- **Core Dump**是将内存中的某一个程序在某个具体时间的执行情况记录下来，通常是从内存中转存到磁盘上
-				- #### 选择用户界面
-					- 可以指定其他的的终端负责被调试程序的输入输出
-					- ```
-					  -tty device, -t device
-					    使用device作为被调试程序等标准输入输出流。例如 "gdb myprog -t /dev/tty5"
-					  -windows, -w
-					    使用GDB内置的GUI。若gdb没有集成GUI，该选项无效。
-					  -nowindows, -nw
-					    不使用GUI调试
-					  -tui
-					    启动文本式调试界面。
-					  ```
-				- #### 执行命令脚本
-					- 一个命令脚本是包含若干gdb命令的文本，类似于shell脚本
-					- 空白行和使用#注释的行都会被忽略
-					- ```
-					  -command command_file, -x command_file
-					    指示GDB在启动时就执行文件中的命令
-					  -batch
-					    执行命令脚本后退出
-					  ```
+		- ### 命令行选项
+			- 某些前跟一个连字符的选项也可以跟两个连字符，但是有的选项只能跟两个连字符比如--silent
+			- #### 传递参数到被调试程序
+				- ``--args``
+				- 在该命令行选项之后的所有的参数只能是被调试程序和被调试程序的参数
+				- 也可以在进入gdb调试环境之后利用``set args``和``run``来传递参数
+			- #### 选择文件
+				- 通过命令行选项指定使用文件
+				- ```
+				  -symbols filename, -s filename
+				    单独加载一个符号表
+				  -exec filename, -e filename
+				    指定被调试的可执行文件
+				  -se filename
+				    指定包含了符号表的可执行文件，GDB的命令行参数中出现文件名，
+				    这个文件名默认就是-se的参数
+				  -core filename, -c filename, -c number, -pid number, -p number
+				    -core 和 -pid 是等效的。用于指定进程名或核心转储文件
+				  ```
+				- [[$red]]==**什么是符号表？**==
+					- 符号表是用于保存所有标识符（identifier）属性的一种数据结构
+					- 其储存了每一个标识符的数据类型，作用域和内存地址
+				- [[$red]]==**什么是核心转存？**==
+					- **Core Dump**是将内存中的某一个程序在某个具体时间的执行情况记录下来，通常是从内存中转存到磁盘上
+			- #### 选择用户界面
+				- 可以指定其他的的终端负责被调试程序的输入输出
+				- ```
+				  -tty device, -t device
+				    使用device作为被调试程序等标准输入输出流。例如 "gdb myprog -t /dev/tty5"
+				  -windows, -w
+				    使用GDB内置的GUI。若gdb没有集成GUI，该选项无效。
+				  -nowindows, -nw
+				    不使用GUI调试
+				  -tui
+				    启动文本式调试界面。
+				  ```
+			- #### 执行命令脚本
+				- 一个命令脚本是包含若干gdb命令的文本，类似于shell脚本
+				- 空白行和使用#注释的行都会被忽略
+				- ```
+				  -command command_file, -x command_file
+				    指示GDB在启动时就执行文件中的命令
+				  -batch
+				    执行命令脚本后退出
+				  ```
 		- ### 初始化文件
 			- 在启动时，gdb通常会加载处理一个名为``.gdbinit``的初始化文件
 			- gdb会在当前目录和``$HOME``下寻找该初始化文件
@@ -297,10 +297,32 @@
 			- 使用gdb分析core dump与一般调试会话类似，不过由于其并不是一个真正的可执行程序，且已经停止在某一个时间点，因此[[$red]]==**run、step、next、continue等命令无效**==
 			- 格式类似：``$ gdb myprog core``
 			- 分析core文件，一般通过 `bt` 命令查看调用栈，使用 `frame`  命令查看当前栈帧信息，使用 `print` 命令查看当前变量的值。
+		- ### Debug汇编代码
+			- [[$red]]==**注意！！**==：gdb(gnu)默认使用的汇编语言语法是[[$red]]==**AT&T syntax**==而不应是Intel Syntax
+				- 在Unix系统上，大多是使用AT&T syntax
+			- #### 显示汇编代码或源代码
+				- 使用``layout``可以开启一个新的窗口显示所需要的信息
+				- ``layout asm``可以开启查看汇编代码的窗口
+					- ![image.png](../assets/image_1715762415416_0.png){:height 252, :width 493}
+				- 同理，使用`layout src`可以查看源代码，使用`layout reg`可以查看寄存器信息
+				- **切换窗口聚焦**
+					- 使用`layout`打开额外的窗口之后一般会默认聚焦到新打开的窗口上，此时方向键是在滚动源码或汇编代码等，无法查看历史命令
+					- 使用`focus`切换聚焦窗口。
+						- `focus cmd`可聚焦回gdb命令行窗口
+						- `focus asm`可聚焦到汇编代码窗口，`focus src`聚焦到源码窗口
+				- **切换窗口布局**
+					- 使用`<Crtl-x>` + 某些指令可以控制窗口布局
+					- `<Ctrl-x>  1` 单窗口，仅显示除了cmd以外的一个窗口
+					- `<Crtl-x> 2` 双窗口，显示两个窗口
+					- `<Ctrl-x> a`推出layout，回到只有cmd的模式
+			- #### 汇编代码逐步执行
+				- 使用`si`(`stepi`)或`ni`(`nexti`)进行汇编代码级别的逐步执行
+			- #### 任意内存地址和函数断点
+				- 只要在符号表里有的函数都能够直接用`b <function_name>`断点到
+				- 在查看汇编代码时，如果想直接断点到某条指令，可以直接使用`b *<memory_address>`的方式断点到内存地址
 		- ### 关于gdb插件pwndbg
 			- pwndbg是一款非常强大的gdb插件，可以实时打印处理器级别的信息和源代码（需要gcc编译时添加相关参数）
 			- 可以在gdb中使用pi指令来运行gdb集成的python console，在此处可以运行一些pwndbg的命令，比如pwndbg.memory.read(addr, len), pwndbg.memory.write(addr, data), pwndbg.vmmap.get()等
-			-
 - # Specialized Tools
 	- 当程序需要完成一些只有linux kernel才能做到的动作时，程序会通过system call来进行
 	- linux下通过**[[$blue]]==strace==**来跟踪系统调用
