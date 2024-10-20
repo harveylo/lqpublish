@@ -67,9 +67,25 @@
 			  // set context target back to default
 			  glBindObject(GL_WINDOW_TARGET, 0);
 			  ```
+- # GLAD
+	- glad可以看作一个显卡驱动和图形API之间的中间层
+	- opengl api并不是由操作系统提供而是各家显卡驱动厂商实现，因此需要有个抽象层来方便地获取每一个硬件平台的opengl api函数地址
+	- 其调用就是将``glfwGetProcAddress``传给`gladLoadGLLoder`，前者会通过后者取出若干函数保存到事先定义好的函数签名变量中，后续调用函数时不再需要通过前者根据函数名来获取函数地址，而是直接使用预先定义好的一些同名函数宏，这些宏会展开为预先定义好的函数指针
 - # 创建一个窗口
 	- ## 初始化GLFW
 		- glfw在使用前需要被初始化，使用函数``glfwInit``来完成
 		- ### 给出向新创建的window给出hint
 			- 在创建一个新窗口之前可以给出一些hint，这些hint包括GLFW版本，使用的profile模式（Core Profile）等
+			- hint分为**Hard Constraints**和**Soft Constraints**
+				- **[[$red]]==Hard Constraints==**：创建出来的窗口必须完全符合这些constraints， 否则创建失败，包括：
+					- GLFW_STEREO
+					- GLFW_DOUBLEBUFFER
+					- GLFW_CLIENT_API
+					- GLFW_CONTEXT_CREATION_API
+					- 以下两个constraints对于OpenGL context来说是hard的，但是对于OpenGL ES context来说会被忽略
+				- **[[$red]]==Soft Constraints==**
+					- 非hard的hint都是soft constraints
+					- 这些hint，opengl在创建窗口时会尽量靠拢
+					- 某些例如GLFW_CONTEXT_VERSION_MAJOR这样的hint，虽然不是hard constraints，但在某些情况下也会导致窗口创建失败，例如如果创建出来的窗口支持的api版本低于给定版本，就会失败
+				-
 			-

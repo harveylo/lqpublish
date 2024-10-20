@@ -1,4 +1,8 @@
 - 简单的可视化教程：[Visualizing Git Concepts with D3](http://onlywei.github.io/explain-git-with-d3).
+- # 中文文件名显示错误问题
+	- 如果没有设置过，那么在使用`git status`查看修改情况的时候，中文文件名可能会显示为utf-16码点而不是正确的中文字符
+	- 这个问题大概率是因为git输出文件名时对非ASCII字符进行了转义导致的
+	- 使用``git config --global core.quotepath false``停止转义
 - # 基本技巧
 	- ## 安装与配置
 		- ``apt-get install git``
