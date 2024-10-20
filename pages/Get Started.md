@@ -1,4 +1,5 @@
-# 简单理解OpenGL
+- [[在WSL中安装OpenGL开发环境]]
+- # 简单理解OpenGL
 	- 一种图形API标准(Specification)，实际的实现仰赖于各家显卡厂商所提供的驱动
 	- ## Core-Profile和Immediate Mode
 		- OpenGL的两种编码模式，或者又称风格
@@ -67,3 +68,8 @@
 			  glBindObject(GL_WINDOW_TARGET, 0);
 			  ```
 - # 创建一个窗口
+	- ## 初始化GLFW
+		- glfw在使用前需要被初始化，使用函数``glfwInit``来完成
+		- ### 给出向新创建的window给出hint
+			- 在创建一个新窗口之前可以给出一些hint，这些hint包括GLFW版本，使用的profile模式（Core Profile）等
+			-
