@@ -1,0 +1,5 @@
+- 一个关键词瞎几把乱用的典范
+- ref struct表示该struct仅在栈上分配，无论如何也不会逃逸到堆上，因此有很多限制，但同时也确保了高性能，在需要进行一些**类native操作**的时候很有用
+- 具体限制参看[官方文档](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/ref-struct)，此处不做摘抄
+- 常配合`Span<T>`使用
+-
