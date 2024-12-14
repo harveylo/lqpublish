@@ -87,5 +87,65 @@
 					- 非hard的hint都是soft constraints
 					- 这些hint，opengl在创建窗口时会尽量靠拢
 					- 某些例如GLFW_CONTEXT_VERSION_MAJOR这样的hint，虽然不是hard constraints，但在某些情况下也会导致窗口创建失败，例如如果创建出来的窗口支持的api版本低于给定版本，就会失败
-				-
-			-
+- # Hello Triangle
+	- OpenGL中的渲染管线大致可以分为以下几个步骤：
+		- ![image.png](../assets/image_1730015753569_0.png)
+		- 其中标记为蓝色的步骤可以自编程shader
+		- ### 原始数据(Vertex Data)
+			- 代表组成三角形的每一个顶点
+			- 每一个顶点的数据包括其3d空间坐标和一些其他任意数据
+			- 目前为了简单起见假设一个顶点的数据只包括位置坐标和颜色信息
+			- #### primitives
+				- 用来告知opengl如何去解读这些顶点数据集
+				- 例如是把这些顶点看作独立的点还是三角形集合还是线的集合
+				- 使用hint来告知
+					- GL_POINTS
+					- GL_TRIANGLES
+					- GL_LINE_STRIP
+		- ### Vertex Shader
+			- 顶点数据需要经过的pipeline中的第一道工序
+			- 也就是**视图变换**
+		- ### Geometry Shader (Optional)
+			- 将Vertex Shader的输出作为输入
+			- 从一系列顶点中生成一个primitive
+			- 还拥有发散新顶点组成新的primitive来生成形状的能力。
+			- 例如在上图例子中，Geometry Shader通过给定的形状生成了第二个三角形
+		- ### Primitive assembly
+			- 将所有的顶点，或选择的顶点作为输入
+			- 根据primitive和顶点组装形状
+			- 在上图的例子中，组装得到了两个三角形
+		- ### Rasterization
+			- 光栅化，将形状映射为屏幕空间的像素点
+			- 这一阶段得到的就是fragment，共下一阶段的fragment shader使用
+				- 在OpenGL中，一个Fragment是OpenGL渲染**[[$red]]==一个像素点==**所需的**[[$red]]==所有数据==**
+			- 在fragment shader运行之前会执行clipping，剪切掉在试图之外的fragment
+		- ### Fragment Shader
+			- 主要为了计算每个像素点的最终颜色
+			- 一些高级特效往往在这一阶段引入
+			- 一般来说，fragment shader包含了和3D场景香瓜你的数据，这些数据会用来计像素点的最终颜色
+		- ### Test And Blending
+			- 当所有像素点的颜色都被确定之后，最终的结果还需要经过**Alpha Test**和**Blending**
+			- 这一阶段计算每个fragment的**深度**和**Stencil(模板？)**值，以判定每个fragment是在其他物体的前还是后，是否需要被舍弃
+			- 这一阶段还计算每个fragment的alpha值，以判定fragment道德透明度，如果是透明的则需要**blends**其他物体
+	- 虽然OpenGL给出了多个可自定义的步骤，但绝大多数情况下，只需要修改Vertex Shader和Fragment Shader的行为就可以做出理想的效果
+		- 这两个shader也不提供默认shader，需要自己写
+	- ## Shader Program
+		- 在所有的shader都编译好之后需要将所有的shader link在一起形成一个整的Shader Program
+		- 详见代码
+	- ## Vertex Attributes
+		- OpenGL要求必须由使用者自己去确定如何组织顶点数据
+		- 例如，可以这样组织顶点数据：
+			- ![image.png](../assets/image_1733650353916_0.png)
+	- ## Vertex Array Objec(VAO)
+		- 存储了vertex attributes
+		- ![image.png](../assets/image_1734167552892_0.png)
+		- 当调用``glVertexAttribPointer``时，attribute会被记录到当前绑定的VAO(也就是上一次调用``glBindVertexArray``时指定的VAO)
+		- 同理，调用`glVertexAttributePointer`时，attribute中记载的地址，是上一次绑定到``GL_ARRAY_BUFFER``中的VBO的地址
+	- ## Element Buffer Object(EBO)
+		- 画两个三角形需要六个顶点，但是如果两个三角形有重叠的顶点（实际中经常发生），那么把重叠的顶点也存储一边就会造成空间浪费。
+		- 更好的做法是，每一个顶点位置数据都只存储一份，用某个顶点在buffer中的index来表示一个形状。
+		- 例如，一个三角形可以表示为0,1,2，表示由顶点数据缓存中的第0，1，2个顶点组成
+		- 存储索引数据信息的buffer就被叫做**[[$red]]==EBO==**
+		- A VAO stores the glBindBuffer calls when the target is GL_ELEMENT_ARRAY_BUFFER. This also means it stores its unbind calls so make sure you don't unbind the element array buffer before unbinding your VAO, otherwise it doesn't have an EBO configured.
+		- ![image.png](../assets/image_1734178820052_0.png)
+	-
