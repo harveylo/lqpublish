@@ -1,5 +1,7 @@
 - [[在WSL中安装OpenGL开发环境]]
+- [[GLSL]]
 - # 简单理解OpenGL
+  collapsed:: true
 	- 一种图形API标准(Specification)，实际的实现仰赖于各家显卡厂商所提供的驱动
 	- ## Core-Profile和Immediate Mode
 		- OpenGL的两种编码模式，或者又称风格
@@ -68,10 +70,12 @@
 			  glBindObject(GL_WINDOW_TARGET, 0);
 			  ```
 - # GLAD
+  collapsed:: true
 	- glad可以看作一个显卡驱动和图形API之间的中间层
 	- opengl api并不是由操作系统提供而是各家显卡驱动厂商实现，因此需要有个抽象层来方便地获取每一个硬件平台的opengl api函数地址
 	- 其调用就是将``glfwGetProcAddress``传给`gladLoadGLLoder`，前者会通过后者取出若干函数保存到事先定义好的函数签名变量中，后续调用函数时不再需要通过前者根据函数名来获取函数地址，而是直接使用预先定义好的一些同名函数宏，这些宏会展开为预先定义好的函数指针
 - # 创建一个窗口
+  collapsed:: true
 	- ## 初始化GLFW
 		- glfw在使用前需要被初始化，使用函数``glfwInit``来完成
 		- ### 给出向新创建的window给出hint
