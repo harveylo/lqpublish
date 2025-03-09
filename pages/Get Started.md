@@ -152,4 +152,14 @@
 		- 存储索引数据信息的buffer就被叫做**[[$red]]==EBO==**
 		- A VAO stores the glBindBuffer calls when the target is GL_ELEMENT_ARRAY_BUFFER. This also means it stores its unbind calls so make sure you don't unbind the element array buffer before unbinding your VAO, otherwise it doesn't have an EBO configured.
 		- ![image.png](../assets/image_1734178820052_0.png)
-	-
+		- 所以虽然bind VAO和bind VBO的顺序无关紧要，只要在调用``glVertexAttribPointer``之前有VBO被bound就行；但是如果想通过VAO直接draw element，那么Bind EBO必须要在Bind VAO之后进行，VAO会在自身被Bind之后，记住最后一次Bind EBO，在Draw Element之前，只要Bind了一个记住了EBO的VAO就行，否则会因为找不到EBO而draw element出错。
+- # Shaders
+	- ## 简单认识shader
+		- 跑在GPU上的程序，针对输入给出输出
+		- 运行在可编程管线上的特定阶段
+		- 每个shader之间是隔离的，无法通过输入输出以外的手段做任何沟通
+	- ## GLSL(GL Script Language)
+		- OpenGL 图形API所使用的Shader编写语言
+		- 类C语言风格
+		- GLSL写成的shader总是以一个版本声明开头，然后定义输入变量，输出变量，uniform和**一个main函数作为程序入口**
+		- 更详细的解释，参见 [[GLSL入门]]
