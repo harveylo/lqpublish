@@ -92,6 +92,7 @@
 					- 这些hint，opengl在创建窗口时会尽量靠拢
 					- 某些例如GLFW_CONTEXT_VERSION_MAJOR这样的hint，虽然不是hard constraints，但在某些情况下也会导致窗口创建失败，例如如果创建出来的窗口支持的api版本低于给定版本，就会失败
 - # Hello Triangle
+  collapsed:: true
 	- OpenGL中的渲染管线大致可以分为以下几个步骤：
 		- ![image.png](../assets/image_1730015753569_0.png)
 		- 其中标记为蓝色的步骤可以自编程shader
@@ -154,6 +155,7 @@
 		- ![image.png](../assets/image_1734178820052_0.png)
 		- 所以虽然bind VAO和bind VBO的顺序无关紧要，只要在调用``glVertexAttribPointer``之前有VBO被bound就行；但是如果想通过VAO直接draw element，那么Bind EBO必须要在Bind VAO之后进行，VAO会在自身被Bind之后，记住最后一次Bind EBO，在Draw Element之前，只要Bind了一个记住了EBO的VAO就行，否则会因为找不到EBO而draw element出错。
 - # Shaders
+  collapsed:: true
 	- ## 简单认识shader
 		- 跑在GPU上的程序，针对输入给出输出
 		- 运行在可编程管线上的特定阶段
@@ -163,3 +165,19 @@
 		- 类C语言风格
 		- GLSL写成的shader总是以一个版本声明开头，然后定义输入变量，输出变量，uniform和**一个main函数作为程序入口**
 		- 更详细的解释，参见 [[GLSL入门]]
+- # Texture
+	- ## Texture Coordinates
+		- 材质坐标一般以左下角为原点，s轴向上，r轴向右
+		  collapsed:: true
+			- ![image.png](../assets/image_1745664218306_0.png)
+		- 材质坐标的范围都在**[[$red]]==[0,1]==**之间，对于超出这个范围的贴图坐标，opengl一般有如下处理方式：
+			- ``GL_REPEAT``：默认的处理方式，贴图会不停地重复，从坐标取值上来看就是忽略掉整数部分
+			- ``GL_MIRRORED_REPEAT``：类似于前者，但是在每一次repeat的时候都会镜像材质
+			- ``GL_CLAMP_TO_EDGE``：把坐标剪裁到[0,1]之间，结果就是在范围之外的坐标会形成一种拉伸的效果
+			- ``GL_CLAMP_TO_BORDER``：在范围外的坐标会呈现出用户指定的颜色
+		- 上述四种处理方式的效果如图所示：
+			- ![image.png](../assets/image_1745666875117_0.png)
+		- 上述四种处理方式能在每个坐标轴上指定一次(s,r,t(如果使用了3D贴图))
+			- 使用`glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);`指定坐标轴的处理方法
+			- 如果选择了`GL_CLAMP_TO_BORDER`，则需要使用`glTexParameterfv`指令去指定范围外坐标的颜色
+			-
