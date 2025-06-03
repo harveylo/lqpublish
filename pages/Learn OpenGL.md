@@ -1,2 +1,3 @@
 # [[Get Started]]
+- # [[Lighting]]
 -
