@@ -42,6 +42,9 @@
 				  vec4 result = vec4(vect, 0.0, 0.0);
 				  vec4 otherResult = vec4(result.xyz, 1.0);
 				  ```
+	- ## Opaque Type
+		- glsl中有一些类型是不能在定义时初始化的，只能定义为uniform由cpu传入数据，``sampler2D``就是典型的opaque type
+		- 任何包含有opaque type的struct也不能初始化
 - # GLSL输入输出
 	- 每一个Shader程序都需要定义**输入（in）**和**输出（out）**
 	- 当前一个阶段的Shader的输出的类型和变量名都对上后一个阶段的Shader的输入变量的类型和变量名时，OpenGL就会将前后两阶段的输入和输出连接起来，以完成shader之间的通信

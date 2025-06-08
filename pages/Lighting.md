@@ -59,4 +59,26 @@ collapsed:: true
 		- diffuse：漫反射颜色，一般来说就是物体表面有暗色
 		- specular：高光颜色，
 		- shininess：定义高光半径
+- # Light Casters
+	- 之前实现的光都是**点光源**
+	- 基础的光源类型包含三类，分别是：**平行光(Directional Light)，点光源(Point Light)，聚光灯(Spot Light)**
+	- ## 平行光(Directional Light)
+		- 一般用来建模太阳光，或是其他类似的，距离非常远的光源
+		- 与点光源不同，不再需要记录光源位置信息，**只需记录[[$red]]==光源方向==**
+	- ## 点光源(Point Light)
+		- ### 衰减(Attenuation)
+			- ![image.png](../assets/image_1749375001030_0.png)
+			- 之前实现的点光源未考虑**衰减(Attenuation)**
+			- 点光源的衰减与距离的平方成反比
+				- $$F_{att} = \frac{1.0}{K_c + K_l * d + K_q * d^2} $$
+				- $K_c$一般为1，避免比值大于等于1
+	- ## 聚光灯
+		- ![image.png](../assets/image_1749377369450_0.png)
+		- 相较于点光源，多了方向和cufoff angle的定义
+		- ### 边缘平滑
+			- 使用两个cutoff角度，一个inner cutoff $\phi$和一个outer cutoff $\gamma$
+			- 对于一个fragment的角度$\theta$，其光照强$I$度为
+				- $$I = \frac{\theta-\gamma}{\epsilon}$$
+				- 其中$\epsilon = \phi-\gamma$
+			- 注意所有的角度实际上都是其角度所代表的cosine值，而对于cosine值来说，角度越小，值越大
 	-

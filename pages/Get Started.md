@@ -167,7 +167,6 @@
 		- GLSL写成的shader总是以一个版本声明开头，然后定义输入变量，输出变量，uniform和**一个main函数作为程序入口**
 		- 更详细的解释，参见 [[GLSL入门]]
 - # Texture
-  collapsed:: true
 	- ## Texture Coordinates
 	  collapsed:: true
 		- 贴图坐标一般以左下角为原点，s轴向上，r轴向右
