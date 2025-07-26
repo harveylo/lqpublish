@@ -69,9 +69,9 @@
 		  glUniform4f(uColorLocation, r, g, b, 1.0f);
 		  ```
 	- ## 输入插值
-		- 在调用api绘制一个图形，例如triangle时，虽然给出的数据往往只有几个vertices，但是实际将该图形绘制在屏幕上显然需要很多fragment，因此opengl会对输入数据进行插值得出额外的fragment输入数据，并对每一个插值出来的fragment都走一遍渲染管线
+		- 在调用api绘制一个图形，例如triangle时，虽然给出的数据往往只有几个vertices，但是实际将该图形绘制在屏幕上显然需要很多fragment，因此opengl会对所有的顶点执行一次vertex shader，然后将每个vertex的相关输出内容作为插值基，插出每一个fragment shader的输入
 		- ![image.png](../assets/image_1745126416535_0.png)
-			- 例如此图中，只指定了该三角三个顶点的方位和颜色，但是opengl插值出了其他三角形内部的所有fragment，包括颜色和位置数据
+			- 例如此图中，只有三个vertex， 但是opengl根据vertex shader的输出，插出了每一个fragment shader的输入
 - # Vertex Shader
 	- 对于vertex shader来说，每一个输入变量也可以被看作是一个**Vertex Attribute**
 	- 可以被定义的Vertex Attributes**数量有一个[[$red]]==最大值==**，一般由硬件决定
