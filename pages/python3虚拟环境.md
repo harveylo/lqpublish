@@ -1,0 +1,12 @@
+- 现代linux发行版，例如ubuntu[[$red]]==禁止了直接通过pip install安装python依赖==
+	- 此举是为了保证系统核心python运行环境的稳定，避免用户自定义安装的包干扰系统python运行环境
+	- 如果确实需要为python安装全局依赖，可以使用``sudo apt install``进行
+- 需要通过虚拟环境来安装自己需要的依赖
+	- 如果是python自带的虚拟环境管理，使用`venv`模块进行
+		- ``python3 -m venv [env-name]``
+		- ``source [env-name]/bin/activate``
+		- 虚拟环境激活之后，可通过`pip install xxx`单个安装依赖
+		- 也可以编写`requirement.txt`，然后`pip install requirement.txt`一键安装所有依赖
+	- 对于更加现代的python依赖与虚拟环境管理，可以使用一些第三方包管理工具，例如`poetry`、`uv`等
+		- poetry可以一键管理依赖并创建虚拟环境
+-
