@@ -5,7 +5,7 @@
 	- Agent说白了，其主要逻辑就是一个while loop。
 		- 之所以叫上下文管理，是因为需要把agent生成的内容、用户的输入、系统prompt好好管理起来。
 		- llm会在一次任务过程中进行若干tool-calling，可能是mcp可能是skill，反正就是需要各种实时的提示词融合、组装来生成最新的提示词。
-	- 之所以和过去的prompt engineering分割开来，在anthropic眼里，是因为以前的prompt engineering更像是单次的、动态的、为了各种one shot任务服务的做法。
+	- 之所以和过去的prompt engineering分割开来，在anthropic眼里，是因为以前的prompt engineering更像是单次的、静态的、为了各种one shot任务服务的做法。
 - # Context Engineering为何重要
 	- 说一千道一万，其实就一句话：LLM并不擅长处理长输入
 	- ## Context Rot
