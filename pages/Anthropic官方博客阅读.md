@@ -1,0 +1,4 @@
+- claude官方给出的[prompt best practice](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices#multi-context-window-workflows)
+- [[Effective context engineering for AI agents]]
+- [[Effective harnesses for long-running agents]]
+-

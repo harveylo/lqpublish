@@ -66,7 +66,6 @@
 	- ## 完整光照公式
 		- $L = L_a+L_d+L_s=k_aI_a+k_d(I/r^2)\text{max}(0,\bold{n}\cdot\bold{l})+k_s(I/r^2)\text{max}(0,\bold{n}\cdot\bold{h})^p$
 - # 着色频率(Shading Frequency)
-  collapsed:: true
 	- 着色频率指在什么对象上应用着色操作
 		- ![image.png](../assets/image_1701250468008_0.png){:height 163, :width 464}
 		- 以上三种结果分别对应的是：在**几何面**上着色，在**三角形顶点**上着色然后三角形内部点的颜色通过插值确定，在每个**像素点**上着色
@@ -125,7 +124,6 @@
 				- **在每个fragment上都会执行一次**的函数
 			- 输出**在当前fragment采样位置的表面的颜色**
 - # 纹理映射(Texture Mapping)
-  collapsed:: true
 	- ![image.png](../assets/image_1701347528337_0.png){:height 334, :width 419}
 	- 本质上是某个物体表面上的颜色不再是均匀的，即漫反射系数不再是一个常数，而可以看作一个函数，该函数的输入是uv坐标，返回的是在该uv坐标系所对应的颜色(某张图片的一部分)
 	- 纹理映射就是将一张图片(纹理)覆盖到某个三维物体的表面，这样一来三维物体表面每一个点的颜色都和该图像某一个点的颜色一一对应
@@ -165,7 +163,6 @@
 		- 通过uv坐标获取纹理在uv处的颜色
 		- 将采样的颜色置为刚获得的颜色(通常是用于替代漫反射中的albedo $k_d$)
 	- 但是使用以上步骤简单处理纹理映射会**出现一些[[$red]]==问题==**，例如：
-	  collapsed:: true
 		- ### 纹理放大(Texture Magnification)(纹理过小)
 			- 如果物体的分辨率很大，但是纹理的分辨率很低，就会出现这种情况，导致纹理变得模糊
 				- 一般是因为由于分辨率过大，获取到的uv坐标往往不是整数
@@ -194,7 +191,6 @@
 			- $u_1 = \text{lerp}(s,u_{01},u_{11})$
 		- **[[$red]]==注意==**：上述**插值**公式中，$0\le s,t,x\le 1$
 	- ## Mipmap
-	  collapsed:: true
 		- 可以做**快速**，但是是一种**近似([[$red]]==Approximate==)**的**正方形(square)**范围查询
 		- mip来自于拉丁语:multum in parvo，意为multitude in a small space
 		- 核心是从一张图片生成多张不同层次的图片

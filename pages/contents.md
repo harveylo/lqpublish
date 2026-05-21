@@ -15,3 +15,10 @@
 - {{renderer :tocgen2, [[第一章： clr的执行模型]], calc(100vh - 135px)}}
 - {{renderer :tocgen2, [[第一章： clr的执行模型]], calc(100vh - 135px)}}
 - {{renderer :tocgen2, [[第一章： clr的执行模型]], calc(100vh - 135px)}}
+- {{renderer :tocgen2, [[effective context engineering for ai agents]], calc(100vh - 135px)}}
+- {{renderer :tocgen2, [[effective context engineering for ai agents]], calc(100vh - 135px)}}
+- {{renderer :tocgen2, [[effective context engineering for ai agents]], calc(100vh - 135px)}}
+- {{renderer :tocgen2, [[effective context engineering for ai agents]], calc(100vh - 135px)}}
+- {{renderer :tocgen2, [[effective context engineering for ai agents]], calc(100vh - 135px)}}
+- {{renderer :tocgen2, [[effective context engineering for ai agents]], calc(100vh - 135px)}}
+- {{renderer :tocgen2, [[effective context engineering for ai agents]], calc(100vh - 135px)}}

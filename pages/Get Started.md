@@ -76,7 +76,6 @@
 	- opengl api并不是由操作系统提供而是各家显卡驱动厂商实现，因此需要有个抽象层来方便地获取每一个硬件平台的opengl api函数地址
 	- 其调用就是将``glfwGetProcAddress``传给`gladLoadGLLoder`，前者会通过后者取出若干函数保存到事先定义好的函数签名变量中，后续调用函数时不再需要通过前者根据函数名来获取函数地址，而是直接使用预先定义好的一些同名函数宏，这些宏会展开为预先定义好的函数指针
 - # 创建一个窗口
-  collapsed:: true
 	- ## 初始化GLFW
 		- glfw在使用前需要被初始化，使用函数``glfwInit``来完成
 		- ### 给出向新创建的window给出hint
@@ -93,7 +92,6 @@
 					- 这些hint，opengl在创建窗口时会尽量靠拢
 					- 某些例如GLFW_CONTEXT_VERSION_MAJOR这样的hint，虽然不是hard constraints，但在某些情况下也会导致窗口创建失败，例如如果创建出来的窗口支持的api版本低于给定版本，就会失败
 - # Hello Triangle
-  collapsed:: true
 	- OpenGL中的渲染管线大致可以分为以下几个步骤：
 		- ![image.png](../assets/image_1730015753569_0.png)
 		- 其中标记为蓝色的步骤可以自编程shader
@@ -156,7 +154,6 @@
 		- ![image.png](../assets/image_1734178820052_0.png)
 		- 所以虽然bind VAO和bind VBO的顺序无关紧要，只要在调用``glVertexAttribPointer``之前有VBO被bound就行；但是如果想通过VAO直接draw element，那么Bind EBO必须要在Bind VAO之后进行，VAO会在自身被Bind之后，记住最后一次Bind EBO，在Draw Element之前，只要Bind了一个记住了EBO的VAO就行，否则会因为找不到EBO而draw element出错。
 - # Shaders
-  collapsed:: true
 	- ## 简单认识shader
 		- 跑在GPU上的程序，针对输入给出输出
 		- 运行在可编程管线上的特定阶段
@@ -168,9 +165,7 @@
 		- 更详细的解释，参见 [[GLSL入门]]
 - # Texture
 	- ## Texture Coordinates
-	  collapsed:: true
 		- 贴图坐标一般以左下角为原点，s轴向上，r轴向右
-		  collapsed:: true
 			- ![image.png](../assets/image_1745664218306_0.png)
 		- 贴图坐标的范围都在**[[$red]]==[0,1]==**之间，对于超出这个范围的贴图坐标，opengl一般有如下处理方式：
 			- ``GL_REPEAT``：默认的处理方式，贴图会不停地重复，从坐标取值上来看就是忽略掉整数部分
@@ -188,7 +183,6 @@
 				  glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);  
 				  ```
 	- ## Texture Filtering
-	  collapsed:: true
 		- 贴图**只是一张图片**，由若干**[[$red]]==有限的像素组成==**，但贴图坐标是**[[$red]]==无限==**的，可能是**任何浮点值**。
 			- 因此，对于某一个贴图坐标，如何将其映射到一个具体的**贴图像素(Texel)**，浙江涉及到Texture Filtering
 		- opengl提供几种texture filtering的选项，其中最重要的两项是：``GL_NEAREST``和``GL_LINEAR``

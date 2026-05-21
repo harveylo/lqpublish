@@ -56,7 +56,6 @@
 			- 例如，可以在fragment shader中定义一个uniform变量，如果在vertex shader中不需要这个变量，那么在vertex shader中就不必定义。但如果需要使用，则直接定义同名uniform变量即可
 		- 如果一个uniform 变量被定义了但没有在任何阶段的shader中使用，那么编译器会自动移除这个未使用的变量
 	- 在应用程序里，可以使用``glUniform``函数家族来设置uniform变量的值
-	  collapsed:: true
 		- 一些可能的后缀：
 			- `f`: the function expects a `float` as its value.
 			- `i`: the function expects an `int` as its value.
